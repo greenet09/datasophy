@@ -1,0 +1,37 @@
+---
+layout: post
+title:  "What are Binding Corporate Rules and How are They Useful?"
+date:   2018-06-22 17:58:36 +0800
+categories: 
+---
+
+What are BCRs?
+============
+
+BCRs can be summarized as a voluntary “set of binding rules that can be put in place to allow multinational groups to transfer personal data from the European Economic Area (EEA) to affiliates outside the EEA in compliance with national laws implementing the EU Directive” (Allen & Overy 2017). 
+
+What do they entail?
+============
+
+Article 47 (2)(a-n) of the GDPR spells out the specific requirements for a corporation’s binding corporate rules: at the very least they must include complaint procedures, a statement of the privacy principles they follow, auditing and employee training mechanisms, the acceptance of liability for any rule breaches, and an explanation of how data subjects can access the rules. 
+
+Whom are the binding on?
+============
+
+BCRs are legally binding on the corporation, the employees of the corporation, data subjects--through the notion of third party beneficiary rights--and any independent contractors the corporation deals with. 
+
+Can I do whatever I want if I have a BCR?
+============
+
+Note that BCRs do not cover international data transfers to firms that are not subsidiaries or contractors, unlike other data transfer agreements such as the APEC Privacy Framework. 
+
+Do BCRs exist for third-party processors as well?
+============
+
+With that said, BCRs can also cover third party processors that process personal data on behalf of the data controllers, which allows them to cover the use of cloud transfers across borders (Reding 2011). Such agreements would typically be included in the Service Level Agreement (SLA) between the controller and processor (Allen & Overy 2017). 
+
+Summary
+============
+ 
+it should be emphasized that BCRs do not allow firms carte blanche to collect and process personal data; the existence of BCRs merely allows a corporation to transfer personal data within the corporate network (and to its data processors), to countries in which there may not be adequate personal data protection laws.
+
