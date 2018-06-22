@@ -4,3 +4,5 @@
 
 layout: home
 ---
+
+<img src="assets/cave.jpg" alt="Cave in Thailand" width="200px"/>
