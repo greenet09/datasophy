@@ -17,7 +17,7 @@ title: A Philosopher's Guide to Data Science
 email: greenet09@gmail.com
 description: Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial 
 baseurl: "/datasophy" # the subpath of your site, e.g. /blog
-url: "localhost:4000" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://greenet09.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
 github_username:  greenet09
 
