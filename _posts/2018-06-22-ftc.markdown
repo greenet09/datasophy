@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "The FTC's Role in Data Protection"
+date:   2018-06-22 17:57:36 +0800
+categories: 
+---
+Personal Data Regulation in the USA: The FTC’s Role
+---------------
+The de facto regulation of companies that collect and analyze data in the USA mainly falls under the purview of the Federal Trade Commission in its role as enforcer of the Federal Trade Commission Act of 1914. Under the Act, the FTC was given powers to protect consumers and business against “unfair or deceptive practices in commerce.” Although the FTC has no direct punitive powers, it reserves the right to seek enforcement of the FTC Act by district courts and thereby obtain civil penalties (i.e., fines) for violations that “cause or [are] likely to cause substantial injury to consumers which is not reasonably avoidable by consumers themselves and not outweighed by countervailing benefits to consumers or to competition”. The FTC will first make a determination whether it has “sufficient reason to believe” a firm is acting unfairly or deceptively towards consumers and then, with the assistance of a district court, either file a Civil Investigative Complaint (CID) or a subpoena demanding information from the company regarding the FTC’s inquiry.
+
+The Weakness of the FTC
+----------------------
+Compared to the EU’s GDPR, the FTC’s regulatory influence and ability to economically disincentivize bad actors is relatively weak. In 2003, for instance, the major food companies Hershey’s and Mrs. Fields were found to violate the Children’s Online Privacy Protection Act (COPPA) by obtaining children’s personal information without first requiring parental consent. The companies were fined $85,000 and $100,000, respectively. At that time, these penalties were the largest COPPA civil penalties ever recorded by the FTC. Considering that Hershey’s 2003 sales revenues were $4.17B, this was a a mere drop in the bucket. More recently in 2016, the FTC targeted the Taiwanese company ASUS when it claimed that ASUS used deceptive advertising to describe its routers as safe to hacking, when in fact nearly 13,000 of them had been exploited by hackers. ASUS was forced to pay only $16,000 per violation  and submit to independent security audits every two years for the next 20 years.
+
+The FTC is all about being "technology neutral"
+-------
+In a nutshell, the FTC’s general approach to personal data regulation is light-touch and focuses on the key ideas of legal certainty, economic incentive, and innovation. The FTC believes industry-self regulation is a laudable goal, but has largely failed in the area of internet technology. Instead, federal regulation is needed, but only at a base level that is “technology neutral” and leaves considerable room for individual industries and firms to best decide on how exactly to comply. Part of the reason in choosing to support basic regulation is that it will provide firms with the “certainty they need to understand their obligations;” additionally, the threat of punishment gives some incentive to meet those legal obligations. And finally, base regulation will give consumers confidence that businesses must respect their privacy, which will spur consumer activity.  In short, the FTC rejects prescriptive regulation and can be viewed as a currently “default hybrid” system of governance with aspirations towards a more robust “baseline hybrid” system. Time will tell whether the FTC’s exhortations will influence Congress enough to pass a baseline federal law regarding personal data protection.
