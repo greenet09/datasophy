@@ -5,4 +5,4 @@
 layout: home
 ---
 
-<img src="assets/cave.jpg" alt="Cave in Thailand" width="200px"/>
+<img src="assets/grass.jpeg" alt="taipei" width="800px" height="200px"/>
