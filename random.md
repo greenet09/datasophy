@@ -8,8 +8,6 @@ permalink: /random/
 
 <p> <b>Warning</b>: I may post cat photos. </p>
 
-<img src="assets/cats.jpg" alt="cats in sink" width="400px" height="200px"/>
-<p> Oops, too late.</p>
 
 Dr. Greger's book convinced me to go vegan after nearly 17 years as a vegetarian. Here's a talk that explains his overall approach to nutrition and medicine.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lXXXygDRyBU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
