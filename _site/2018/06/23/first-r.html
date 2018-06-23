@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>First R output | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="First R output" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="``` r knitr::opts_chunk$set(echo = TRUE)" />
+<meta property="og:description" content="``` r knitr::opts_chunk$set(echo = TRUE)" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/06/23/first-r.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/06/23/first-r.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-23T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/06/23/first-r.html"},"url":"http://localhost:4000/datasophy/2018/06/23/first-r.html","description":"``` r knitr::opts_chunk$set(echo = TRUE)","headline":"First R output","@type":"BlogPosting","dateModified":"2018-06-23T00:00:00+08:00","datePublished":"2018-06-23T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">First R output</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-06-23T00:00:00+08:00" itemprop="datePublished">Jun 23, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">knitr</span><span class="o">::</span><span class="n">opts_chunk</span><span class="o">$</span><span class="n">set</span><span class="p">(</span><span class="n">echo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
+## Attaching package: 'dplyr'
+
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+
+## Conflicts with tidy packages ----------------------------------------------
+
+## filter(): dplyr, stats
+## lag():    dplyr, stats
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#data() #GET LIST OF BUILT IN DATA SETS </span><span class="w">
+
+</span><span class="c1">#THIS FILE IS FOR TESTING OUT NEW TRICKS AND TIPS</span><span class="w">
+</span><span class="c1">#List of tricks</span><span class="w">
+</span><span class="c1">#1. melting/gathering a DF into 2 columns then facetting and looking at distribution. scales='free'</span><span class="w">
+</span><span class="c1">#2. Missing value visuals with VIM package and matrixplot()</span><span class="w">
+</span><span class="c1">#require("VIM")</span><span class="w">
+</span><span class="c1">#matrixplot(Cars93, sortby = "Weight", cex.axis=0.6)</span><span class="w">
+</span><span class="c1">#3. Missing value visuals with m &lt;- robCompositions::missPatterns(Cars93)</span><span class="w">
+</span><span class="c1">#4. AGGREGATE() FUNCTION. ALSO CAN USE methods(aggregate)</span><span class="w">
+
+
+
+</span><span class="n">typeof</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="w"> </span><span class="c1">#it's a list</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [1] "list"
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="w"> </span><span class="c1">#convert to DF</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">df_cars</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w"> </span><span class="c1">#view first 6 lines</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#USE MELT() FUNCTION TO TURN INTO 2 COLUMNS. ONE IS THE VARIABLE AND THE OTHER IS VALUE. LONG DF NOW.</span><span class="w">
+</span><span class="n">require</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span><span class="w">
+</span><span class="n">melt.cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">melt</span><span class="p">(</span><span class="n">df_cars</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## No id variables; using all as measure variables
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">melt.cars</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##    variable value
+## 1       mpg  21.0
+## 2       mpg  21.0
+## 3       mpg  22.8
+## 4       mpg  21.4
+## 5       mpg  18.7
+## 6       mpg  18.1
+## 7       mpg  14.3
+## 8       mpg  24.4
+## 9       mpg  22.8
+## 10      mpg  19.2
+## 11      mpg  17.8
+## 12      mpg  16.4
+## 13      mpg  17.3
+## 14      mpg  15.2
+## 15      mpg  10.4
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#NOW YOUCAN VIEW DISTRIBUTIONS OF EACH VALUE. Use geom_histogram or geom_density. or stat_density</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">melt.cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">stat_density</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="firstmarkdown_files/figure-markdown_github/unnamed-chunk-1-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#COMPARE WITH DPLYR() GATHER() AND SPREAD(). BUT DEFAULT NAMES ARE col1 "key" and col2 "value"</span><span class="w">
+</span><span class="n">gath.cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gather</span><span class="p">(</span><span class="n">df_cars</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gath.cars</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##   key value
+## 1 mpg  21.0
+## 2 mpg  21.0
+## 3 mpg  22.8
+## 4 mpg  21.4
+## 5 mpg  18.7
+## 6 mpg  18.1
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#PLOT USING KEY AS FACETTING VARIABLE</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gath.cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">stat_density</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="firstmarkdown_files/figure-markdown_github/unnamed-chunk-1-2.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#CREATE MISSING VALUES PLOT</span><span class="w">
+</span><span class="n">require</span><span class="p">(</span><span class="s2">"VIM"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Loading required package: VIM
+
+## Warning: package 'VIM' was built under R version 3.4.3
+
+## Loading required package: colorspace
+
+## Loading required package: grid
+
+## Loading required package: data.table
+
+## 
+## Attaching package: 'data.table'
+
+## The following object is masked from 'package:purrr':
+## 
+##     transpose
+
+## The following objects are masked from 'package:reshape2':
+## 
+##     dcast, melt
+
+## The following objects are masked from 'package:dplyr':
+## 
+##     between, first, last
+
+## VIM is ready to use. 
+##  Since version 4.0.0 the GUI is in its own package VIMGUI.
+## 
+##           Please use the package to use the new (and old) GUI.
+
+## Suggestions and bug-reports can be submitted at: https://github.com/alexkowa/VIM/issues
+
+## 
+## Attaching package: 'VIM'
+
+## The following object is masked from 'package:datasets':
+## 
+##     sleep
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">car_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="w">
+</span><span class="n">matrixplot</span><span class="p">(</span><span class="n">car_df</span><span class="p">,</span><span class="w"> </span><span class="n">sortby</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"qsec"</span><span class="p">,</span><span class="w"> </span><span class="n">cex.axis</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="firstmarkdown_files/figure-markdown_github/unnamed-chunk-1-3.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#m &lt;- robCompositions::missPatterns(car_df) # Analysis of the missing or the zero patterns structure of a data set.</span><span class="w">
+</span><span class="c1">#lapply(m, length)</span><span class="w">
+</span><span class="c1">#m</span><span class="w">
+
+</span><span class="c1">#AGGREGATE FUNCTION</span><span class="w">
+</span><span class="n">mpg_by_cyl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aggregate</span><span class="p">(</span><span class="n">car_df</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"mpg"</span><span class="p">,</span><span class="w"> </span><span class="s1">'qsec'</span><span class="p">)],</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w">
+            </span><span class="nf">list</span><span class="p">(</span><span class="n">car_df</span><span class="o">$</span><span class="n">cyl</span><span class="p">),</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot</span><span class="p">(</span><span class="n">mpg_by_cyl</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="firstmarkdown_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
+
+  </div><a class="u-url" href="/datasophy/2018/06/23/first-r.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
