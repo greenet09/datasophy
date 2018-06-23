@@ -7,6 +7,7 @@ permalink: /random/
 <p>This is where I'll talk about anything not really related to data or philosophy. Expect stuff about table tennis, traveling, learning languages, music, and veganism.</p>
 
 <p> <b>Warning</b>: I may post cat photos. </p>
+
 <img src="assets/cats.jpg" alt="cats in sink" width="400px" height="200px"/>
 <p> Oops, too late.</p>
 
