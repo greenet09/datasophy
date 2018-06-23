@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>How have EU politics changed over time? | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="How have EU politics changed over time?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In light of the World Cup, let’s look at some European election data" />
+<meta property="og:description" content="In light of the World Cup, let’s look at some European election data" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/06/23/eupolitics.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/06/23/eupolitics.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-23T11:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html"},"url":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html","description":"In light of the World Cup, let’s look at some European election data","headline":"How have EU politics changed over time?","@type":"BlogPosting","dateModified":"2018-06-23T11:00:00+08:00","datePublished":"2018-06-23T11:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How have EU politics changed over time? </h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-06-23T11:00:00+08:00" itemprop="datePublished">Jun 23, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="in-light-of-the-world-cup-lets-look-at-some-european-election-data">In light of the World Cup, let’s look at some European election data</h2>
+
+<p>These data are from www.parlgov.org — dataverse.harvard.edu/dataverse/parlgov</p>
+
+<p>Let’s load up the data and check it out.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readxl</span><span class="o">::</span><span class="n">read_xlsx</span><span class="p">(</span><span class="s1">'parlgov.xlsx'</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'election'</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">na.omit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+
+</span><span class="n">str</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    6458 obs. of  16 variables:
+##  $ country_name_short             : chr  "AUS" "AUS" "AUS" "AUS" ...
+##  $ country_name                   : chr  "Australia" "Australia" "Australia" "Australia" ...
+##  $ election_type                  : chr  "parliament" "parliament" "parliament" "parliament" ...
+##  $ election_date                  : chr  "1903-12-16" "1903-12-16" "1903-12-16" "1906-12-02" ...
+##  $ vote_share                     : num  29.7 34.4 31 38.2 36.6 16.4 4.8 2.3 50 45.1 ...
+##  $ seats                          : num  26 25 23 27 26 16 4 2 43 31 ...
+##  $ seats_total                    : num  75 75 75 75 75 75 75 75 75 75 ...
+##  $ party_name_short               : chr  "PP" "FTP" "ALP" "FTP" ...
+##  $ party_name                     : chr  "Protectionist Party" "Free Trade Party" "Australian Labor Party" "Free Trade Party" ...
+##  $ party_name_english             : chr  "Protectionist Party" "Free Trade Party" "Australian Labor Party" "Free Trade Party" ...
+##  $ left_right                     : num  7.4 6 3.88 6 3.88 ...
+##  $ country_id                     : num  33 33 33 33 33 33 33 33 33 33 ...
+##  $ election_id                    : num  730 730 730 725 725 725 725 725 747 747 ...
+</code></pre></div></div>
+
+<p>This dataset is quite interesting that the parties were rated by political scientists for how “right” or “left” leaning the party was. Let’s see roughly whether there is a correlation between the percentage of “vote share” and the left/right leanings.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Visualization of correlations</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Germany'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">country_id</span><span class="p">,</span><span class="w"> </span><span class="n">party_id</span><span class="p">,</span><span class="w"> </span><span class="n">previous_parliament_election_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">previous_cabinet_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">election_id</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">cor</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">corrplot</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
+
+<p>For Germany it looks like higher vote share is associated with more left-leaning groups.</p>
+
+<p>Let’s try Spain.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Visualization of correlations SPAIN</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Spain'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">country_id</span><span class="p">,</span><span class="w"> </span><span class="n">party_id</span><span class="p">,</span><span class="w"> </span><span class="n">previous_parliament_election_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">previous_cabinet_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">election_id</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">cor</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">corrplot</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>Whereas in Spain, more share of votes is associated with more rightward-leaning groups.</p>
+
+<p>What about Japan, just for kicks?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Visualization of correlations SPAIN</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Japan'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">country_id</span><span class="p">,</span><span class="w"> </span><span class="n">party_id</span><span class="p">,</span><span class="w"> </span><span class="n">previous_parliament_election_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">previous_cabinet_id</span><span class="p">,</span><span class="w">
+            </span><span class="n">election_id</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">cor</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">corrplot</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>Japan seems to have a strong correlation between right-leaning parties and vote share.</p>
+
+<p>Now let’s look over time to see how political preferences have changed over the past decades. First we need to convert variable types for ggplot2</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#let's remove some variables that we don't need</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">vote_share</span><span class="p">,</span><span class="w"> </span><span class="n">seats_total</span><span class="p">,</span><span class="w"> </span><span class="n">party_name_english</span><span class="p">,</span><span class="w"> </span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">country_name</span><span class="p">,</span><span class="w">
+         </span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">seats</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#now let's convert some variables for better plotting</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">party_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">party_name_english</span><span class="p">),</span><span class="w">
+         </span><span class="n">country_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">country_name</span><span class="p">),</span><span class="w">
+         </span><span class="n">election_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">election_date</span><span class="p">))</span><span class="w">
+
+</span><span class="n">head</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Let’s go back to Germany again</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which parties had the biggest share of votes? </span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Germany'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">party_name_english</span><span class="p">,</span><span class="w"> </span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">vote_share</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 183 x 8
+## # Groups:   party_name_english, election_date [183]
+##    vote_share seats_total                 party_name_english left_right
+##         &lt;dbl&gt;       &lt;dbl&gt;                              &lt;chr&gt;      &lt;dbl&gt;
+##  1       45.8         496 Social Democratic Party of Germany     3.6451
+##  2       42.9         497 Social Democratic Party of Germany     3.6451
+##  3       42.7         496 Social Democratic Party of Germany     3.6451
+##  4       42.6         496 Social Democratic Party of Germany     3.6451
+##  5       40.9         669 Social Democratic Party of Germany     3.6451
+##  6       40.8          81 Social Democratic Party of Germany     3.6451
+##  7       39.7         497         Christian Democratic Union     6.2503
+##  8       39.3         496 Social Democratic Party of Germany     3.6451
+##  9       39.3          99         Christian Democratic Union     6.2503
+## 10       39.1          81         Christian Democratic Union     6.2503
+## # ... with 173 more rows, and 4 more variables: country_name &lt;fctr&gt;,
+## #   election_date &lt;date&gt;, seats &lt;dbl&gt;, party_name &lt;fctr&gt;
+</code></pre></div></div>
+
+<p>Now let’s zoom in on the SPD over time.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">party_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Social Democratic Party of Germany'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">seats</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>The black line at the bottom is % of votes. The red line is number of seats won in Parliament.</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">party_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Social Democratic Party of Germany'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">vote_share</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">seats</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'The SPD\'s share of votes and seats over time.'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'seats won'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-6-3.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Find parties with most total seats won</span><span class="w">
+</span><span class="n">top_parties</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Germany'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">party_name</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">total_vot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">seats</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">total_vot</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">(</span><span class="m">7</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">name_vec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span><span class="n">top_parties</span><span class="o">$</span><span class="n">party_name</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">]))</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">party_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">name_vec</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">party_name</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">vote_share</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">party_name</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">party_name</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'% vote share for top 7 parties.'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'vote share %'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-6-4.png" alt="" /></p>
+
+<p>It looks like overall the big parties (CDU/SPD) have slowly declined in terms of vote share while new, smaller leftist parties are gaining traction.</p>
+
+<h1 id="lets-see-how-the-left-right-preferences-have-changed-over-time-in-germany">Let’s see how the left-right preferences have changed over time in Germany</h1>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Germany'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">avg_political</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">avg_political</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">avg_political</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'10 years'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Are Germany\'s politicians more right (red) or left (blue)?'</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="o">=</span><span class="s1">'left right spectrum (higher is more conservative)'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<p>It looks like after the fall of the Wall in ‘89 that German politics took a slight shift left. Let’s compare with a similar country to see if this might be a trend. We’ll take neighboring countries in the EU as our comparison group.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">eu_country</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'Denmark'</span><span class="p">,</span><span class="s1">'Belgium'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Austria'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Switzerland'</span><span class="p">,</span><span class="w">
+                </span><span class="s1">'Spain'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Hungary'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Sweden'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Portugal'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Ireland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Luxembourg'</span><span class="p">,</span><span class="w">
+                </span><span class="s1">'Poland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'France'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Czech Republic'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Greece'</span><span class="p">,</span><span class="w"> </span><span class="s1">'United Kingdom'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Italy'</span><span class="p">,</span><span class="w">
+                </span><span class="s1">'Netherlands'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Slovakia'</span><span class="p">,</span><span class="s1">'Germany'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Malta'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Slovenia'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Bulgaria'</span><span class="p">,</span><span class="w">
+                </span><span class="s1">'Finland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Estonia'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cyprus'</span><span class="p">,</span><span class="s1">'Romania'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Latvia'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Croatia'</span><span class="p">,</span><span class="w">
+                </span><span class="s1">'Lithuania'</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">eu_country</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">country_name</span><span class="p">,</span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">avg_political</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">avg_political</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">avg_political</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">.7</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'20 years'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">country_name</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="o">=</span><span class="s1">'free_x'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Are Europe\'s politicians more (red) or left (blue)?'</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="o">=</span><span class="s1">'left right spectrum (higher is more conservative)'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>Don’t mind the terrible formatting of dates, and beware that the x-axis is freely moving depending on the available election dates for each country. A couple things jump out, first Portugal seems way more leftist than most EU countries. The UK also seems to have dabbled with that as well. Poland, on the other hand, seems to have steadily become more conservative. Let’s try to quantify the stability of political opinion by finding the standard deviation of political left/right rating for these countries.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">eu_country</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">country_name</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">avg_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+            </span><span class="n">sd_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">sd_pol</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 29 x 3
+##    country_name  avg_pol   sd_pol
+##          &lt;fctr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1      Hungary 5.111330 2.809641
+##  2       France 4.988990 2.808328
+##  3       Cyprus 5.323077 2.751259
+##  4   Luxembourg 4.740220 2.618672
+##  5  Switzerland 4.820141 2.616909
+##  6      Croatia 5.623034 2.599324
+##  7      Austria 4.994259 2.577238
+##  8       Greece 4.807284 2.569428
+##  9  Netherlands 5.307811 2.537512
+## 10      Germany 5.714425 2.477178
+## # ... with 19 more rows
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">eu_country</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">country_name</span><span class="p">,</span><span class="w"> </span><span class="n">left_right</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">country_name</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">eu_country</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">country_name</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">max_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">left_right</span><span class="p">),</span><span class="w">
+            </span><span class="n">min_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">left_right</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">max_pol</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 29 x 3
+##      country_name max_pol min_pol
+##            &lt;fctr&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1        Germany  9.8246  0.9570
+##  2         France  9.8000  0.0000
+##  3      Lithuania  9.8000  1.2000
+##  4          Spain  9.8000  0.5909
+##  5 Czech Republic  9.7778  0.7498
+##  6         Poland  9.7368  1.2000
+##  7        Belgium  9.6622  1.2000
+##  8        Hungary  9.6065  0.6316
+##  9          Italy  9.5762  0.5000
+## 10    Switzerland  9.4247  0.5263
+## # ... with 19 more rows
+</code></pre></div></div>
+
+<p>So we can see that France has clearly tried pretty much every available political system, from far left to far right. Some countries, for example, Ireland, seem pretty stable. Let’s see how these results compare to non-EU countries.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Get vector of non_eu</span><span class="w">
+</span><span class="n">ct_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">country_name</span><span class="p">))</span><span class="w">
+</span><span class="n">non_eu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">setdiff</span><span class="p">(</span><span class="n">ct_names</span><span class="p">,</span><span class="w"> </span><span class="n">eu_country</span><span class="p">)</span><span class="w">
+
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">non_eu</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">country_name</span><span class="p">,</span><span class="n">election_date</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">avg_political</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">election_date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">avg_political</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">avg_political</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">.7</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'20 years'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">country_name</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="o">=</span><span class="s1">'free_x'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Are non-EU politicians more (red) or left (blue)?'</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="o">=</span><span class="s1">'left right spectrum (higher is more conservative)'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>What can we say from these charts? Well, first of all some countries have much less data than others (Turkey). But overall they seem quite leftist. Let’s check that with a boxplot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">non_eu</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">country_name</span><span class="p">,</span><span class="w"> </span><span class="n">left_right</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">left_right</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">country_name</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Political leanings by country'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
+
+<p>Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest. Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.</p>
+
+<p>That’s all for now. I’ll get back to this dataset another time to continue exploring.</p>
+
+  </div><a class="u-url" href="/datasophy/2018/06/23/eupolitics.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
