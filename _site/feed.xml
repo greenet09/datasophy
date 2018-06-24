@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-06-24T20:58:48+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">How have EU politics changed over time?</title><link href="http://localhost:4000/datasophy/2018/06/23/eupolitics.html" rel="alternate" type="text/html" title="How have EU politics changed over time? " /><published>2018-06-23T11:00:00+08:00</published><updated>2018-06-23T11:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/06/23/eupolitics</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/06/23/eupolitics.html">&lt;h2 id=&quot;in-light-of-the-world-cup-lets-look-at-some-european-election-data&quot;&gt;In light of the World Cup, let’s look at some European election data&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-06-25T01:31:23+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data analysis: How have EU politics changed over time?</title><link href="http://localhost:4000/datasophy/2018/06/23/eupolitics.html" rel="alternate" type="text/html" title="Data analysis: How have EU politics changed over time? " /><published>2018-06-23T11:00:00+08:00</published><updated>2018-06-23T11:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/06/23/eupolitics</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/06/23/eupolitics.html">&lt;h2 id=&quot;in-light-of-the-world-cup-lets-look-at-some-european-election-data&quot;&gt;In light of the World Cup, let’s look at some European election data&lt;/h2&gt;
 
 &lt;p&gt;These data are from www.parlgov.org — dataverse.harvard.edu/dataverse/parlgov&lt;/p&gt;
 
@@ -27,7 +27,7 @@
 ##  $ election_id                    : num  730 730 730 725 725 725 725 725 747 747 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;This dataset is quite interesting that the parties were rated by political scientists for how “right” or “left” leaning the party was. Let’s see roughly whether there is a correlation between the percentage of “vote share” and the left/right leanings.&lt;/p&gt;
+&lt;p&gt;This dataset is quite interesting in that the parties were rated by political scientists for how “right” or “left” leaning the party was. Let’s see roughly whether there is a correlation between the percentage of “vote share” and the left/right leanings.&lt;/p&gt;
 
 &lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Visualization of correlations&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;country_name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Germany'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -41,7 +41,7 @@
 
 &lt;p&gt;&lt;img src=&quot;worldcup_files/figure-markdown_github/unnamed-chunk-2-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;For Germany it looks like higher vote share is associated with more left-leaning groups.&lt;/p&gt;
+&lt;p&gt;For Germany it looks like higher vote share is associated with more left-leaning groups. In other words, when a party tended to win a big share of votes, that party tended to be more left-leaning.&lt;/p&gt;
 
 &lt;p&gt;Let’s try Spain.&lt;/p&gt;
 
@@ -57,7 +57,7 @@
 
 &lt;p&gt;&lt;img src=&quot;worldcup_files/figure-markdown_github/unnamed-chunk-3-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Whereas in Spain, more share of votes is associated with more rightward-leaning groups.&lt;/p&gt;
+&lt;p&gt;Whereas in Spain, more share of votes is associated with more rightward-leaning groups. Interesting, huh?&lt;/p&gt;
 
 &lt;p&gt;What about Japan, just for kicks?&lt;/p&gt;
 
@@ -73,7 +73,7 @@
 
 &lt;p&gt;&lt;img src=&quot;worldcup_files/figure-markdown_github/unnamed-chunk-4-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Japan seems to have a strong correlation between right-leaning parties and vote share.&lt;/p&gt;
+&lt;p&gt;Japan seems to have a strong correlation between right-leaning parties and vote share. I’d wager that this is probably the global trend: conservative parties tend to win bigger in elections.&lt;/p&gt;
 
 &lt;p&gt;Now let’s look over time to see how political preferences have changed over the past decades. First we need to convert variable types for ggplot2&lt;/p&gt;
 
@@ -296,7 +296,7 @@
 
 &lt;p&gt;&lt;img src=&quot;worldcup_files/figure-markdown_github/unnamed-chunk-11-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest. Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.&lt;/p&gt;
+&lt;p&gt;Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest (perhaps another reason it still hasn’t joined the EU?). Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.&lt;/p&gt;
 
 &lt;p&gt;That’s all for now. I’ll get back to this dataset another time to continue exploring.&lt;/p&gt;</content><author><name></name></author><summary type="html">In light of the World Cup, let’s look at some European election data</summary></entry><entry><title type="html">KK Box Basic Analysis</title><link href="http://localhost:4000/datasophy/2018/06/23/kkbox.html" rel="alternate" type="text/html" title="KK Box Basic Analysis" /><published>2018-06-23T00:00:00+08:00</published><updated>2018-06-23T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/06/23/kkbox</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/06/23/kkbox.html">&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#CONVERT DATA TYPES&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_train&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_churn&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as.factor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_train&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_churn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;

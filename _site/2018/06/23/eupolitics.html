@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>How have EU politics changed over time? | A Philosopher’s Guide to Data Science</title>
+<title>Data analysis: How have EU politics changed over time? | A Philosopher’s Guide to Data Science</title>
 <meta name="generator" content="Jekyll v3.8.3" />
-<meta property="og:title" content="How have EU politics changed over time?" />
+<meta property="og:title" content="Data analysis: How have EU politics changed over time?" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="In light of the World Cup, let’s look at some European election data" />
 <meta property="og:description" content="In light of the World Cup, let’s look at some European election data" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-06-23T11:00:00+08:00" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html"},"url":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html","description":"In light of the World Cup, let’s look at some European election data","headline":"How have EU politics changed over time?","@type":"BlogPosting","dateModified":"2018-06-23T11:00:00+08:00","datePublished":"2018-06-23T11:00:00+08:00","@context":"http://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html"},"url":"http://localhost:4000/datasophy/2018/06/23/eupolitics.html","description":"In light of the World Cup, let’s look at some European election data","headline":"Data analysis: How have EU politics changed over time?","@type":"BlogPosting","dateModified":"2018-06-23T11:00:00+08:00","datePublished":"2018-06-23T11:00:00+08:00","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
 <body><header class="site-header" role="banner">
@@ -38,7 +38,7 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">How have EU politics changed over time? </h1>
+    <h1 class="post-title p-name" itemprop="name headline">Data analysis: How have EU politics changed over time? </h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2018-06-23T11:00:00+08:00" itemprop="datePublished">Jun 23, 2018
       </time></p>
@@ -74,7 +74,7 @@
 ##  $ election_id                    : num  730 730 730 725 725 725 725 725 747 747 ...
 </code></pre></div></div>
 
-<p>This dataset is quite interesting that the parties were rated by political scientists for how “right” or “left” leaning the party was. Let’s see roughly whether there is a correlation between the percentage of “vote share” and the left/right leanings.</p>
+<p>This dataset is quite interesting in that the parties were rated by political scientists for how “right” or “left” leaning the party was. Let’s see roughly whether there is a correlation between the percentage of “vote share” and the left/right leanings.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Visualization of correlations</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">country_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Germany'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -88,7 +88,7 @@
 
 <p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
 
-<p>For Germany it looks like higher vote share is associated with more left-leaning groups.</p>
+<p>For Germany it looks like higher vote share is associated with more left-leaning groups. In other words, when a party tended to win a big share of votes, that party tended to be more left-leaning.</p>
 
 <p>Let’s try Spain.</p>
 
@@ -104,7 +104,7 @@
 
 <p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
 
-<p>Whereas in Spain, more share of votes is associated with more rightward-leaning groups.</p>
+<p>Whereas in Spain, more share of votes is associated with more rightward-leaning groups. Interesting, huh?</p>
 
 <p>What about Japan, just for kicks?</p>
 
@@ -120,7 +120,7 @@
 
 <p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
 
-<p>Japan seems to have a strong correlation between right-leaning parties and vote share.</p>
+<p>Japan seems to have a strong correlation between right-leaning parties and vote share. I’d wager that this is probably the global trend: conservative parties tend to win bigger in elections.</p>
 
 <p>Now let’s look over time to see how political preferences have changed over the past decades. First we need to convert variable types for ggplot2</p>
 
@@ -343,7 +343,7 @@
 
 <p><img src="worldcup_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
 
-<p>Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest. Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.</p>
+<p>Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest (perhaps another reason it still hasn’t joined the EU?). Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.</p>
 
 <p>That’s all for now. I’ll get back to this dataset another time to continue exploring.</p>
 

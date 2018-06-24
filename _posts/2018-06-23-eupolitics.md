@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "How have EU politics changed over time? "
+title:  "Data analysis: How have EU politics changed over time? "
 date:   2018-06-23 11:00
 categories: 
 ---
@@ -36,7 +36,7 @@ str(df)
     ##  $ election_id                    : num  730 730 730 725 725 725 725 725 747 747 ...
    
 
-This dataset is quite interesting that the parties were rated by political scientists for how "right" or "left" leaning the party was. Let's see roughly whether there is a correlation between the percentage of "vote share" and the left/right leanings.
+This dataset is quite interesting in that the parties were rated by political scientists for how "right" or "left" leaning the party was. Let's see roughly whether there is a correlation between the percentage of "vote share" and the left/right leanings.
 
 ``` r
 # Visualization of correlations
@@ -51,7 +51,7 @@ df %>% filter(country_name == 'Germany') %>%
 
 ![](worldcup_files/figure-markdown_github/unnamed-chunk-2-1.png)
 
-For Germany it looks like higher vote share is associated with more left-leaning groups.
+For Germany it looks like higher vote share is associated with more left-leaning groups. In other words, when a party tended to win a big share of votes, that party tended to be more left-leaning.
 
 Let's try Spain.
 
@@ -68,7 +68,7 @@ df %>% filter(country_name == 'Spain') %>%
 
 ![](worldcup_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-Whereas in Spain, more share of votes is associated with more rightward-leaning groups.
+Whereas in Spain, more share of votes is associated with more rightward-leaning groups. Interesting, huh?
 
 What about Japan, just for kicks?
 
@@ -85,7 +85,7 @@ df %>% filter(country_name == 'Japan') %>%
 
 ![](worldcup_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
-Japan seems to have a strong correlation between right-leaning parties and vote share.
+Japan seems to have a strong correlation between right-leaning parties and vote share. I'd wager that this is probably the global trend: conservative parties tend to win bigger in elections.
 
 Now let's look over time to see how political preferences have changed over the past decades. First we need to convert variable types for ggplot2
 
@@ -318,6 +318,6 @@ df %>%
 
 ![](worldcup_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
-Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest. Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.
+Here we see most of these countries appear pretty moderate, if not slightly right-leaning. However, Turkey is strongly right-leaning compared to the rest (perhaps another reason it still hasn't joined the EU?). Also NZ and Norway have pretty consistent political stances, compared to Israel or Portugal.
 
 That's all for now. I'll get back to this dataset another time to continue exploring.
