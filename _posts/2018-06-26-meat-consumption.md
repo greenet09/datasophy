@@ -95,6 +95,10 @@ df_cap_sp %>%
 
 ![](meats_files/figure-markdown_github/unnamed-chunk-5-1.png) 
 
+## USA #1 baby! 
+
+Australia isn't too far behind. Same with Argentina, New Zealand, and Israel (surprisingly... I expected more hummus?)
+
 Wow the only country that has lower total meat consumption (not including fish) is New Zealand! I wonder what they're doing over there? My guess is that fish consumption has increased while land animal consumption has decreased.
 
 This article discusses the very same results we've found. It looks like Kiwis are shifting from agriculture and also worrying about the environmental impact of all that meat consumption. 
@@ -103,10 +107,12 @@ This article discusses the very same results we've found. It looks like Kiwis ar
 
 Japan surprisingly has stayed very stable, but for ALMOST ALL countries, meat consumption has increased tremendously in the past 20 years. This is not a good sign. Imagine the impact on the environment if China were to consume meat at US levels...
 
-Let's look at the consumption of different kinds of animals, now. There might be some interesting groupings in beef consumption, especially in Latin America.
 
-Let's change gears a bit and see if we can use hiearchical clustering to group countries by their habits in meat-eating from 1990-2010. 
+## Let's change gears a bit and see if we can use hiearchical clustering to group countries by their habits in meat-eating from 1990-2010. 
 Instead of a Euclidean distance metric, this time we will use a correlation (cosine distance, just 1 - cosine similarity) to visualize how changes over time in consumption are echoed in different countries.
+
+In order to do that, we'll need to choose one of the types of meat and then look at correlations in consumption over time. We'll go through each type of meat in turn.
+
 
 
 ``` r

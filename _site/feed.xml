@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-06-27T20:06:21+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data analysis: World Meat Consumption</title><link href="http://localhost:4000/datasophy/2018/06/26/meat-consumption.html" rel="alternate" type="text/html" title="Data analysis: World Meat Consumption" /><published>2018-06-26T11:00:00+08:00</published><updated>2018-06-26T11:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/06/26/meat-consumption</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/06/26/meat-consumption.html">&lt;h1 id=&quot;about-the-data&quot;&gt;About the data&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-06-27T20:23:36+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data analysis: World Meat Consumption</title><link href="http://localhost:4000/datasophy/2018/06/26/meat-consumption.html" rel="alternate" type="text/html" title="Data analysis: World Meat Consumption" /><published>2018-06-26T11:00:00+08:00</published><updated>2018-06-26T11:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/06/26/meat-consumption</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/06/26/meat-consumption.html">&lt;h1 id=&quot;about-the-data&quot;&gt;About the data&lt;/h1&gt;
 &lt;p&gt;From the OECD’s website: 
 ‘This indicator is presented for beef and veal, pig, poultry, and sheep. Meat consumption is measured in thousand tonnes of carcass weight (except for poultry expressed as ready to cook weight) and in kilograms of retail weight per capita. Carcass weight to retail weight conversion factors are: 0.7 for beef and veal, 0.78 for pigmeat, and 0.88 for both sheep meat and poultry meat.’&lt;/p&gt;
 
@@ -83,6 +83,10 @@ Let’s do that. Notice there are also figures for BRIC (Brazil, Russia, India, 
 
 &lt;p&gt;&lt;img src=&quot;meats_files/figure-markdown_github/unnamed-chunk-5-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
+&lt;h2 id=&quot;usa-1-baby&quot;&gt;USA #1 baby!&lt;/h2&gt;
+
+&lt;p&gt;Australia isn’t too far behind. Same with Argentina, New Zealand, and Israel (surprisingly… I expected more hummus?)&lt;/p&gt;
+
 &lt;p&gt;Wow the only country that has lower total meat consumption (not including fish) is New Zealand! I wonder what they’re doing over there? My guess is that fish consumption has increased while land animal consumption has decreased.&lt;/p&gt;
 
 &lt;p&gt;This article discusses the very same results we’ve found. It looks like Kiwis are shifting from agriculture and also worrying about the environmental impact of all that meat consumption.&lt;/p&gt;
@@ -91,10 +95,10 @@ Let’s do that. Notice there are also figures for BRIC (Brazil, Russia, India, 
 
 &lt;p&gt;Japan surprisingly has stayed very stable, but for ALMOST ALL countries, meat consumption has increased tremendously in the past 20 years. This is not a good sign. Imagine the impact on the environment if China were to consume meat at US levels…&lt;/p&gt;
 
-&lt;p&gt;Let’s look at the consumption of different kinds of animals, now. There might be some interesting groupings in beef consumption, especially in Latin America.&lt;/p&gt;
+&lt;h2 id=&quot;lets-change-gears-a-bit-and-see-if-we-can-use-hiearchical-clustering-to-group-countries-by-their-habits-in-meat-eating-from-1990-2010&quot;&gt;Let’s change gears a bit and see if we can use hiearchical clustering to group countries by their habits in meat-eating from 1990-2010.&lt;/h2&gt;
+&lt;p&gt;Instead of a Euclidean distance metric, this time we will use a correlation (cosine distance, just 1 - cosine similarity) to visualize how changes over time in consumption are echoed in different countries.&lt;/p&gt;
 
-&lt;p&gt;Let’s change gears a bit and see if we can use hiearchical clustering to group countries by their habits in meat-eating from 1990-2010. 
-Instead of a Euclidean distance metric, this time we will use a correlation (cosine distance, just 1 - cosine similarity) to visualize how changes over time in consumption are echoed in different countries.&lt;/p&gt;
+&lt;p&gt;In order to do that, we’ll need to choose one of the types of meat and then look at correlations in consumption over time. We’ll go through each type of meat in turn.&lt;/p&gt;
 
 &lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lsa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
