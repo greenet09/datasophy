@@ -11,6 +11,8 @@ From the OECD's website:
 
 So basically they did not measure what people actually put in their mouths, but instead measured the weight of dead animals slaughtered and then lopped off some of total weight to account for the fact only about 70-88% of slaughtered animals ends up being sold. I wonder what happens to the other 20%? Pet food? Cosmetics?
 
+You can download the OECD meat consumption data<a href="https://data.oecd.org/agroutput/meat-consumption.htm"> here</a>
+
 Let's load up the dataset and clean it up a little bit.
 ``` r
 library(tidyverse)
