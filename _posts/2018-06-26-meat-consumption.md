@@ -11,9 +11,38 @@ From the OECD's website:
 
 So basically they did not measure what people actually put in their mouths, but instead measured the weight of dead animals slaughtered and then lopped off some of total weight to account for the fact only about 70-88% of slaughtered animals ends up being sold. I wonder what happens to the other 20%? Pet food? Cosmetics?
 
+Let's load up the dataset and clean it up a little bit.
+``` r
+library(tidyverse)
+
+df <- read.csv('meats.csv')
+
+#delete flag codes
+df <- df[,1:ncol(df)-1]
+
+df_cap <- df %>%
+  filter(MEASURE == 'KG_CAP')
+
+#rename
+colnames(df_cap)[1] <- 'country'
+
+#Let's round off the long decimals
+df_cap <- df_cap %>%
+  mutate(value = round(Value,2),
+         Value = NULL)
+
+#Remember that the OECD's report included forecasted numbers all the way until 2026
+df_cap <- df_cap %>%
+  filter(TIME < 2018)
+
+#convert kg into lbs capita (this is 'Murica)
+df_cap <- df_cap %>%
+  mutate(value_lb = round(value*2.20462,2),
+         value = NULL)
+```
+
 America is notorious for its meat consumption. Does the evidence support that reputation?
 
-USA
 ``` r
 df_cap %>%
   filter(country == 'USA')%>%
@@ -278,7 +307,9 @@ fviz_cluster(km.res, cos_dist_pl, ellipse.type = "norm", repel=TRUE, labelsize =
 
 Here we see really two main clusters, plus three outlier countries: Kazakhstan, Malaysia, and Uruguay. Malaysia had a pretty high chicken intake, but perhaps the reason these three have ended up outside the other groups is because increases/decreases in per capita chicken consumption did not jive well with the changes in the other countries.
 
-Summary: There were a few surprises here. While almost every country is growing its economy and eating more and more animals, New Zealand has somehow figured out how to buck the trend. It was also interesting to see that Argentinian beef consumption has slowed considerably in favor of chicken, and beef overall doesn't seem as popular as it used to be. Chicken, however, is growing in popularity. Some countries, like Israel, are crazy about chicken. This could be because chickens take less space to raise and they are less harmful to the environment than cows. I'm not really sure. Maybe people just really love McNuggets.
+# Summary: 
+
+There were a few surprises here. While almost every country is growing its economy and eating more and more animals, New Zealand has somehow figured out how to buck the trend. It was also interesting to see that Argentinian beef consumption has slowed considerably in favor of chicken, and beef overall doesn't seem as popular as it used to be. Chicken, however, is growing in popularity. Some countries, like Israel, are crazy about chicken. This could be because chickens take less space to raise and they are less harmful to the environment than cows. I'm not really sure. Maybe people just really love McNuggets.
 
 
 It's a little bit disheartening to see that world meat consumption is growing so quickly, especially given the fact animal agriculture accounts for something like 18% of all greenhouse gases, and that's not to speak of all the food that is diverted from human consumption to feed these animals and the grasslands/jungles that are burned to make grazing land.
