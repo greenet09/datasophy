@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data analysis: Overcrowding in US State Prisons | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data analysis: Overcrowding in US State Prisons" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="So just how overcrowded are US prisons?" />
+<meta property="og:description" content="So just how overcrowded are US prisons?" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/06/28/us-prisons.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/06/28/us-prisons.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-28T11:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/06/28/us-prisons.html"},"url":"http://localhost:4000/datasophy/2018/06/28/us-prisons.html","description":"So just how overcrowded are US prisons?","headline":"Data analysis: Overcrowding in US State Prisons","@type":"BlogPosting","dateModified":"2018-06-28T11:00:00+08:00","datePublished":"2018-06-28T11:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data analysis: Overcrowding in US State Prisons</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-06-28T11:00:00+08:00" itemprop="datePublished">Jun 28, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="so-just-how-overcrowded-are-us-prisons">So just how overcrowded are US prisons?</h1>
+
+<p>These data were taken from the Bureau of Justice Statistics website, which has lots of interesting data about crime in America.</p>
+
+<p>This dataset was called “Prisoners in 2015” on the <a href="https://www.bjs.gov/latestreleases.cfm"> Bureau of Justice Statistics website </a></p>
+
+<p>Just so we are all on the same page here, the BJS measures “capacity” in three ways: the operational capacity, which is the “Number of inmates that “can be accommodated based on a facility’s staff, existing programs and services,” and the rated capacity, which is a rating given by officials, and finally design capacity, which is, “how many inmates architects/planners originally intended for facilities.”</p>
+
+<p>In short, each of these numbers will be slightly different, so how one defines “capacity” will lead to different conclusions. For example, a prison might be 110% overcapacity if we use the operational capacity, but only 95% capacity if we use the rated capacity.</p>
+
+<p>In order to come up with a balanced estimate of overcrowdedness, we will average the two measures of overcapacity.</p>
+
+<h2 id="lets-read-in-the-data-and-clean-it-up">Let’s read in the data and clean it up.</h2>
+
+<p>This dataset was particularly annoying to deal with because for some reason the … weren’t being dealt with correctly until manually copy and pasted the values using double quotes.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#the original files used ... and / to denote NAs</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'prison.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"…"</span><span class="p">,</span><span class="w"> </span><span class="s1">'/'</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">#check out the data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##   Jurisdiction   Rated Operational Design Custody.population
+## 1    Federal/b 134,461        &lt;NA&gt;   &lt;NA&gt;            160,946
+## 2    Alabama/c    &lt;NA&gt;      25,763 13,318             24,814
+## 3     Alaska/d    &lt;NA&gt;       5,352   &lt;NA&gt;              5,247
+## 4      Arizona  37,238      43,747 37,238             35,733
+## 5     Arkansas  16,194      16,233 15,382             15,784
+##   Lowest.capacity.a X Highest.capacity.a X.1
+## 1             119.7 %              119.7   %
+## 2             186.3                 96.3    
+## 3              98.0                 98.0    
+## 4              96.0                 81.7    
+## 5             102.6                 97.2
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#remove extra columns</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">51</span><span class="p">,</span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="m">9</span><span class="p">)]</span><span class="w">
+
+</span><span class="c1">#Convert NAs to 0</span><span class="w">
+</span><span class="n">df</span><span class="p">[</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">
+
+</span><span class="c1">#We are going to join our dataframe to this one later</span><span class="w">
+</span><span class="n">state_pop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'statepop1.csv'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#Correct weird '/' values</span><span class="w">
+</span><span class="n">bad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="p">,</span><span class="w"> </span><span class="s1">'[:punct:]'</span><span class="p">)),]</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="w">
+
+</span><span class="c1">#if have slash, then delete last three chars</span><span class="w">
+</span><span class="n">df</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="p">,</span><span class="w"> </span><span class="s1">'[:punct:]'</span><span class="p">)),]</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_sub</span><span class="p">(</span><span class="n">bad</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-3</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#this one manually do because had 3 chars after slash</span><span class="w">
+</span><span class="n">df</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Idaho/e'</span><span class="p">),]</span><span class="o">$</span><span class="n">Jurisdiction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'Idaho'</span><span class="w">
+
+
+</span><span class="c1">#replace commas in numbers</span><span class="w">
+</span><span class="n">df</span><span class="p">[,</span><span class="m">2</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">df</span><span class="p">[,</span><span class="m">2</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">)],</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">gsub</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span><span class="w">
+
+</span><span class="c1">#make column names the same for joining</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">df</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'state'</span><span class="w">
+
+</span><span class="n">full_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">left_join</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">state_pop</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s1">'state'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#we'll use the total population of the USA for the federal population</span><span class="w">
+</span><span class="n">full_df</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="s1">'pop_est_2014'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">325000000</span><span class="w">
+
+
+</span><span class="c1">#instead of high and low capacity percentages, we'll average both to get one statistic</span><span class="w">
+</span><span class="n">avgcap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">avg_cap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">Lowest.capacity.a</span><span class="p">,</span><span class="w"> </span><span class="n">Highest.capacity.a</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1">#apply to new column</span><span class="w">
+</span><span class="n">full_df</span><span class="o">$</span><span class="n">avg_cap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">avgcap</span><span class="o">$</span><span class="n">avg_cap</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now, our population stats are a little bit off because those numbers include children over the age of 18. In order to be fair, we will estimate the number of state residents over the age of 18. According to Google, in the USA about 76% of the population is older than 18. So we will reduce the population for each state by 24%.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pop_est_2014</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pop_est_2014</span><span class="o">*</span><span class="m">.76</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#Now compute the % of prison age population in prison</span><span class="w">
+</span><span class="n">full_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pop_prison_perc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Custody.population</span><span class="o">/</span><span class="n">pop_est_2014</span><span class="o">*</span><span class="m">100</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h1 id="now-lets-look-at-the-top-10-states-with-highest--of-residents-in-state-prison">Now let’s look at the top 10 states with highest % of residents in state prison</h1>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">pop_prison_perc</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">()</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">pop_prison_perc</span><span class="p">),</span><span class="w"> </span><span class="n">pop_prison_perc</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">from</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="m">.1</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'States with highest % in state prisons'</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s1">'states'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /> 
+So Alaska and Delaware both have nearly 1% of their populations in state prisons. Keep in mind this is NOT counting those in jail. The real numbers are probably much bigger when jails are included.</p>
+
+<p>What about which state has the highest average capacity?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">avg_cap</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">avg_cap</span><span class="p">),</span><span class="w"> </span><span class="n">avg_cap</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Top 10 states with most overcapacity prisons'</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s1">'State'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s1">'dotted'</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>We see Illinois clearly out in the lead with the most overcrowded prisons. Anyone know why it’s particularly bad there?</p>
+
+<p>This <a href="https://www.illinoispolicy.org/rauner-speaks-out-on-the-fallacy-of-extreme-reforms/"> article</a> suggests it’s due to problems with Illinois’ sentencing laws.</p>
+
+<p>What about which states have the LEAST full prisons?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'Nevada'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Connecticut'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#Nevada and Connecticut state data were missing!</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">avg_cap</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">avg_cap</span><span class="p">),</span><span class="w"> </span><span class="n">avg_cap</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Top 10 states with least overcapacity prisons'</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s1">'State'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'Capacity'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s1">'dotted'</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>New Mexico and Mississippi seem to have the least overcrowded prisons. Nevertheless, there are reports like <a href="http://www.santafenewmexican.com/news/local_news/forecast-new-mexico-prisons-on-track-to-exceed-capacity/article_59eaf3e9-9c6d-5fcd-926c-b5a254966f20.html"> these</a> that suggest the NM prison population is increasing fast. Keep in mind these were 2015 numbers.</p>
+
+<h1 id="its-often-mentioned-that-the-cost-of-housingfeedingmedical-care-for-inmates-is-high-lets-estimate-the-cost-for-each-state">It’s often mentioned that the cost of housing/feeding/medical care for inmates is high. Let’s estimate the cost for each state.</h1>
+
+<p>Google tells me that the average annual cost per inmate is about $31,100. That works out to about $84 per day. Most of the hotels I stay in cost less than that. Some states, such as NY, pay as much as $60,000 a year to take care of state prison inmates.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">yr_costs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Custody.population</span><span class="o">*</span><span class="m">31000</span><span class="p">)</span><span class="w">
+
+</span><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'Federal'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">yr_costs</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">yr_costs</span><span class="p">),</span><span class="w"> </span><span class="n">yr_costs</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">dollar_format</span><span class="p">())</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Top 20 states with most spending on inmates'</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s1">'State'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'Est. Spending $'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>Interesting that Texas likely spends more than California, considering CA has over 10,000,000 more residents than Texas. Also, California’s population is nearly double Florida’s and yet Florida probably spends nearly as much as California does. These estimates tell me Florida and Texas need to be thinking about reforms: their prison systems are definitely not efficient.</p>
+
+<p>Finally, is there any connection between spending and being overcapcity? We would expect that more spending is correlated to less overcrowding, right?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Federal'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">yr_costs</span><span class="p">,</span><span class="w"> </span><span class="n">avg_cap</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">pop_est_2014</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">dollar_format</span><span class="p">())</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-1</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'lm'</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Is there a relationship between spending and overcrowding?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Federal'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">avg_cap</span><span class="p">,</span><span class="w"> </span><span class="n">pop_est_2014</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="w"> </span><span class="n">pop_est_2014</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'lm'</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Is there a relationship between population and overcrowding?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="prisoncapacity_files/figure-markdown_github/unnamed-chunk-7-2.png" alt="" /></p>
+
+<p>Counter-intuitively, there is a slight relationship between greater state spending and overcrowdedness. This suggests the way states are spending their taxpayer money on prisons is not working. We would hope to see a decrease in overcrowdedness as states paid money to build new facilities, but that doesn’t seem to be the case. Perhaps only a small fraction of the tax money goes into new facilities? Maybe most of it goes towards pension plans for guards and more security features, who knows. Someone with some domain knowledge here might be able to explain why this is the case.</p>
+
+<p>Overall, there does seem to be a relationship, albeit relatively weak, between a state’s population and the overcrowdedness. This makes sense. If states all had the same area, then those states with the bigger populations would likely be more crowded.</p>
+
+<h1 id="summary">Summary</h1>
+
+<p>I was surprised to find that Illinois leads the country in overcrowded prisons and that Alaska and Delaware keep the highest percentage of citizens in state prisons. I think this analysis paints a rosier picture than expected for California’s state prisons. At the same time, it is worrying to see Florida and Texas spending nearly as much as California on its prisons given that their populations are much smaller.</p>
+
+  </div><a class="u-url" href="/datasophy/2018/06/28/us-prisons.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
