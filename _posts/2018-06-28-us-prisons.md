@@ -109,7 +109,8 @@ full_df %>%
 
 ![](prisoncapacity_files/figure-markdown_github/unnamed-chunk-3-1.png) 
 
-So Alaska and Delaware both have nearly 1% of their populations in state prisons. Keep in mind this is NOT counting those in jail. The real numbers are probably much bigger when jails are included.
+So Alaska and Delaware both have nearly 1% of their populations in state prisons. 
+Keep in mind this is NOT counting those in jail. The real numbers are probably much bigger when jails are included.
 
 What about which state has the highest average capacity?
 
