@@ -119,7 +119,7 @@ This is super interesting and it's worth spending some time examining.
 
 1.  Not surprisingly tuberculosis and HIV rates are highly correlated. This suggest systematic problems in controlling contagious disease.
 
-2.  Bad air is correlated with low happiness. That makes sense, but it worth reiterating. Your happiness may be determined by how clean your country's air is. *Cough* China. *Cough*
+2.  Bad air is correlated with low happiness. That makes sense, but is worth reiterating. Your happiness may be determined by how clean your country's air is. *Cough* China. *Cough*
 
 3.  Not surprisingly, high infant mortality is associated with low water sanitation.
 
