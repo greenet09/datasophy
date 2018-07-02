@@ -8,6 +8,12 @@ This is what happens when you read too many statistics textbooks.
 
 ![es-1936.gif](/memes/gosling.JPG)
 
+![image-title-here](/memes/gosling.JPG){:class="img-responsive"}
+
+![image-title-here](./memes/gosling.JPG){:class="img-responsive"}
+
+![image-title-here](/memes/gosling.JPG){:class="img-responsive"}
+
 <img src="/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
 
 For the skeptics: 
