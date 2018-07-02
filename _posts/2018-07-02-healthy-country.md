@@ -183,7 +183,7 @@ First notice that the x/y axes are PC1 and PC2, which cumulatively explain about
 
 Second, the red arrows have both a magnitude and an angle. The angle of these arrows relative to the x/y axes show you the degree to which these original variables are being "captured" by the PCs. So nearly vertical lines are well captured by PC2 (HIV and Tuberculosis rates), while PC1 seems to be capturing Infant mortality, public services, water sanitation and the Human Development Index.
 
-The angles between the two original variables (red lines) represents the direction of correlation. So infant mortality and public services are very positively correlated, while HIV rates and Tobacco use are negatively correlated. These interpretations should match our results from the correlation matrix above. Finally, and this one I'm not sure about, but the length of the arrows represents the standard deviation in the original variables. So if you squared the length you'd represent that variable's variance.
+The angles between the two original variables (red lines) represent the direction of correlation. So infant mortality and public services are very positively correlated, while HIV rates and Tobacco use are negatively correlated. These interpretations should match our results from the correlation matrix above. Finally, and this one I'm not 100% sure about, but the length of the arrows represents the standard deviation in the original variables. So longer arrows represent variables with a higher variance. Again, don't quote me on that.
 
 Pitfalls in interpreting the biplot
 ===================================
