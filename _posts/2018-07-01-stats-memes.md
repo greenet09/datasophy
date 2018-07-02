@@ -12,8 +12,9 @@ This is what happens when you read too many statistics textbooks.
 
 For the skeptics: 
 ``` r
-pnorm(4.75342)
-[1] 0.999999 
+> 1 - pnorm(4.75342)
+
+1.000021e-06
 ```
 
 To all the single ladies.
