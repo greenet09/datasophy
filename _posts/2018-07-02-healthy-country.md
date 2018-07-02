@@ -27,7 +27,7 @@ Notice that for some measures, low scores are good and for others high scores ar
 Using these 10 dimensions: Which country in the world has the best Health Outcomes?
 ===================================================================================
 
-First we read in the data and select our 10 variables. After omitting missing values, we end up with a sample of 39 countries from all over the globe.
+First we read in the data and select our 10 variables. After omitting missing values, we end up with a sample of 39 countries from all over the globe. Note that this is not a completely random sample--only those countries with no missing data on the 10 dimensions were included in the analysis.
 
 ``` r
 library(tidyverse)
