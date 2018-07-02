@@ -4,5 +4,5 @@
 
 layout: home
 ---
-<link rel="shortcut icon" type="image/png" href="/favicon.png">
+<link rel="shortcut icon" type="image/png" href="./favicon.png">
 <img src="assets/grass.jpeg" alt="taipei" width="800px" height="200px"/>
