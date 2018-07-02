@@ -69,7 +69,7 @@ for (n in df$cname){
 
 At this point you might want to pause for a second and choose which countries you think are top 5 for best health, and bottom 5 for worst health. You can compare your intuition with our result at the end.
 
-Moving on,let's check to make sure no crazy values here. All right, everything looks reasonable. Now we can start our comparisons.
+Moving on, let's check to make sure no crazy values here. 
 
 ``` r
 summary(df)
@@ -100,6 +100,8 @@ summary(df)
     ##  Max.   :3.613   Max.   :9.100   Max.   :1003.00   Max.   :0.9370  
     ## 
 
+All right, everything looks reasonable. Now we can start our comparisons.
+	
 First off, I'm interested in correlations between the various dimensions.
 
 ``` r
