@@ -10,13 +10,13 @@ If you aren't familiar with this dataset, I suggest spending a few minutes looki
 In order to determine which country is the overall best country for living a long happy life, I've decided to rate each country on 10 dimensions (based on the availability of such data in the QoG dataset). The 10 dimensions are:
 
 <ul type='1'>
-  <li>The HIV prevalance in % </li>
-  <li>Air quality index of PM 2.5 in the air (100 is best air, 0 is worst air)</li>
-  <li>The total tobacco use</li>
+  <li>The HIV prevalence in % </li>
+  <li>Air quality index, based on PM 2.5 concentrations (100 is best air, 0 is worst air)</li>
+  <li>Total tobacco use</li>
   <li>Infant mortality: deaths per 1,000 births</li>
   <li>The level of sanitation and public water cleanliness</li>
-  <li>The degree of public services (10 meaning very unreliable, 1 being very stable)</li>
-  <li>Alcohol consumption from 2000 onward</li>
+  <li>The degree of stability of public services (10 meaning very unreliable, 1 being very stable)</li>
+  <li>Per capita alcohol consumption from the year 2000 onward</li>
   <li>Subjective happiness ratings 1-4 (very happy)</li>
   <li>Rate of tuberculosis</li>
   <li>The UN's Human Development Index score (0-100) best</li>
