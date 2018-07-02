@@ -6,8 +6,9 @@ date: "2018-07-01"
 
 This is what happens when you read too many statistics textbooks. 
 
+![es-1936.gif](/memes/gosling.JPG)
 
-<img src="{{site.baseurl}}/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
+<img src="/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
 
 For the skeptics: 
 ``` r
@@ -30,4 +31,4 @@ For the Bayesians in the audience. Taking it back to your 8th grade dance.
 
 
 
-
+{{site.baseurl}}
