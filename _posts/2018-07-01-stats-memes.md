@@ -7,7 +7,7 @@ date: "2018-07-01"
 This is what happens when you read too many statistics textbooks. 
 
 
-<img src="/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
+<img src="{{site.baseurl}}/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
 
 For the skeptics: 
 ``` r
