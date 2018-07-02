@@ -145,11 +145,6 @@
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">corrplot</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning: package 'corrplot' was built under R version 3.4.3
-
-## corrplot 0.84 loaded
-</code></pre></div></div>
-
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">select_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">cor</span><span class="p">()</span><span class="o">%&gt;%</span><span class="w">
@@ -165,7 +160,7 @@
     <p>Not surprisingly tuberculosis and HIV rates are highly correlated. This suggest systematic problems in controlling contagious disease.</p>
   </li>
   <li>
-    <p>Bad air is correlated with low happiness. That makes sense, but it worth reiterating. Your happiness may be determined by how clean your country’s air is.</p>
+    <p>Bad air is correlated with low happiness. That makes sense, but it worth reiterating. Your happiness may be determined by how clean your country’s air is. <em>Cough</em> China. <em>Cough</em></p>
   </li>
   <li>
     <p>Not surprisingly, high infant mortality is associated with low water sanitation.</p>
