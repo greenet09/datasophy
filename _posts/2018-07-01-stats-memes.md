@@ -8,9 +8,9 @@ This is what happens when you read too many statistics textbooks.
 
 
 
-![image-title-here](datosophy/2018/07/01/memes/gosling.JPG){:class="img-responsive"}
+![image-title-here](datosophy/2018/07/01/memes/gosling.jpg){:class="img-responsive"}
 
-![image-title-here](./memes/gosling.JPG){:class="img-responsive"}
+![image-title-here](./memes/gosling.jpg){:class="img-responsive"}
 
 
 
