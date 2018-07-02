@@ -22,7 +22,7 @@ In order to determine which country is the overall best country for living a lon
   <li>The UN's Human Development Index score (0-100) best</li>
 </ul>
 
-Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issues in the ranking section.
+Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issue in the final ranking section.
 
 Using these 10 dimensions: Which country in the world has the best Health Outcomes?
 ===================================================================================
