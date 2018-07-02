@@ -200,7 +200,7 @@ Second, remember I mentioned that PC1 & PC2 only account for about 65% of the va
 
 3.  India and Pakistan have similar levels of infant mortality, tuberculosis (high numbers, which are bad), and unstable public services.
 
-4.  Nigeria seems to have the negative combo of both high infant mortality and tubercolosis coupled with HIV and bad public services.
+4.  Nigeria seems to have the negative combo of both high infant mortality and tuberculosis coupled with HIV and bad public services.
 
 In some cases of many useful PCs, you might want to also visualize PC3 vs PC4
 =============================================================================
