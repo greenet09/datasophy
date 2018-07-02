@@ -7,14 +7,8 @@ date: "2018-07-01"
 This is what happens when you read too many statistics textbooks. 
 
 
-
-![image-title-here](datosophy/2018/07/01/memes/gosling.jpg){:class="img-responsive"}
-
 ![image-title-here](./memes/gosling.jpg){:class="img-responsive"}
 
-
-
-<img src="/memes/gosling.JPG" alt="gosling" width="300px" height="300px"/>
 
 For the skeptics: 
 ``` r
@@ -22,18 +16,24 @@ pnorm(4.75342)
 [1] 0.999999 
 ```
 
-
 To all the single ladies.
 
-<img src="/memes/destiny.JPG" alt="beyonce" width="300px" height="300px"/>
+![single ladies](./memes/destiny.jpg){:class="img-responsive"}
+
+
+
 
 Factoid: Did you know Ryan Gosling is dyslexic? 
 
-<img src="/memes/ftest.JPG" alt="goslingtest" width="300px" height="300px"/>
+![F test](./memes/ftest.jpg){:class="img-responsive"}
+
+
+
+
 
 For the Bayesians in the audience. Taking it back to your 8th grade dance. 
 
-<img src="/memes/thong.JPG" alt="sisqo" width="300px" height="300px"/>
+![sisqo never dies](./memes/thong.jpg){:class="img-responsive"}
 
 
 
