@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data Analysis: Everything You’ve Ever Wanted to Know about UFO Sightings | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data Analysis: Everything You’ve Ever Wanted to Know about UFO Sightings" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this analysis, we will break down the NUFORC UFO sighting data to see if there are any patterns in UFO sightings through the years. You can access the data here: nuforc" />
+<meta property="og:description" content="In this analysis, we will break down the NUFORC UFO sighting data to see if there are any patterns in UFO sightings through the years. You can access the data here: nuforc" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/07/03/UFO.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/07/03/UFO.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-03T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/07/03/UFO.html"},"url":"http://localhost:4000/datasophy/2018/07/03/UFO.html","description":"In this analysis, we will break down the NUFORC UFO sighting data to see if there are any patterns in UFO sightings through the years. You can access the data here: nuforc","headline":"Data Analysis: Everything You’ve Ever Wanted to Know about UFO Sightings","@type":"BlogPosting","dateModified":"2018-07-03T00:00:00+08:00","datePublished":"2018-07-03T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Analysis: Everything You&#39;ve Ever Wanted to Know about UFO Sightings</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-03T00:00:00+08:00" itemprop="datePublished">Jul 3, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this analysis, we will break down the NUFORC UFO sighting data to see if there are any patterns in UFO sightings through the years. You can access the data here:
+<a href="http://www.nuforc.org/"> nuforc</a></p>
+
+<h1 id="my-ufo-sighting-in-san-diego-california">My UFO Sighting in San Diego, California</h1>
+<p>This topic has interested me ever since I saw a UFO in the middle of broad daylight in San Diego, CA in the 3rd grade. It was just another Sunday afternoon at the local park in La Mesa, CA. My friend and I watched as a shiny, silver disk floated effortlessly and silently in the blue sky and shot across the lengths of entire clouds instantaneously. I distinctly remember the way in which the sun glared off the metallic exterior of the craft–it was just like the UFOs in the movies. Shocked, we ran and told our parents, who then came and observed the flying saucer for another 10 minutes or so. Eventually, the UFO shot up into the atmosphere at a speed that an only be described as inhuman.</p>
+
+<p>Ever since then I’ve tried to figure out what exactly UFOs might be. Could a government be so stupid as to test new technology in the middle of the day in San Diego? Not likely. I thus have two alternative explanations for UFOs: 1) They are indeed alien spacecraft; and 2) they are human spacecraft from the future. Time travellers have come back to our time via these fast-as-light spacecraft–and that’s why they don’t care about appearing in the middle of the day.</p>
+
+<p>So, now that I’m sure you think I’m crazy (even my Mom, who wasn’t there that day, to this day doesn’t believe me), let’s see if we can find anything that might help us to decide whether UFOs are indeed human or alien.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggmap</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'ufo.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#delete any cities with punctuation. focus on US</span><span class="w">
+</span><span class="c1">#if you put df[which...] then you get a data frame back. we just want vec of index</span><span class="w">
+</span><span class="n">bad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="s1">'[[:punct:]]'</span><span class="p">))</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">-</span><span class="n">bad</span><span class="p">,]</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">head</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 6 x 4
+##          city state shape     n
+##         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt;
+## 1     seattle    wa light   113
+## 2     phoenix    az light    90
+## 3   san diego    ca light    78
+## 4    portland    or light    77
+## 5   las vegas    nv light    68
+## 6 los angeles    ca light    63
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidytext</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#START UFO TEXT PROCESSING HERE</span><span class="w">
+</span><span class="n">big</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">comments</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="o">=</span><span class="s1">'ngrams'</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">anti_join</span><span class="p">(</span><span class="n">stop_words</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#solve problem of bigrams with stop words</span><span class="w">
+</span><span class="n">bigrams_separated</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">big</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">separate</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"word1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"word2"</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#keep only alphabetical words and longer than 2 letters</span><span class="w">
+</span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_separated</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">word1</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">stop_words</span><span class="o">$</span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">word2</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">stop_words</span><span class="o">$</span><span class="n">word</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">word1</span><span class="p">,</span><span class="w"> </span><span class="s1">'[[:alpha:]]'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">word2</span><span class="p">,</span><span class="w"> </span><span class="s1">'[[:alpha:]]'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">nchar</span><span class="p">(</span><span class="n">word1</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">nchar</span><span class="p">(</span><span class="n">word2</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'ufo'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'ufo'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#most common types of lights seen</span><span class="w">
+</span><span class="n">lights</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'light'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'lights'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#What type of shapes?</span><span class="w">
+</span><span class="n">shapes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'shape'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'shaped'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#movement</span><span class="w">
+</span><span class="n">mvt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="s1">'movement'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'movements'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
+</span><span class="c1">#type object</span><span class="w">
+</span><span class="n">obj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'object'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'objects'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
+
+</span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'speed'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'speeds'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h1 id="visualizing-ufo-characteristics-by-treemap">Visualizing UFO Characteristics by Treemap</h1>
+<p>Treemaps work by making the area of the rectangles proportional to some variable in our dataframe. In this case, we have counts of the bigrams, so we will set the size of the rectangles to reflect the count of each pair. Hopefully this will tell us something interesting about the most common characteristics of UFOs.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># library</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">treemap</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># treemap. the size of the box is proportional to its count among all speeds</span><span class="w">
+</span><span class="n">treemap</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span><span class="w">
+            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of speed seen in UFO sightings'</span><span class="w">
+            </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w">
+            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of objects seen in UFO sightings'</span><span class="w">
+            </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-2.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">mvt</span><span class="p">,</span><span class="w">
+            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of movements seen in UFO sightings'</span><span class="w">
+            </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-3.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">shapes</span><span class="p">,</span><span class="w">
+            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of shapes seen in UFO sightings'</span><span class="w">
+            </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-4.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">lights</span><span class="p">,</span><span class="w">
+            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
+            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of lights seen in UFO sightings'</span><span class="w">
+            </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-5.png" alt="" /></p>
+
+<h1 id="visualizing-by-lollipop-chart">Visualizing by Lollipop chart</h1>
+
+<p>Another way to represent the same information is a lollipop chart. These are essentially slicker-looking versions of bar charts, where the length of the bar is proportional to some column in our dataframe. Remember that in ggplot2, we use the aes() argument to map variables (i.e., columns) onto our plots. This is an extremely useful aspect of ggplot.</p>
+
+<p>Lollipop chart of states</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#city state counts of sightings</span><span class="w">
+</span><span class="n">state_counts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#visualize with lollipop chart</span><span class="w">
+</span><span class="n">state_counts</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">90</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">location</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">xend</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="o">=</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Which cities have had the most sightings?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#count cities and shape</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'light'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">type</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">xend</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="o">=</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'What shapes are most commonly seen in each location?'</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'City and Type of Shape'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">'# of sightings'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-4-2.png" alt="" /></p>
+
+<h1 id="time-series-visualizations-of-ufo-sightings">Time series visualizations of UFO sightings</h1>
+
+<h2 id="using-lubridate-to-find-patterns-over-time">Using lubridate to find patterns over time</h2>
+
+<p>The lubridate package is great. It makes working with dates and times as easy as could be imagined–if you’re familiar with xts or ts objects, you’ll know that working with dates and times in R can be frustrating and cumbersome.</p>
+
+<p>One really handy function is floor_date(), which allows you to essentially aggregate observations into buckets of time. In this sense it is similar to how you might choose your bin size in a histogram, but here we are choosing what interval of time to consider a ‘bin’ or ‘bucket.’ As you change the interval (i.e., unit of time), you’ll see different patterns emerge as the zoom level of the data increases and decreases. You’ll need to use your judgment to figure out which level of aggregation best fits your needs.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+</span><span class="c1">#biggest single events reported one time tinley park 17 counts</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">datetime</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mdy_hm</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">datetime</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#6 month intervals</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'1 year'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1939-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"UFO Sightings Since 1939"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which states most? </span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 10 x 2
+##    state     n
+##    &lt;chr&gt; &lt;int&gt;
+##  1    ca  8998
+##  2    wa  3949
+##  3    fl  3792
+##  4    tx  3445
+##  5    ny  2635
+##  6    il  2460
+##  7    az  2454
+##  8    pa  2406
+##  9    oh  2301
+## 10    mi  1930
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#top 10 states</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'1 year'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'fl'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">,</span><span class="s1">'ny'</span><span class="p">,</span><span class="w"> </span><span class="s1">'il'</span><span class="p">,</span><span class="s1">'az'</span><span class="p">,</span><span class="s1">'pa'</span><span class="p">,</span><span class="s1">'oh'</span><span class="p">,</span><span class="s1">'mi'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"UFO Sightings Since 1950"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-2.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which cities?</span><span class="w">
+</span><span class="n">cities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">slice</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cities</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w">
+</span><span class="n">cities</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 10 x 1
+##           city
+##          &lt;chr&gt;
+##  1     seattle
+##  2     phoenix
+##  3    portland
+##  4   las vegas
+##  5 los angeles
+##  6   san diego
+##  7     houston
+##  8     chicago
+##  9      tucson
+## 10       miami
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#tracking 10 cities</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'5 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1970-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">city</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'seattle'</span><span class="p">,</span><span class="w"> </span><span class="s1">'phoenix'</span><span class="p">,</span><span class="s1">'portland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'san diego'</span><span class="p">,</span><span class="w"> </span><span class="s1">'los angeles'</span><span class="p">,</span><span class="w"> </span><span class="s1">'houston'</span><span class="p">,</span><span class="w"> </span><span class="s1">'las vegas'</span><span class="p">,</span><span class="w"> </span><span class="s1">'chicago'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tucson'</span><span class="p">,</span><span class="w"> </span><span class="s1">'miami'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">city</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"5 year aggregate UFO Sightings Since 1970"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-3.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#how have shapes changed over time? 1 year aggregrates</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'1 year'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'changed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'changing'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">shape</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-4.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#in 5 year intervals proportion of shapes sighted. interesting. min 5% shapes</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'5 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'changed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'changing'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cts</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">cts</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">.05</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">shape</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Freq of shape in 5 year aggregate sightings since 1950'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-5.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#proportion of shapes in CA, WA, and TX in 20 year intervals</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'20 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'changed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'changing'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cts</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">cts</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">.05</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">shape</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'20 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Freq of shape in 20 year aggregate sightings since 1950'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-6.png" alt="" /></p>
+
+<p>What can we learn from this?</p>
+
+<ol>
+  <li>Disks peaked in the 50s and hardly ever appear now.</li>
+  <li>Lights were rare until the late 70s and then exploded.</li>
+  <li>Triangles seem to have peaked in the early 80s.</li>
+  <li>Fireballs started in the late 80s and quickly died out.</li>
+  <li>Cigars died out in the 1960s. Aliens’ leases expired and they traded up for lights?</li>
+</ol>
+
+<p>All this makes me skeptical: What’s happening to the classic metallic flying saucers that I saw that afternoon in San Diego? Where did they go?</p>
+
+<p>While analyzing these data I discovered some interesting and lesser-known sightings. If you want to actually see what happened in some of these locations, you can watch the videos of the incidents here:</p>
+
+<p>Tinley Park: <a href="http://www.chicagotribune.com/suburbs/daily-southtown/lifestyles/ct-stc-dekker-column-st-0924-20150922-story.html">http://www.chicagotribune.com/suburbs/daily-southtown/lifestyles/ct-stc-dekker-column-st-0924-20150922-story.html</a></p>
+
+<p>Rockford: <a href="http://97zokonline.com/5-times-people-saw-ufos-over-rockford-videos/">http://97zokonline.com/5-times-people-saw-ufos-over-rockford-videos/</a></p>
+
+<h1 id="can-we-visualize-the-descriptions-of-ufos-as-a-network-of-nodes-and-edges">Can we visualize the descriptions of UFOs as a network of nodes and edges?</h1>
+<p>The igraph and ggraph packages will help us here. And I highly recommend the free online book <a href="https://www.tidytextmining.com/ngrams.html">https://www.tidytextmining.com/ngrams.html</a>, by David Robinson and Julia Silge.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#need 3 things after have igraph object: node edges and labels</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big_graph</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">graph_from_data_frame</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#then we use ggraph to use ggplot's grammar of graphics approach to visualizing these links</span><span class="w">
+</span><span class="n">ggraph</span><span class="p">(</span><span class="n">big_graph</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_edge_link</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># improved version: via the great tutorial here https://www.tidytextmining.com/ngrams.html</span><span class="w">
+</span><span class="c1">#for some reason the edge_alpha argument isn't changing. It should make alpha levels proportional to the number of occurrences in the text.</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">arrow</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">.05</span><span class="p">,</span><span class="w"> </span><span class="s2">"inches"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggraph</span><span class="p">(</span><span class="n">big_graph</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_edge_link</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">edge_alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+                 </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">end_cap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">circle</span><span class="p">(</span><span class="m">.07</span><span class="p">,</span><span class="w"> </span><span class="s1">'inches'</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_node_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-6-2.png" alt="" /></p>
+
+<p>This graph gives a nice overview of the major descriptions of the UFOs. The direction of the arrows indicate whether the word was the 1st or 2nd word in the bigram pair. I’m definitely going to need to look more deeply into this package as there are a lot of setting to tweak. For now, the aes(edge_alpha)=n does not appear to be working…</p>
+
+<h1 id="geographic-visualization-of-ufo-hotspots">Geographic visualization of UFO hotspots</h1>
+
+<p>In order to plot using latitude and longitude, we’ll follow the same strategy I outlined in my ggmaps tutorial: groupby location then average the lat and lon of each city. If you want to see how that was done, go here: <a href="https://greenet09.github.io/datasophy/2018/06/29/san-diego-airbnb.html">https://greenet09.github.io/datasophy/2018/06/29/san-diego-airbnb.html</a></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">us_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_map</span><span class="p">(</span><span class="s1">'USA'</span><span class="p">,</span><span class="w"> </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="n">maptype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'satellite'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggmap</span><span class="p">()</span><span class="w">
+</span><span class="n">us_map</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#cities with more than 1 sighting</span><span class="w">
+</span><span class="n">over_50</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">over_50</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 6 x 2
+##       location     n
+##          &lt;chr&gt; &lt;int&gt;
+## 1  29 palms,ca     2
+## 2 abbeville,la     4
+## 3 abbeville,sc     2
+## 4  aberdeen,md     5
+## 5  aberdeen,nj     2
+## 6  aberdeen,sd     2
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Now it's in the shape we need to plot. Not gunna lie: this took me like 10 mins to get working</span><span class="w">
+</span><span class="n">lat_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span><span class="s1">'state'</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">over_50</span><span class="o">$</span><span class="n">location</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">latitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">latitude</span><span class="p">),</span><span class="w">
+         </span><span class="n">longitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">longitude</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">longitude</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+            </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+            </span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">lat_long</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 6 x 4
+##       location        lon      lat   cts
+##          &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+## 1  29 palms,ca -116.05417 34.13556     2
+## 2 abbeville,la  -92.13417 29.97444     4
+## 3 abbeville,sc  -82.37917 34.17806     2
+## 4  aberdeen,md  -76.16444 39.50944     5
+## 5  aberdeen,nj  -74.22212 40.41710     2
+## 6  aberdeen,sd  -98.48611 45.46472     2
+</code></pre></div></div>
+
+<p>Now we are ready to visualize by overlaying our dataframe on top of our country map.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">us_map</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'US UFO sightings since 1944'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>Do you see any patterns here? Besides most sightings happening in big cities, it is interesting to see a big vertical gap in the midwest where almost no sightings occur. I wonder if perhaps the geographical features (mountains/rivers, for example) are playing a role. There’s almost a vertical line splitting the US into two halves. Where are the UFOs in Kansas, Nebraska, South Dakota, and North Dakota? There also appears to be a gap in sightings in the region that appears to be Northern Nevada and Idaho.</p>
+
+<p>Can we zoom in to better see?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">us_idaho</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_map</span><span class="p">(</span><span class="s1">'Idaho, USA'</span><span class="p">,</span><span class="w"> </span><span class="n">zoom</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">maptype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'satellite'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggmap</span><span class="p">()</span><span class="w">
+
+</span><span class="n">us_idaho</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Why no UFOs in Idaho?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+
+<p>Clearly the bigger the population the more opportunity for sightings. It could just be the relatively sparsely populated areas that account for the lack of sightings. Or it could be that UFOs have an aversion to potatoes. I’m not sure we’ll ever know. For now, I’m sticking with the potato hypothesis.</p>
+
+<h1 id="lastly-can-we-visualize-key-words-in-different-regions">Lastly, can we visualize key words in different regions?</h1>
+<p>In order to do this we will look at single words that are most common in each region.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">words_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'location'</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'city'</span><span class="p">,</span><span class="s1">'state'</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="n">comments</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">words</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">stop_words</span><span class="o">$</span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">words</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'las'</span><span class="p">,</span><span class="w"> </span><span class="s1">'los'</span><span class="p">,</span><span class="w"> </span><span class="s1">'san'</span><span class="p">,</span><span class="w"> </span><span class="s1">'quot'</span><span class="p">,</span><span class="w"> </span><span class="s1">'diego'</span><span class="p">,</span><span class="w"> </span><span class="s1">'sky'</span><span class="p">,</span><span class="w"> </span><span class="s1">'angeles'</span><span class="p">,</span><span class="w"> </span><span class="s1">'object'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'light'</span><span class="p">,</span><span class="w"> </span><span class="s1">'lights'</span><span class="p">,</span><span class="w"> </span><span class="s1">'beach'</span><span class="p">,</span><span class="w"> </span><span class="s1">'jose'</span><span class="p">,</span><span class="w"> </span><span class="s1">'francisco'</span><span class="p">,</span><span class="w"> </span><span class="s1">'antonio'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'tinley'</span><span class="p">,</span><span class="w"> </span><span class="s1">'myrtle'</span><span class="p">,</span><span class="w"> </span><span class="s1">'salt'</span><span class="p">,</span><span class="w"> </span><span class="s1">'texas'</span><span class="p">,</span><span class="w"> </span><span class="s1">'bright'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'moving'</span><span class="p">,</span><span class="w"> </span><span class="s1">'monica'</span><span class="p">,</span><span class="w"> </span><span class="s1">'colorado'</span><span class="p">,</span><span class="w"> </span><span class="s1">'city'</span><span class="p">,</span><span class="w"> </span><span class="s1">'barbara'</span><span class="p">,</span><span class="s1">'flying'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'shaped'</span><span class="p">,</span><span class="w"> </span><span class="s1">'shape'</span><span class="p">,</span><span class="w"> </span><span class="s1">'santa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'object'</span><span class="p">,</span><span class="w"> </span><span class="s1">'objects'</span><span class="p">,</span><span class="w"> </span><span class="s1">'craft'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'moved'</span><span class="p">,</span><span class="w"> </span><span class="s1">'alaska'</span><span class="p">,</span><span class="w"> </span><span class="s1">'downtown'</span><span class="p">,</span><span class="w"> </span><span class="s1">'north'</span><span class="p">,</span><span class="w"> </span><span class="s1">'south'</span><span class="p">,</span><span class="w"> </span><span class="s1">'east'</span><span class="p">,</span><span class="w"> </span><span class="s1">'west'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'rapids'</span><span class="p">,</span><span class="s1">'sighting'</span><span class="p">,</span><span class="w"> </span><span class="s1">'cajon'</span><span class="p">,</span><span class="w"> </span><span class="s1">'simi'</span><span class="p">,</span><span class="w"> </span><span class="s1">'boca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'paso'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'lauderdale'</span><span class="p">,</span><span class="w"> </span><span class="s1">'grand'</span><span class="p">,</span><span class="w"> </span><span class="s1">'puget'</span><span class="p">,</span><span class="w"> </span><span class="s1">'nuforc'</span><span class="p">,</span><span class="w"> </span><span class="s1">'39s'</span><span class="p">,</span><span class="w"> 
+                       </span><span class="s1">'looked'</span><span class="p">,</span><span class="w"> </span><span class="s1">'nyc'</span><span class="p">,</span><span class="w"> </span><span class="s1">'obj'</span><span class="p">,</span><span class="w"> </span><span class="s1">'cruz'</span><span class="p">,</span><span class="w"> </span><span class="s1">'missouri'</span><span class="p">,</span><span class="s1">'springs'</span><span class="p">,</span><span class="w"> </span><span class="s1">'note'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'appeared'</span><span class="p">,</span><span class="w"> </span><span class="s1">'hotel'</span><span class="p">,</span><span class="w"> </span><span class="s1">'night'</span><span class="p">,</span><span class="w"> </span><span class="s1">'park'</span><span class="p">,</span><span class="w"> </span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="s1">'palm'</span><span class="p">,</span><span class="w">
+                       </span><span class="s1">'des'</span><span class="p">,</span><span class="w"> </span><span class="s1">'moines'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="s1">'[[:alpha:]]'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">nchar</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">words</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'ufo'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">words</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">city</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s1">'location'</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">words_map</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 6 x 6
+##       location     words     n       lon      lat   cts
+##          &lt;chr&gt;     &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+## 1   seattle,wa     sound    37 -122.3308 47.60639   524
+## 2   seattle,wa     green    35 -122.3308 47.60639   524
+## 3   seattle,wa  hovering    27 -122.3308 47.60639   524
+## 4   phoenix,az formation    24 -112.0733 33.44833   450
+## 5   seattle,wa      fast    24 -122.3308 47.60639   524
+## 6 las vegas,nv     green    23 -115.1364 36.17500   363
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">us_map</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">words_map</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">words_map</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Key words from UFO sightings around the US'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>OK, I’m going to end it here. Partly because figuring out how to get the map above to contain just the right amount of words took more time than I’d like to admit, and because it’s time to move on to another analysis.</p>
+
+<p>What can we learn from the above graphic? Well, first you should note that I removed the word “red” and “night” to make room for other, possibly more meaningful words. So if you see some red stuff at night, there’s a good chance it’s a UFO. Go log in to NUFORC and make a report.</p>
+
+<p>Second, we can see that fast glowing fireballs seem more common around Seattle. Though in Southern Texas there also seems to be many green fireballs. By the way, the Seattle Fireballs would make an awesome NBA team name. Just saying.</p>
+
+<p>It is also interesting to see which areas witness UFO formations. It looks like the areas near Lake Havasu, CA and Phoenix, AZ tend to see more UFO formations.</p>
+
+<h1 id="final-theory-to-explain-the-lack-of-ufos-near-idaho">Final theory to explain the lack of UFOs near Idaho…</h1>
+
+<p>Is it just a coincidence that the areas without many UFOs seem to be located in the general area (Groom Lake, NV) where Area 51 is claimed to exist? 
+The truth is out there…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_map</span><span class="p">(</span><span class="s1">'Groom Lake, Nevada'</span><span class="p">,</span><span class="w"> </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">maptype</span><span class="o">=</span><span class="s1">'terrain'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggmap</span><span class="p">()</span><span class="w">
+</span><span class="n">m</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Sightings surrounding Area 51'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-11-2.png" alt="" /></p>
+
+  </div><a class="u-url" href="/datasophy/2018/07/03/UFO.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
