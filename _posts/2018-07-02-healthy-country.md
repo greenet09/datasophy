@@ -29,8 +29,10 @@ Upon suggestion of my dear cousin Evan, I've added an 11th dimension: % of popul
 
 Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issues in the ranking section.
 
-Using these 11 dimensions: Which country in the world has the best Health Outcomes?
+Using these 11 dimensions: Which country in the world has the best Health Outcomes*?
 ===================================================================================
+
+*Technically, this analysis should be titled something like "In which countries are you least likely to die a sad, early, and painful death?" But that's a mouthful. Let's keep the glass half-full here, k? 
 
 First we read in the data and select our 11 variables. After omitting missing values, we end up with a sample of 39 countries from all over the globe.
 
