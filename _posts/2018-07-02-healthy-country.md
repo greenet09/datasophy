@@ -464,7 +464,7 @@ So there we go. We can see South Africa did poorly on water, public services, hu
 
 Meanwhile, Singapore is top of the list in nearly every category except Tuberculosis. The ranks hide the fact that in absolute numbers, the cases per 100,000 in Singapore are like 50-60, vs. in the USA where they are 2.9. Not a huge absolute difference but a huge relative one.
 
-Most of the European countries would have come out clearly on top had their alcohol and tobacco consumption levels been lower.
+Most of the European countries would have come out clearly on top had their alcohol and tobacco consumption levels been lower. And to the Germans, I say blame your good-but-not-great showing on all that damned Hefeweizen and the hipsters in Berlin who roll their cigs on the U-Bahn. Einverstanden?
 
 In the future I'll perform more analyses on world countries. I'm looking at comparing Education or Civil Society/Culture as my next blog post. Stay tuned.
 
