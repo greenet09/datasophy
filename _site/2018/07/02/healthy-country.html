@@ -67,7 +67,8 @@
   <li>2017 Obesity rates</li>
 </ol>
 
-<p><strong>UPDATE</strong> Upon suggestion of my cousin, I’ve added an 11th dimension: % of population that is obese. Data taken from <a href="https://renewbariatrics.com/obesity-rank-by-countries/">https://renewbariatrics.com/obesity-rank-by-countries/</a></p>
+<p><strong>UPDATE</strong> 
+Upon suggestion of my dear cousin Evan, I’ve added an 11th dimension: % of population that is obese. Data taken from <a href="https://renewbariatrics.com/obesity-rank-by-countries/">https://renewbariatrics.com/obesity-rank-by-countries/</a></p>
 
 <p>Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issues in the ranking section.</p>
 
@@ -101,7 +102,7 @@
 ## 36       94.25 3.084253    4.5   16.0    0.845
 </code></pre></div></div>
 
-<p>Getting the obesity data will require us to scrape the HTML tables from the rewewbariatrics website. We’ll use the super easy-to-use Rvest package to do that.</p>
+<p>Getting the obesity data will require us to scrape the HTML tables from the renewbariatrics website. We’ll use the super easy-to-use Rvest package to do that.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">rvest</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
@@ -158,7 +159,6 @@
   </span><span class="n">semi_join</span><span class="p">(</span><span class="n">weight_df</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s1">'country'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">head</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
-
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##      country ccodealp wef_chiv epi_pm25 who_tobt wef_imort who_alc2000
 ## 1 Azerbaijan      AZE     0.20    94.30     23.5      30.8        2.14
 ## 2  Argentina      ARG     0.40   100.00     25.3      12.7        7.93
@@ -227,7 +227,7 @@
     <p>Higher alcohol consumption is associated with LOWER infant mortality and higher human development. Interesting. Perhaps this has something to do with the extra leisure time brought on by more development. Poorer countries do not have the luxury of sitting around and drinking beers with their buddies.</p>
   </li>
   <li>
-    <p>Obesity is negatively correlated to happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there’s something about the diet of rich people that contributes to their higher rates of obesity (hint: it’s probably the increased meat/animal product consumption). In a later post I’ll look at timeseries of GDP growth and Body mass index changes to test this out.</p>
+    <p>Obesity is negatively correlated with happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there’s something about the diet of rich people that contributes to their higher rates of obesity (hint: it’s probably the increased meat/animal product consumption). In a later post I’ll look at time series data of GDP growth and body mass index changes to test this out.</p>
   </li>
 </ol>
 
@@ -305,7 +305,7 @@
   </li>
 </ol>
 
-<p>The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn’t be learning anything. So ideally our analysis would match our intution, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions–or even recheck our data to make sure they’re correct. That’s the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.</p>
+<p>The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn’t be learning anything. So ideally our analysis would match our intuition, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions–or even recheck our data to make sure they’re correct. That’s the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.</p>
 
 <h1 id="in-some-cases-of-many-useful-pcs-you-might-want-to-also-visualize-pc3-vs-pc4">In some cases of many useful PCs, you might want to also visualize PC3 vs PC4</h1>
 

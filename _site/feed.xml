@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-07-03T11:31:38+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: Which Country has the Best Health in the World?</title><link href="http://localhost:4000/datasophy/2018/07/02/healthy-country.html" rel="alternate" type="text/html" title="Data Analysis: Which Country has the Best Health in the World?" /><published>2018-07-02T00:00:00+08:00</published><updated>2018-07-02T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/07/02/healthy-country</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/07/02/healthy-country.html">&lt;h1 id=&quot;the-mother-of-all-social-science-datasets-quality-of-government&quot;&gt;The Mother of all Social Science Datasets: Quality of Government&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-07-03T11:42:26+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: Which Country has the Best Health in the World?</title><link href="http://localhost:4000/datasophy/2018/07/02/healthy-country.html" rel="alternate" type="text/html" title="Data Analysis: Which Country has the Best Health in the World?" /><published>2018-07-02T00:00:00+08:00</published><updated>2018-07-02T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/07/02/healthy-country</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/07/02/healthy-country.html">&lt;h1 id=&quot;the-mother-of-all-social-science-datasets-quality-of-government&quot;&gt;The Mother of all Social Science Datasets: Quality of Government&lt;/h1&gt;
 
 &lt;p&gt;Dahlberg, Stefan, Sören Holmberg, Bo Rothstein, Natalia Alvarado Pachon &amp;amp; Richard Svensson. 2018. The Quality of Government Basic Dataset, version Jan18. University of Gothenburg: The Quality of Government Institute, &lt;a href=&quot;http://www.qog.pol.gu.se&quot;&gt;http://www.qog.pol.gu.se&lt;/a&gt; &amp;lt;doi:10.18157/QoGBasJan18&amp;gt;&lt;/p&gt;
 
@@ -20,7 +20,8 @@
   &lt;li&gt;2017 Obesity rates&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt; Upon suggestion of my cousin, I’ve added an 11th dimension: % of population that is obese. Data taken from &lt;a href=&quot;https://renewbariatrics.com/obesity-rank-by-countries/&quot;&gt;https://renewbariatrics.com/obesity-rank-by-countries/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt; 
+Upon suggestion of my dear cousin Evan, I’ve added an 11th dimension: % of population that is obese. Data taken from &lt;a href=&quot;https://renewbariatrics.com/obesity-rank-by-countries/&quot;&gt;https://renewbariatrics.com/obesity-rank-by-countries/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issues in the ranking section.&lt;/p&gt;
 
@@ -54,7 +55,7 @@
 ## 36       94.25 3.084253    4.5   16.0    0.845
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Getting the obesity data will require us to scrape the HTML tables from the rewewbariatrics website. We’ll use the super easy-to-use Rvest package to do that.&lt;/p&gt;
+&lt;p&gt;Getting the obesity data will require us to scrape the HTML tables from the renewbariatrics website. We’ll use the super easy-to-use Rvest package to do that.&lt;/p&gt;
 
 &lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rvest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -111,7 +112,6 @@
   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;semi_join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;weight_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;by&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'country'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;##      country ccodealp wef_chiv epi_pm25 who_tobt wef_imort who_alc2000
 ## 1 Azerbaijan      AZE     0.20    94.30     23.5      30.8        2.14
 ## 2  Argentina      ARG     0.40   100.00     25.3      12.7        7.93
@@ -180,7 +180,7 @@
     &lt;p&gt;Higher alcohol consumption is associated with LOWER infant mortality and higher human development. Interesting. Perhaps this has something to do with the extra leisure time brought on by more development. Poorer countries do not have the luxury of sitting around and drinking beers with their buddies.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Obesity is negatively correlated to happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there’s something about the diet of rich people that contributes to their higher rates of obesity (hint: it’s probably the increased meat/animal product consumption). In a later post I’ll look at timeseries of GDP growth and Body mass index changes to test this out.&lt;/p&gt;
+    &lt;p&gt;Obesity is negatively correlated with happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there’s something about the diet of rich people that contributes to their higher rates of obesity (hint: it’s probably the increased meat/animal product consumption). In a later post I’ll look at time series data of GDP growth and body mass index changes to test this out.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -258,7 +258,7 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn’t be learning anything. So ideally our analysis would match our intution, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions–or even recheck our data to make sure they’re correct. That’s the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.&lt;/p&gt;
+&lt;p&gt;The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn’t be learning anything. So ideally our analysis would match our intuition, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions–or even recheck our data to make sure they’re correct. That’s the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.&lt;/p&gt;
 
 &lt;h1 id=&quot;in-some-cases-of-many-useful-pcs-you-might-want-to-also-visualize-pc3-vs-pc4&quot;&gt;In some cases of many useful PCs, you might want to also visualize PC3 vs PC4&lt;/h1&gt;
 

@@ -24,7 +24,8 @@ In order to determine which country is the overall best country for living a lon
 10. the UN's Human Development Index score (0-100) best
 11. 2017 Obesity rates
 
-**UPDATE** Upon suggestion of my cousin, I've added an 11th dimension: % of population that is obese. Data taken from <https://renewbariatrics.com/obesity-rank-by-countries/>
+**UPDATE** 
+Upon suggestion of my dear cousin Evan, I've added an 11th dimension: % of population that is obese. Data taken from <https://renewbariatrics.com/obesity-rank-by-countries/>
 
 Notice that for some measures, low scores are good and for others high scores are good. We will take care of that issues in the ranking section.
 
@@ -59,7 +60,7 @@ head(df)
     ## 21       84.66 3.264543    5.9   46.0    0.754
     ## 36       94.25 3.084253    4.5   16.0    0.845
 
-Getting the obesity data will require us to scrape the HTML tables from the rewewbariatrics website. We'll use the super easy-to-use Rvest package to do that.
+Getting the obesity data will require us to scrape the HTML tables from the renewbariatrics website. We'll use the super easy-to-use Rvest package to do that.
 
 ``` r
 library(rvest)
@@ -119,7 +120,6 @@ df %>%
   semi_join(weight_df, by='country')%>%
   head()
 ```
-
     ##      country ccodealp wef_chiv epi_pm25 who_tobt wef_imort who_alc2000
     ## 1 Azerbaijan      AZE     0.20    94.30     23.5      30.8        2.14
     ## 2  Argentina      ARG     0.40   100.00     25.3      12.7        7.93
@@ -183,7 +183,7 @@ This is super interesting and it's worth spending some time examining.
 
 5.  Higher alcohol consumption is associated with LOWER infant mortality and higher human development. Interesting. Perhaps this has something to do with the extra leisure time brought on by more development. Poorer countries do not have the luxury of sitting around and drinking beers with their buddies.
 
-6.  Obesity is negatively correlated to happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there's something about the diet of rich people that contributes to their higher rates of obesity (hint: it's probably the increased meat/animal product consumption). In a later post I'll look at timeseries of GDP growth and Body mass index changes to test this out.
+6.  Obesity is negatively correlated with happiness, but fairly strongly positively associated with the level of human development. Infant mortality and obesity are conversely related. Someting about being rich and modern is making us fat. Ever noticed how all the old British monarchs were fat? I would wager there's something about the diet of rich people that contributes to their higher rates of obesity (hint: it's probably the increased meat/animal product consumption). In a later post I'll look at time series data of GDP growth and body mass index changes to test this out.
 
 There are plenty more interesting correlations, but these are just some of them.
 
@@ -256,7 +256,7 @@ Second, remember I mentioned that PC1 & PC2 only account for about 60% of the va
 
 4.  The African countries of Nigeria and Ghana seem to have the negative combo of both high infant mortality and tubercolosis coupled with HIV and bad public services.
 
-The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn't be learning anything. So ideally our analysis would match our intution, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions--or even recheck our data to make sure they're correct. That's the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.
+The geographic clustering of countries suggests that PCA is working pretty well to figure out how different countries are similar and different. Paradoxically, any kind of statistical learning procedure should conform (roughly) to our expectations, but if it were 100% as we expected, we wouldn't be learning anything. So ideally our analysis would match our intuition, but we hold out hope that there are a few wild cards thrown at us that force us to re-evaluate our assumptions--or even recheck our data to make sure they're correct. That's the beauty of data-driven methods: they can present us with a new perspective on a topic we thought we understood.
 
 In some cases of many useful PCs, you might want to also visualize PC3 vs PC4
 =============================================================================
