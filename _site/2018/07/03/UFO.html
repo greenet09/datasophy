@@ -49,12 +49,17 @@
 <a href="http://www.nuforc.org/"> nuforc</a></p>
 
 <h1 id="my-ufo-sighting-in-san-diego-california">My UFO Sighting in San Diego, California</h1>
-<p>This topic has interested me ever since I saw a UFO in the middle of broad daylight in San Diego, CA in the 3rd grade. It was just another Sunday afternoon at the local park in La Mesa, CA. My friend and I watched as a shiny, silver disk floated effortlessly and silently in the blue sky and shot across the lengths of entire clouds instantaneously. I distinctly remember the way in which the sun glared off the metallic exterior of the craft–it was just like the UFOs in the movies. Shocked, we ran and told our parents, who then came and observed the flying saucer for another 10 minutes or so. Eventually, the UFO shot up into the atmosphere at a speed that an only be described as inhuman.</p>
+<p>This topic has interested me ever since I saw a UFO in the middle of broad daylight in the 3rd grade. It was just another Sunday afternoon at the local park in La Mesa, CA. My friend and I watched as a shiny, silver disk floated effortlessly and silently in the blue sky and shot across the lengths of entire clouds instantaneously. I distinctly remember the way in which the sun glared off the metallic exterior of the craft–it was just like the UFOs in the movies. Shocked, we ran and told our parents, who then came and observed the flying saucer for another 10 minutes or so. Eventually, the UFO shot up into the atmosphere at a speed that an only be described as humanly impossible.</p>
 
 <p>Ever since then I’ve tried to figure out what exactly UFOs might be. Could a government be so stupid as to test new technology in the middle of the day in San Diego? Not likely. I thus have two alternative explanations for UFOs: 1) They are indeed alien spacecraft; and 2) they are human spacecraft from the future. Time travellers have come back to our time via these fast-as-light spacecraft–and that’s why they don’t care about appearing in the middle of the day.</p>
 
-<p>So, now that I’m sure you think I’m crazy (even my Mom, who wasn’t there that day, to this day doesn’t believe me), let’s see if we can find anything that might help us to decide whether UFOs are indeed human or alien.</p>
+<p>So, now that I’m sure you think I’m crazy (even my Mom, who wasn’t there that day, to this day doesn’t believe me), let’s see if we can find anything that might help us to decide whether UFOs are indeed human or alien. By the way, I tried to find a report near the same time as my sighting, and I couldn’t find anything.</p>
 
+<p>So, with that little anecdote behind us, let’s see if we can find anything in these 80,000+ UFO sighting reports that might help us to decide whether UFOs are indeed human or alien. At the very least, if we want to maximize our chances of seeing a UFO, we might learn where and when to look for one.</p>
+
+<p>In the course of this investigation, we’ll be using a host of analytical techniques, from text mining, visualization, and even a couple statistical tests. Let’s begin.</p>
+
+<p>Clean up and start aggregating and counting</p>
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">ggmap</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
@@ -63,7 +68,9 @@
 </span><span class="c1">#delete any cities with punctuation. focus on US</span><span class="w">
 </span><span class="c1">#if you put df[which...] then you get a data frame back. we just want vec of index</span><span class="w">
 </span><span class="n">bad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">which</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="s1">'[[:punct:]]'</span><span class="p">))</span><span class="w">
+
 </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">-</span><span class="n">bad</span><span class="p">,]</span><span class="w">
+
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
@@ -82,8 +89,8 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidytext</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#START UFO TEXT PROCESSING HERE</span><span class="w">
-</span><span class="n">big</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+<p>Now we can use the great tidytext package to dive into the reportings and see what we can find in the text descriptions.</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">comments</span><span class="p">,</span><span class="w"> </span><span class="n">token</span><span class="o">=</span><span class="s1">'ngrams'</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">anti_join</span><span class="p">(</span><span class="n">stop_words</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">count</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
@@ -117,10 +124,6 @@
 </span><span class="n">mvt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="s1">'movement'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'movements'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
-</span><span class="c1">#type object</span><span class="w">
-</span><span class="n">obj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'object'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'objects'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">unite</span><span class="p">(</span><span class="s1">'bigram'</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span><span class="w">
 
 </span><span class="n">speed</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'speed'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">word2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'speeds'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -128,66 +131,64 @@
 </span></code></pre></div></div>
 
 <h1 id="visualizing-ufo-characteristics-by-treemap">Visualizing UFO Characteristics by Treemap</h1>
+
 <p>Treemaps work by making the area of the rectangles proportional to some variable in our dataframe. In this case, we have counts of the bigrams, so we will set the size of the rectangles to reflect the count of each pair. Hopefully this will tell us something interesting about the most common characteristics of UFOs.</p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># library</span><span class="w">
-</span><span class="n">library</span><span class="p">(</span><span class="n">treemap</span><span class="p">)</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">treemap</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># treemap. the size of the box is proportional to its count among all speeds</span><span class="w">
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># treemap. the size of the box is proportional to its count among all lights</span><span class="w">
 </span><span class="n">treemap</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span><span class="w">
             </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
             </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
             </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
             </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of speed seen in UFO sightings'</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'UFO Speed Words'</span><span class="w">
             </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w">
-            </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
-            </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
-            </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
-            </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of objects seen in UFO sightings'</span><span class="w">
-            </span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-2.png" alt="" /></p>
+<p>As I expected, most people say that UFOs move at incredibly fast speeds. I like the description of “warp speed.” I’d say the UFO I saw also moved at a laws-of-physics-defyingly fast speed.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">mvt</span><span class="p">,</span><span class="w">
             </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
             </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
             </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
             </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of movements seen in UFO sightings'</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'UFO Movement Words'</span><span class="w">
             </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-3.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>It seems like there’s a definite pattern of UFOs having erratic and unsual kinds of movements.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">shapes</span><span class="p">,</span><span class="w">
             </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
             </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
             </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
             </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of shapes seen in UFO sightings'</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'UFO shape Words'</span><span class="w">
             </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-4.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>Interestingly lots of cigar-shaped and triangle shaped UFOs. I’ve never heard of Chevron/boomerang shaped UFOs before.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treemap</span><span class="p">(</span><span class="n">lights</span><span class="p">,</span><span class="w">
             </span><span class="n">index</span><span class="o">=</span><span class="s2">"bigram"</span><span class="p">,</span><span class="w">
             </span><span class="n">vSize</span><span class="o">=</span><span class="s2">"n"</span><span class="p">,</span><span class="w">
             </span><span class="n">type</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
             </span><span class="n">fontsize.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
-            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'Types of lights seen in UFO sightings'</span><span class="w">
+            </span><span class="n">title</span><span class="o">=</span><span class="w"> </span><span class="s1">'UFO Lights Words'</span><span class="w">
             </span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-3-5.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>It looks like most of the lights seen are either white, orange, red, or blue lights.</p>
 
 <h1 id="visualizing-by-lollipop-chart">Visualizing by Lollipop chart</h1>
 
@@ -214,9 +215,11 @@
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Which cities have had the most sightings?'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#count cities and shape</span><span class="w">
+</span><span class="c1">#seattle fireballs sounds like a basketball team</span><span class="w">
+</span><span class="c1">#get rid of others because they don't contain useful info</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'light'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -232,9 +235,7 @@
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-4-2.png" alt="" /></p>
-
-<h1 id="time-series-visualizations-of-ufo-sightings">Time series visualizations of UFO sightings</h1>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-7-2.png" alt="" /></p>
 
 <h2 id="using-lubridate-to-find-patterns-over-time">Using lubridate to find patterns over time</h2>
 
@@ -243,10 +244,11 @@
 <p>One really handy function is floor_date(), which allows you to essentially aggregate observations into buckets of time. In this sense it is similar to how you might choose your bin size in a histogram, but here we are choosing what interval of time to consider a ‘bin’ or ‘bucket.’ As you change the interval (i.e., unit of time), you’ll see different patterns emerge as the zoom level of the data increases and decreases. You’ll need to use your judgment to figure out which level of aggregation best fits your needs.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
 </span><span class="c1">#biggest single events reported one time tinley park 17 counts</span><span class="w">
 </span><span class="n">df</span><span class="o">$</span><span class="n">datetime</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mdy_hm</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">datetime</span><span class="p">)</span><span class="w">
 
-</span><span class="c1">#6 month intervals</span><span class="w">
+</span><span class="c1">#1 year intervals</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'1 year'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -260,37 +262,38 @@
     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which states most? </span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which states have the most sightings? </span><span class="w">
+</span><span class="c1">#ca, wa, fl, tx, ny</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">count</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">slice</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 10 x 2
-##    state     n
-##    &lt;chr&gt; &lt;int&gt;
-##  1    ca  8998
-##  2    wa  3949
-##  3    fl  3792
-##  4    tx  3445
-##  5    ny  2635
-##  6    il  2460
-##  7    az  2454
-##  8    pa  2406
-##  9    oh  2301
-## 10    mi  1930
-</code></pre></div></div>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#top 10 states</span><span class="w">
+    </span><span class="c1">## # A tibble: 10 x 2</span><span class="w">
+    </span><span class="c1">##    state     n</span><span class="w">
+    </span><span class="c1">##    &lt;chr&gt; &lt;int&gt;</span><span class="w">
+    </span><span class="c1">##  1    ca  8998</span><span class="w">
+    </span><span class="c1">##  2    wa  3949</span><span class="w">
+    </span><span class="c1">##  3    fl  3792</span><span class="w">
+    </span><span class="c1">##  4    tx  3445</span><span class="w">
+    </span><span class="c1">##  5    ny  2635</span><span class="w">
+    </span><span class="c1">##  6    il  2460</span><span class="w">
+    </span><span class="c1">##  7    az  2454</span><span class="w">
+    </span><span class="c1">##  8    pa  2406</span><span class="w">
+    </span><span class="c1">##  9    oh  2301</span><span class="w">
+    </span><span class="c1">## 10    mi  1930</span><span class="w">
+</span></code></pre></div></div>
+<p>California, Washington and Florida see the most UFOs.</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#top 10 states by sightings</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'1 year'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'fl'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">,</span><span class="s1">'ny'</span><span class="p">,</span><span class="w"> </span><span class="s1">'il'</span><span class="p">,</span><span class="s1">'az'</span><span class="p">,</span><span class="s1">'pa'</span><span class="p">,</span><span class="s1">'oh'</span><span class="p">,</span><span class="s1">'mi'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
   </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
     </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
@@ -298,7 +301,11 @@
     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-2.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-8-2.png" alt="" /></p>
+
+<p>California has dominated with sightings, though Washington took over in the mid 1990s for just a year or so.</p>
+
+<p>What about which cities have seen the most UFOs?</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#which cities?</span><span class="w">
 </span><span class="n">cities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -320,26 +327,17 @@
 ##  7     houston
 ##  8     chicago
 ##  9      tucson
-## 10       miami
+## 10       miami ``` r #tracking 10 cities df %&gt;%   mutate(datetime = floor_date(datetime, unit='5 years'))%&gt;%   group_by(datetime, city)%&gt;%   filter(datetime &gt; '1970-01-01')%&gt;%   filter(city %in% c('seattle', 'phoenix','portland', 'san diego', 'los angeles', 'houston', 'las vegas', 'chicago', 'tucson', 'miami'))%&gt;%   summarize(cts = n())%&gt;%   ggplot(aes(datetime, cts, color=city), alpha=.8)+   geom_line(size=1)+   scale_x_datetime(date_breaks = '5 years', date_labels = '%Y') +    theme(plot.subtitle = element_text(vjust = 1), 
+plot.caption = element_text(vjust = 1), 
+panel.background = element_rect(fill = NA)) +labs(title = "5 year aggregate UFO Sightings Since 1970", 
+x = "Date", y = "Sightings") ```
 </code></pre></div></div>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#tracking 10 cities</span><span class="w">
-</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'5 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1970-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">city</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'seattle'</span><span class="p">,</span><span class="w"> </span><span class="s1">'phoenix'</span><span class="p">,</span><span class="s1">'portland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'san diego'</span><span class="p">,</span><span class="w"> </span><span class="s1">'los angeles'</span><span class="p">,</span><span class="w"> </span><span class="s1">'houston'</span><span class="p">,</span><span class="w"> </span><span class="s1">'las vegas'</span><span class="p">,</span><span class="w"> </span><span class="s1">'chicago'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tucson'</span><span class="p">,</span><span class="w"> </span><span class="s1">'miami'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">city</span><span class="p">))</span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
-  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
-  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
-    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
-    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"5 year aggregate UFO Sightings Since 1970"</span><span class="p">,</span><span class="w"> 
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-3.png" alt="" /></p>
+<p>We can see that all of the top cities have experienced roughly the same increase in sightings over time. Seattle and Phoenix stand out as having the most in a single year. Strangely sightings seem to have decreased since 2008.</p>
+
+<p>How have UFO shapes changed over time? Are cigar-shaped UFOs as common as disk-shaped ones?</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#how have shapes changed over time? 1 year aggregrates</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
@@ -354,9 +352,13 @@
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-4.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#in 5 year intervals proportion of shapes sighted. interesting. min 5% shapes</span><span class="w">
+<p>Looks like lights are the most common now, though it wasn’t always that way. Disks dominated back in the day.</p>
+
+<p>Instead of counts, let’s look at the proportion of each shape sighted</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#5 year intervals proportion of shapes sighted</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'5 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -366,20 +368,23 @@
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cts</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">cts</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">.05</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">shape</span><span class="p">))</span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.6</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Freq of shape in 5 year aggregate sightings since 1950'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-5.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#proportion of shapes in CA, WA, and TX in 20 year intervals</span><span class="w">
-</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'20 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+<p>Since the 1950s disks have gone down massively in popularity, while triangles rose to the top in the late 1980s, then were finally overtaken by lights. Spheres and circles have remained stable at around 10% of all sightings.</p>
+
+<p>How have shapes changed in California over the past 50 years?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'10 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1950-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
-  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'ca'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">shape</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'changed'</span><span class="p">,</span><span class="w"> </span><span class="s1">'changing'</span><span class="p">,</span><span class="w"> </span><span class="s1">'other'</span><span class="p">,</span><span class="w"> </span><span class="s1">'unknown'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">ungroup</span><span class="p">()</span><span class="o">%&gt;%</span><span class="w">
@@ -391,10 +396,10 @@
   </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'20 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
-  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Freq of shape in 20 year aggregate sightings since 1950'</span><span class="p">)</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Freq of shape in 10 year aggregate sightings since 1950'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-5-6.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" /></p>
 
 <p>What can we learn from this?</p>
 
@@ -402,19 +407,183 @@
   <li>Disks peaked in the 50s and hardly ever appear now.</li>
   <li>Lights were rare until the late 70s and then exploded.</li>
   <li>Triangles seem to have peaked in the early 80s.</li>
-  <li>Fireballs started in the late 80s and quickly died out.</li>
+  <li>Fireballs started in the late 80s and quickly</li>
   <li>Cigars died out in the 1960s. Aliens’ leases expired and they traded up for lights?</li>
 </ol>
 
-<p>All this makes me skeptical: What’s happening to the classic metallic flying saucers that I saw that afternoon in San Diego? Where did they go?</p>
+<h1 id="are-ufo-sightings-seasonal-are-there-daily-patterns-to-sightings-what-time-of-day-is-best-to-maximize-ones-chances-of-seeing-a-ufo">Are UFO sightings seasonal? Are there daily patterns to sightings? What time of day is best to maximize one’s chances of seeing a UFO?</h1>
 
-<p>While analyzing these data I discovered some interesting and lesser-known sightings. If you want to actually see what happened in some of these locations, you can watch the videos of the incidents here:</p>
+<p>To do this we use the super useful functions from lubridate that extract the different pieces of time out the datetime objects we created. Once we mutate the new columns it’s super easy to groupby on these times and make nice visuals.</p>
 
-<p>Tinley Park: <a href="http://www.chicagotribune.com/suburbs/daily-southtown/lifestyles/ct-stc-dekker-column-st-0924-20150922-story.html">http://www.chicagotribune.com/suburbs/daily-southtown/lifestyles/ct-stc-dekker-column-st-0924-20150922-story.html</a></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">day</span><span class="p">(</span><span class="n">datetime</span><span class="p">),</span><span class="w">
+         </span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">datetime</span><span class="p">),</span><span class="w">
+         </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">datetime</span><span class="p">),</span><span class="w">
+         </span><span class="n">hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hour</span><span class="p">(</span><span class="n">datetime</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+<p>Now we are ready to start grouping and visualizing</p>
 
-<p>Rockford: <a href="http://97zokonline.com/5-times-people-saw-ufos-over-rockford-videos/">http://97zokonline.com/5-times-people-saw-ufos-over-rockford-videos/</a></p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#I'm only showing 24 years' of data here due to size limits. But the same pattern persists up till 2014.</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">month</span><span class="p">),</span><span class="w"> 
+</span><span class="n">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">day</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">filter</span><span class="p">(</span><span class="n">between</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="m">1950</span><span class="p">,</span><span class="w"> </span><span class="m">1974</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">year</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'free_y'</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Are UFO sightings seasonal? Apparently yes'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<h1 id="can-we-visualize-the-descriptions-of-ufos-as-a-network-of-nodes-and-edges">Can we visualize the descriptions of UFOs as a network of nodes and edges?</h1>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-14-1.png" alt="" /></p>
+
+<p>Wow, this was really unexpected. UFOs are extremely seasonal! Nearly every year shows the same distribution of sightings through the months with a big peak between June and July in almost every year. Now what could possibly explain that?</p>
+
+<p>What about time of day? Do more sightings happen in the morning or evening?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">group_by</span><span class="p">(</span><span class="n">day</span><span class="p">,</span><span class="w"> </span><span class="n">hour</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">day</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Does time of UFO sighting depend on the day of the month?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-15-1.png" alt="" /></p>
+
+<p>Again, I’m surprised by the fact the vast majority of sightings are happening around 9-11 p.m. Of course at night our vision isn’t good and there are so many other things in the sky competing for our attention. I realize now that my daytime sighting was a very rare event. Also, I want to draw your attention to two peaks visible in this chart: first, the big peak on the 4th and the big peak around midnight on the 1st. We’ll explain these shortly.</p>
+
+<p>How rare? Let’s estimate the probability of seeing a UFO at 3 p.m.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w">
+</span><span class="n">cum_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cumsum</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">slice</span><span class="p">(</span><span class="m">15</span><span class="o">:</span><span class="m">17</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 3 x 4
+##    hour     n       freq  cum_prob
+##   &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1    14  1042 0.01588608 0.3131784
+## 2    15  1147 0.01748689 0.3306653
+## 3    16  1282 0.01954507 0.3502104
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#plot the estimated cumulative probability of sightings by hour in the day</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w">
+</span><span class="n">cum_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cumsum</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="n">cum_prob</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_area</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.33</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Estimated cumulative probability of UFO sightings by hour in the day'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-16-1.png" alt="" /></p>
+
+<p>Apparently only about 1.7% of all sightings occur between 3-4 p.m. We can also see that only about 33% of sightings occur between midnight and 3 p.m. The vast majority are happening between 8-10 p.m. More specifically, nearly 50% of sightings occur between 8 p.m. and midnight.</p>
+
+<p>What about the day of the week? Do more sightings happen on the weekends? After all, I saw mine on a Sunday afternoon. We’ll use Lubridate’s useful wday() to get the name of the day.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">dow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wday</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">dow</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">dow</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">dow</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-17-1.png" alt="" /></p>
+
+<p>Yes, there is a big uptick in sightings on Saturdays and Sundays. But does this always hold in all months?
+If you’re familiar with Simpson’s Paradox, then you’d know that sometimes aggregate results can be completely at odds with results broken down into groups.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">dow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wday</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">dow</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">dow</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">dow</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_col</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">guides</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-17-2.png" alt="" /></p>
+
+<p>As suspected, there are considerably more sightings on the weekends. Again, there is more time to stare into the sky and drink alcohol, all of which would explain the increase in sightings. This gradual ramping up of sightings through the week is similar to what you would see in retail sales: Monday is slow then shopping picks up through the week, with the biggest bumps on the weekends. This suggests to me that the sightings are more of a function of people’s weekly schedules/habits than any real alien phenomenon.</p>
+
+<p>Just to be sure this weekend bump is real, let’s conduct a Chi-Squared significance test of the day of the week.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">mutate</span><span class="p">(</span><span class="n">dow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wday</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">dow</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ungroup</span><span class="p">()</span><span class="w">
+</span><span class="n">cn</span><span class="w">
+
+    </span><span class="c1">## # A tibble: 7 x 2</span><span class="w">
+    </span><span class="c1">##     dow     n</span><span class="w">
+    </span><span class="c1">##   &lt;ord&gt; &lt;int&gt;</span><span class="w">
+    </span><span class="c1">## 1   Sun  9533</span><span class="w">
+    </span><span class="c1">## 2   Mon  8191</span><span class="w">
+    </span><span class="c1">## 3   Tue  8856</span><span class="w">
+    </span><span class="c1">## 4   Wed  9053</span><span class="w">
+    </span><span class="c1">## 5   Thu  8989</span><span class="w">
+    </span><span class="c1">## 6   Fri  9477</span><span class="w">
+    </span><span class="c1">## 7   Sat 11493</span><span class="w">
+
+	</span><span class="c1">#Goodness of fit test: </span><span class="w">
+</span><span class="c1">#Null hypothesis: Each day is equally likely for a UFO sighting</span><span class="w">
+</span><span class="c1">#What is the probability of getting the observed DOW counts we did under this condition?</span><span class="w">
+</span><span class="n">chisq.test</span><span class="p">(</span><span class="n">cn</span><span class="o">$</span><span class="n">n</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1">## </span><span class="w">
+    </span><span class="c1">##  Chi-squared test for given probabilities</span><span class="w">
+    </span><span class="c1">## </span><span class="w">
+    </span><span class="c1">## data:  cn$n</span><span class="w">
+    </span><span class="c1">## X-squared = 687.82, df = 6, p-value &lt; 2.2e-16</span><span class="w">
+</span></code></pre></div></div>
+<p>Yup, it’s almost certain that weekend sighting rates are substantially higher than weekday. Given this p-value, there’s basically 0 chance that UFO sightings are equally probable on any day of the week.</p>
+
+<p>Are there certain months where UFO sightings occur at different times?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">group_by</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">,</span><span class="w"> </span><span class="s1">'fl'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ny'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span><span class="n">month</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Why does July have a big spike?'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-19-1.png" alt="" /></p>
+
+<p>This graphic shows us that for the top 5 states, they all pretty much have similar UFO sighting times throughout the day. But yet in July we notice that spike is coming from more sightings past 8 p.m. Let’s investigate further… could it have something to do with the Fourth of July holiday? More people are outside and looking at the sky for fireworks, maybe?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">group_by</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">filter</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'ca'</span><span class="p">,</span><span class="w"> </span><span class="s1">'wa'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tx'</span><span class="p">,</span><span class="w"> </span><span class="s1">'fl'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ny'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">count</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">day</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">day</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'People apparently can\'t tell fireworks and UFOs apart'</span><span class="p">)</span><span class="o">+</span><span class="w">
+</span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-20-1.png" alt="" /></p>
+
+<p>Yup, sure enough the two days with the biggest spikes in sightings are indeed the Fourth of July and New Year’s Eve, two days where tons of people shoot fireworks into the night sky. Sadly, I was hoping there would be a much cooler reason for the mysterious spike in sightings during the middle of the year–but it turns out it’s just people mistaking fireworks for alien spacecraft.</p>
+
+<p>The only cyclical pattern in UFO sightings is that of Americans’ weekly routines. There doesn’t seem to be any evidence that people see UFOs beyond what they would be expected to given their increased leisure time and consumption of alcohol on weekends and holidays. With this section concluded, let’s go back to the textual descriptions and see if we can find anything of interest there.</p>
+
+<h1 id="can-we-visualize-the-descriptions-as-a-network-of-nodes-and-edges-to-find-patterns-in-the-ufo-descriptions">Can we visualize the descriptions as a network of nodes and edges to find patterns in the UFO descriptions?</h1>
+
 <p>The igraph and ggraph packages will help us here. And I highly recommend the free online book <a href="https://www.tidytextmining.com/ngrams.html">https://www.tidytextmining.com/ngrams.html</a>, by David Robinson and Julia Silge.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#need 3 things after have igraph object: node edges and labels</span><span class="w">
@@ -423,22 +592,10 @@
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
-
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big_graph</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bigrams_filtered</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">graph_from_data_frame</span><span class="p">()</span><span class="w">
 
-</span><span class="c1">#then we use ggraph to use ggplot's grammar of graphics approach to visualizing these links</span><span class="w">
-</span><span class="n">ggraph</span><span class="p">(</span><span class="n">big_graph</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_edge_link</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_node_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-  </span><span class="n">geom_node_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
-  </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># improved version: via the great tutorial here https://www.tidytextmining.com/ngrams.html</span><span class="w">
 </span><span class="c1">#for some reason the edge_alpha argument isn't changing. It should make alpha levels proportional to the number of occurrences in the text.</span><span class="w">
 </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">grid</span><span class="o">::</span><span class="n">arrow</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">.05</span><span class="p">,</span><span class="w"> </span><span class="s2">"inches"</span><span class="p">))</span><span class="w">
 
@@ -450,9 +607,11 @@
   </span><span class="n">theme_void</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-6-2.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-21-1.png" alt="" /></p>
 
 <p>This graph gives a nice overview of the major descriptions of the UFOs. The direction of the arrows indicate whether the word was the 1st or 2nd word in the bigram pair. I’m definitely going to need to look more deeply into this package as there are a lot of setting to tweak. For now, the aes(edge_alpha)=n does not appear to be working…</p>
+
+<p>To conclude our analysis, let’s focus on geographic locations to see if we can find any “hotspots” or patterns in sightings.</p>
 
 <h1 id="geographic-visualization-of-ufo-hotspots">Geographic visualization of UFO hotspots</h1>
 
@@ -463,9 +622,9 @@
 </span><span class="n">us_map</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-22-1.png" alt="" /></p>
 
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#cities with more than 1 sighting</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#cities with over 50 sightings</span><span class="w">
 </span><span class="n">over_50</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">count</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="n">state</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -496,6 +655,7 @@
   </span><span class="n">ungroup</span><span class="p">()</span><span class="w">
 </span><span class="n">head</span><span class="p">(</span><span class="n">lat_long</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
+
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 6 x 4
 ##       location        lon      lat   cts
 ##          &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
@@ -516,9 +676,9 @@
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'US UFO sightings since 1944'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-23-1.png" alt="" /></p>
 
-<p>Do you see any patterns here? Besides most sightings happening in big cities, it is interesting to see a big vertical gap in the midwest where almost no sightings occur. I wonder if perhaps the geographical features (mountains/rivers, for example) are playing a role. There’s almost a vertical line splitting the US into two halves. Where are the UFOs in Kansas, Nebraska, South Dakota, and North Dakota? There also appears to be a gap in sightings in the region that appears to be Northern Nevada and Idaho.</p>
+<p>Do you see any patterns here? Besides most sightings happening in big cities on the coasts (where most of the people live), it is interesting to see a big vertical gap in the midwest where almost no sightings occur. I wonder if perhaps the geographical features (mountains/rivers, for example) are playing a role. There’s almost a vertical line splitting the US into two halves. Where are the UFOs in Kansas, Nebraska, South Dakota, and North Dakota? There also appears to be a gap in sightings in the region that appears to be Northern Nevada and Idaho.</p>
 
 <p>Can we zoom in to better see?</p>
 
@@ -532,11 +692,12 @@
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Why no UFOs in Idaho?'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-24-1.png" alt="" /></p>
 
 <p>Clearly the bigger the population the more opportunity for sightings. It could just be the relatively sparsely populated areas that account for the lack of sightings. Or it could be that UFOs have an aversion to potatoes. I’m not sure we’ll ever know. For now, I’m sticking with the potato hypothesis.</p>
 
 <h1 id="lastly-can-we-visualize-key-words-in-different-regions">Lastly, can we visualize key words in different regions?</h1>
+
 <p>In order to do this we will look at single words that are most common in each region.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span><span class="w">
@@ -582,11 +743,11 @@
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Key words from UFO sightings around the US'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-25-1.png" alt="" /></p>
 
 <p>OK, I’m going to end it here. Partly because figuring out how to get the map above to contain just the right amount of words took more time than I’d like to admit, and because it’s time to move on to another analysis.</p>
 
-<p>What can we learn from the above graphic? Well, first you should note that I removed the word “red” and “night” to make room for other, possibly more meaningful words. So if you see some red stuff at night, there’s a good chance it’s a UFO. Go log in to NUFORC and make a report.</p>
+<p>What can we learn from the above graphic? Well, first you should note that I removed the word “red” and “night” to make room for other, possibly more meaningful words. So if you see some red stuff at night, there’s a good chance it’s a UFO.</p>
 
 <p>Second, we can see that fast glowing fireballs seem more common around Seattle. Though in Southern Texas there also seems to be many green fireballs. By the way, the Seattle Fireballs would make an awesome NBA team name. Just saying.</p>
 
@@ -594,23 +755,24 @@
 
 <h1 id="final-theory-to-explain-the-lack-of-ufos-near-idaho">Final theory to explain the lack of UFOs near Idaho…</h1>
 
-<p>Is it just a coincidence that the areas without many UFOs seem to be located in the general area (Groom Lake, NV) where Area 51 is claimed to exist? 
-The truth is out there…</p>
+<p>Is it just a coincidence that the areas without many UFOs seem to be located in the general area where Area 51 is claimed to exist? Probably not. Most of the terrain is just sand and mountains with very few people around to spot a UFO. I would be very surprised if we found a location with a very small population but a lot of UFO sightings. That would indicate something abnormal is happening there.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_map</span><span class="p">(</span><span class="s1">'Groom Lake, Nevada'</span><span class="p">,</span><span class="w"> </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">maptype</span><span class="o">=</span><span class="s1">'terrain'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">ggmap</span><span class="p">()</span><span class="w">
-</span><span class="n">m</span><span class="w">
-</span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
-
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
+</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lat_long</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">cts</span><span class="p">))</span><span class="o">+</span><span class="w">
   </span><span class="n">scale_color_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="o">=</span><span class="s1">'red'</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="o">+</span><span class="w">
   </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Sightings surrounding Area 51'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-11-2.png" alt="" /></p>
+<p><img src="ufos_files/figure-markdown_github/unnamed-chunk-26-1.png" alt="" /></p>
+
+<p>Based on this graphic there don’t seem to be any unpopulated areas with high amounts of UFOs: this leads us to the conclusion that UFO reports are basically a function of having more people around to make UFO reports–not any underlying increase in unidentified flying objects.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Based on these data, I would say that probably a very high percentage of these reports are total BS. Once we figured out that 4th of July and New Year’s Eve fireworks were responsible for the big spikes in reports, I lost a lot of faith in the quality of the reports. The fact that many more are reported on weekends is also dubious: most of the reports are probably just a result of people with more free time on their hands. Also, given the huge numbers of mere “lights” that people see, there are just so many possible things they could be. It’s also troubling that there are almost no more sightings of “cigar-shaped” or ‘disk-shaped’ flying saucers anymore. For my money, I would only trust sightings that occur in daylight and under good, clear weather conditions. The truth, apparently, is still out there.</p>
 
   </div><a class="u-url" href="/datasophy/2018/07/03/UFO.html" hidden></a>
 </article>
