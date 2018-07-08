@@ -314,24 +314,37 @@
 
 </span><span class="n">cities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cities</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w">
 </span><span class="n">cities</span><span class="w">
+
+    </span><span class="c1">## # A tibble: 10 x 1</span><span class="w">
+    </span><span class="c1">##           city</span><span class="w">
+    </span><span class="c1">##          &lt;chr&gt;</span><span class="w">
+    </span><span class="c1">##  1     seattle</span><span class="w">
+    </span><span class="c1">##  2     phoenix</span><span class="w">
+    </span><span class="c1">##  3    portland</span><span class="w">
+    </span><span class="c1">##  4   las vegas</span><span class="w">
+    </span><span class="c1">##  5 los angeles</span><span class="w">
+    </span><span class="c1">##  6   san diego</span><span class="w">
+    </span><span class="c1">##  7     houston</span><span class="w">
+    </span><span class="c1">##  8     chicago</span><span class="w">
+    </span><span class="c1">##  9      tucson</span><span class="w">
+    </span><span class="c1">## 10       miami</span><span class="w">
 </span></code></pre></div></div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 10 x 1
-##           city
-##          &lt;chr&gt;
-##  1     seattle
-##  2     phoenix
-##  3    portland
-##  4   las vegas
-##  5 los angeles
-##  6   san diego
-##  7     houston
-##  8     chicago
-##  9      tucson
-## 10       miami ``` How have UFO sightings changed over time in the most popular UFO locations?  ``` r #tracking 10 cities df %&gt;%   mutate(datetime = floor_date(datetime, unit='5 years'))%&gt;%   group_by(datetime, city)%&gt;%   filter(datetime &gt; '1970-01-01')%&gt;%   filter(city %in% c('seattle', 'phoenix','portland', 'san diego', 'los angeles', 'houston', 'las vegas', 'chicago', 'tucson', 'miami'))%&gt;%   summarize(cts = n())%&gt;%   ggplot(aes(datetime, cts, color=city), alpha=.8)+   geom_line(size=1)+   scale_x_datetime(date_breaks = '5 years', date_labels = '%Y') +    theme(plot.subtitle = element_text(vjust = 1), 
-plot.caption = element_text(vjust = 1), 
-panel.background = element_rect(fill = NA)) +labs(title = "5 year aggregate UFO Sightings Since 1970", 
-x = "Date", y = "Sightings") ```
-</code></pre></div></div>
+<p>How have UFO sightings changed over time in the most popular UFO locations?</p>
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#tracking 10 cities</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floor_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s1">'5 years'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">datetime</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">'1970-01-01'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">city</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'seattle'</span><span class="p">,</span><span class="w"> </span><span class="s1">'phoenix'</span><span class="p">,</span><span class="s1">'portland'</span><span class="p">,</span><span class="w"> </span><span class="s1">'san diego'</span><span class="p">,</span><span class="w"> </span><span class="s1">'los angeles'</span><span class="p">,</span><span class="w"> </span><span class="s1">'houston'</span><span class="p">,</span><span class="w"> </span><span class="s1">'las vegas'</span><span class="p">,</span><span class="w"> </span><span class="s1">'chicago'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tucson'</span><span class="p">,</span><span class="w"> </span><span class="s1">'miami'</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">cts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span><span class="w"> </span><span class="n">cts</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">city</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">.8</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5 years'</span><span class="p">,</span><span class="w"> </span><span class="n">date_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'%Y'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"5 year aggregate UFO Sightings Since 1970"</span><span class="p">,</span><span class="w"> 
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sightings"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
 <p><img src="ufos_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
 
