@@ -688,34 +688,28 @@ ch_link
 
 You should be able to click on the legend on the right side to highlight/turn off different categories. Take a moment to play around with it.
 
-Will our world map work with Plotly...? Sadly, not quite. 
+And now the world map with Plotly.
 ``` r
-world_map_small <- world_map %>%
-  mutate(region = tolower(region))%>%
-  filter(region %in% df$name)%>%
-  group_by(region)%>%
-  slice(1)
-
-label_map <-  ggplot()+
-  geom_map(data=world_map_small, map=world_map,aes(map_id = region),
-           fill="white", color="black")+
-  geom_point(data=lat_long_conf,
-             aes(long, lat, size=num_conflicts),color='red', alpha=.5)+
-  theme_minimal()+
-  labs(title='Violent conflicts since 1400 AD')+
-  guides(size=FALSE)+
-  labs(x='', y='')
-
-pltly <- ggplotly(label_map)
-chart_link = api_create(pltly, filename="worldmap")
-chart_link
+p <- df %>%
+  plot_geo(
+    locationmode = 'country names',  color = I("red"))%>%
+  add_markers(
+    y = ~latitude, x = ~longitude,
+    locations = ~Name,
+    text = ~paste(Common.Name), size=I(2) 
+  )%>%
+    layout(title = 'Violent conflicts since 1400', geo = g1)
+  
+options(browser = 'false')
+  chart_link = api_create(p, filename="choropleth-ag")
+  chart_link
 ```
 
-<iframe src="https://plot.ly/~greenet09/3.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
+<iframe src="https://plot.ly/~greenet09/5.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
 </iframe>
 
-**Note:** *I've managed to at least decrease the size of the original map data frame from 99000 obs (which was too big to use Plotly with) to simply a few hundred. But now the underlying map is not displaying, though you can see the outline of the continents from the conflict locations.*
+**Note:** *I just need to figure out how to add country borders and get rid of Antarctica.*
 
-So that's it for now. The takeaway here is that for normal plotting needs, Plotly works great. But if you have big dataframes of coordinates for world maps, you might need to figure out another way to make interactive graphs.
+So that's it for now. The takeaway here is that for normal plotting needs, Plotly works great. But if you have big dataframes of coordinates for world maps, it could be a problem. I'll need to spend some more time with Plotly for sure.
 
 
