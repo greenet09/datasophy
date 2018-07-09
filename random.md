@@ -10,15 +10,15 @@ permalink: /random/
 
 The newest one: S'more. We found her on the side of the road, near a park in Taipei.
 
-![smore](./assets/smore1.jpg){:class="img-responsive", :height="300px" width="400px"}
+![smore](./random/assets/smore1.jpg){:class="img-responsive", :height="300px" width="400px"}
 
 She's even got the perfect hipster moustache. 
 
-![smore1](./assets/smore2.jpg){:class="img-responsive", :height="300px" width="400px"}
+![smore1](./random/assets/smore2.jpg){:class="img-responsive", :height="300px" width="400px"}
 
 These guys love to snuggle together in the sink.
 
-![othercats](./assets/cats.jpg){:class="img-responsive", :height="300px" width="400px"}
+![othercats](./random/assets/cats.jpg){:class="img-responsive", :height="300px" width="400px"}
 
 Dr. Greger's book convinced me to go vegan after nearly 17 years as a vegetarian. Here's a talk that explains his overall approach to nutrition and medicine.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lXXXygDRyBU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
