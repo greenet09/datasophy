@@ -3,6 +3,8 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+comments: true
 ---
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
-<img src="assets/grass.jpeg" alt="taipei" width="800px" height="200px"/>
+<img src="assets/phil1.png" alt="phil" width="800px" height="200px"/>
+<img src="assets/planck.png" alt="phil" width="800px" height="200px"/>
