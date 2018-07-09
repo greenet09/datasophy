@@ -2,7 +2,7 @@
 layout: post
 title:  "What are Binding Corporate Rules and How are They Useful?"
 date:   2018-06-22 17:58:36 +0800
-categories: 
+comments: true
 ---
 
 What are BCRs?
