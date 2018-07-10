@@ -3,6 +3,7 @@ layout: page
 title: Writing
 permalink: /writing/
 ---
+<img src="./assets/hume.png" alt="phil" width="600px" height="150px"/>
 
 Here's where I post longer writings about data, law, and whatever else happens to float my boat. 
 

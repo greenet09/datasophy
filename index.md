@@ -6,5 +6,5 @@ layout: home
 comments: true
 ---
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
-<img src="assets/phil1.png" alt="phil" width="800px" height="200px"/>
-<img src="assets/planck.png" alt="phil" width="800px" height="200px"/>
+<img src="assets/phil2.png" alt="phil" width="700px" height="160px"/>
+
