@@ -690,7 +690,7 @@ You should be able to click on the legend on the right side to highlight/turn of
 
 And now the world map with Plotly.
 ``` r
-p <- df %>%
+world_maps <- df %>%
   plot_geo(
     locationmode = 'country names',  color = I("red"))%>%
   add_markers(
@@ -701,11 +701,11 @@ p <- df %>%
     layout(title = 'Violent conflicts since 1400', geo = g1)
   
 options(browser = 'false')
-  chart_link = api_create(p, filename="choropleth-ag")
+  chart_link = api_create(world_maps, filename="choropleth-wm")
   chart_link
 ```
 
-<iframe src="https://plot.ly/~greenet09/5.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
+<iframe src="https://plot.ly/~greenet09/2.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
 </iframe>
 
 **Note:** *I just need to figure out how to add country borders and get rid of Antarctica.*
