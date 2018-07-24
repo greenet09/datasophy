@@ -690,22 +690,30 @@ You should be able to click on the legend on the right side to highlight/turn of
 
 And now the world map with Plotly.
 ``` r
-world_maps <- df %>%
+# specify map projection/options
+g <- list(
+  showframe = FALSE,
+  showcoastlines = FALSE,
+  projection = list(type = 'Mercator')
+)
+
+
+worl_map <- df %>%
   plot_geo(
     locationmode = 'country names',  color = I("red"))%>%
   add_markers(
     y = ~latitude, x = ~longitude,
     locations = ~Name,
-    text = ~paste(Common.Name), size=I(2) 
+    text = ~paste(TotalFatalities), size=I(2) 
   )%>%
-    layout(title = 'Violent conflicts since 1400', geo = g1)
+    layout(title = 'Violent conflicts since 1400', geo = g)
   
 options(browser = 'false')
-  chart_link = api_create(world_maps, filename="choropleth-wm")
+  chart_link = api_create(worl_map, filename="worl_map")
   chart_link
 ```
 
-<iframe src="https://plot.ly/~greenet09/3.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
+<iframe src="https://plot.ly/~greenet09/17.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameBorder="0">
 </iframe>
 
 

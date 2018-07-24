@@ -705,22 +705,30 @@
 <p>You should be able to click on the legend on the right side to highlight/turn off different categories. Take a moment to play around with it.</p>
 
 <p>And now the world map with Plotly.</p>
-<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">world_maps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># specify map projection/options</span><span class="w">
+</span><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
+  </span><span class="n">showframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">showcoastlines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+  </span><span class="n">projection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mercator'</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">worl_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">plot_geo</span><span class="p">(</span><span class="w">
     </span><span class="n">locationmode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'country names'</span><span class="p">,</span><span class="w">  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">I</span><span class="p">(</span><span class="s2">"red"</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">add_markers</span><span class="p">(</span><span class="w">
     </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">longitude</span><span class="p">,</span><span class="w">
     </span><span class="n">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">Name</span><span class="p">,</span><span class="w">
-    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">paste</span><span class="p">(</span><span class="n">Common.Name</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">I</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="w"> 
+    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">paste</span><span class="p">(</span><span class="n">TotalFatalities</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">I</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="w"> 
   </span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">layout</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Violent conflicts since 1400'</span><span class="p">,</span><span class="w"> </span><span class="n">geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="m">1</span><span class="p">)</span><span class="w">
+    </span><span class="n">layout</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Violent conflicts since 1400'</span><span class="p">,</span><span class="w"> </span><span class="n">geo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">)</span><span class="w">
   
 </span><span class="n">options</span><span class="p">(</span><span class="n">browser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'false'</span><span class="p">)</span><span class="w">
-  </span><span class="n">chart_link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">api_create</span><span class="p">(</span><span class="n">world_maps</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="o">=</span><span class="s2">"choropleth-wm"</span><span class="p">)</span><span class="w">
+  </span><span class="n">chart_link</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">api_create</span><span class="p">(</span><span class="n">worl_map</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="o">=</span><span class="s2">"worl_map"</span><span class="p">)</span><span class="w">
   </span><span class="n">chart_link</span><span class="w">
 </span></code></pre></div></div>
 
-<iframe src="https://plot.ly/~greenet09/3.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameborder="0">
+<iframe src="https://plot.ly/~greenet09/17.embed" width="800" height="600" id="igraph" scrolling="no" seamless="seamless" frameborder="0">
 </iframe>
 
 <p><strong>Note:</strong> <em>I just need to figure out how to add country borders and get rid of Antarctica.</em></p>
