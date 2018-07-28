@@ -516,9 +516,9 @@ The South definitely kills more and prefers lethal injection with the occasional
 
 <p>We will again use the Rvest package to download population data. Here I took the 2000 census numbers because I thought it was a reasonable midpoint for these data that span from 1977-2018.</p>
 
-<p>In the interest of space, I’m going to leave out the nitty gritty wrangling and focus on the results.</p>
+<p>In the interest of space, I’m going to leave out the nitty gritty wrangling and focus on the results.  With the wrangling done, we can now plot a map of executions per 100,000 residents.</p>
 
-<p>With the wrangling done, we can now plot a map of executions per 100,000 residents 2000. If you’re doing any kind of geographical plotting on US maps, I suggest using the fiftystater package, which contains dataframes with latitude and longitudes and state abbreviations. You just need to make sure that your dataframe with the data you want to plot uses the EXACT same spelling/format of states as the fiftystater package.</p>
+<p>If you’re doing any kind of geographical plotting on US maps, I suggest using the fiftystater package, which contains dataframes with latitude and longitudes and state abbreviations. You just need to make sure that your dataframe with the data you want to plot uses the EXACT same spelling/format of states as the fiftystater package.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">df_plot_cap</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">map_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">State.y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
   </span><span class="n">geom_map</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">per_100k</span><span class="p">),</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fifty_states</span><span class="p">)</span><span class="o">+</span><span class="w">

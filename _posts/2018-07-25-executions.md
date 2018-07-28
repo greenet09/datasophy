@@ -501,9 +501,9 @@ We already know that there are lots of executions in the South and that Texas ex
 
 We will again use the Rvest package to download population data. Here I took the 2000 census numbers because I thought it was a reasonable midpoint for these data that span from 1977-2018.
 
-In the interest of space, I'm going to leave out the nitty gritty wrangling and focus on the results.
+In the interest of space, I'm going to leave out the nitty gritty wrangling and focus on the results.  With the wrangling done, we can now plot a map of executions per 100,000 residents. 
 
-With the wrangling done, we can now plot a map of executions per 100,000 residents 2000. If you're doing any kind of geographical plotting on US maps, I suggest using the fiftystater package, which contains dataframes with latitude and longitudes and state abbreviations. You just need to make sure that your dataframe with the data you want to plot uses the EXACT same spelling/format of states as the fiftystater package.
+If you're doing any kind of geographical plotting on US maps, I suggest using the fiftystater package, which contains dataframes with latitude and longitudes and state abbreviations. You just need to make sure that your dataframe with the data you want to plot uses the EXACT same spelling/format of states as the fiftystater package.
 
 ``` r
 ggplot(df_plot_cap, aes(map_id = State.y)) + 
