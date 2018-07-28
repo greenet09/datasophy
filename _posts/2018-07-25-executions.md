@@ -435,6 +435,8 @@ df %>%
 
 ![](executions_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
+Wow, whites volunteer to be executed at about 15 times the rate of blacks.
+
 Why would this difference exist? My best guess is that some of the black inmates are unjustly on death row: they didn't commit the crime, so of course they wouldn't want to die. This is essentially what happened in documentary, "Fourteen Days in May," which I highly recommend. Especially if you support the death penalty. 
 
 The prop.test() function is kind of funky in that it requires a table object in a certain format. We transpose it to make it 'long.' But the prop.test() does not tell us which groups are different, only that there is a difference among the groups.
