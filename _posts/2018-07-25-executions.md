@@ -591,7 +591,7 @@ Lingering questions
 ===================
 
 * Why are blacks executed at a younger age than whites? 
-* Why are so many death row inmates executed at 40 years of age?
+* Why are so many death row inmates executed at 40 years of age? What's special about this age?
 * Why do whites volunteer for execution so often, relative to blacks? 
 Or rather, why is it that black death row inmates almost never volunteer to be killed by the state?
 
