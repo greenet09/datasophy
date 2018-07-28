@@ -587,8 +587,15 @@ Also, in order to keep the visuals under control, we had to subset to those who 
 
 So there you have it. There don't seem to be any obvious patterns from the geographic distribution of executions, but at the very least you have a list of psychopaths to read about on Wikipedia. I suggest starting with Manuel Pardo of Florida, who was an ex-cop turned 'vigilante' who became obsessed with killing Florida drug dealers.
 
-Lingering questions
+Lingering Thoughts and Questions
 ===================
+
+It's interesting to see that states that execute many prisoners tend to have the highest murder rates (e.g., South Carolina, Missouri, Alabama, Louisiana). This would seem to contradict the idea that the death penalty serves as deterrent for murder. Naively, if the executions served as deterrent then we would see a very low murder rate in these states. Of course, those states could argue that their higher murder rates would be EVEN higher had they not had a death penalty. 
+
+The issue is much too complicated to tease out through simple charts, as the cause and effect is not clear. For example, do high execution rates cause high murder rates, or do high murder rates cause high execution rates? The relationship could go either way, and a lot will depend on how often murderers are caught, and how successful state legal teams are in getting juries to decide on the death penalty as punishment. If you're interesting in looking more deeply into this, here's a useful chart: < https://en.wikipedia.org/wiki/Gun_violence_in_the_United_States_by_state>
+
+For further research
+=======
 
 * Why are blacks executed at a younger age than whites? 
 * Why are so many death row inmates executed at 40 years of age? What's special about this age?
