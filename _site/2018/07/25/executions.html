@@ -458,7 +458,7 @@ The South definitely kills more and prefers lethal injection with the occasional
 
 <p>The prop.test() function is kind of funky in that it requires a table object in a certain format. We transpose it to make it ‘long.’ But the prop.test() does not tell us which groups are different, only that there is a difference among the groups.</p>
 
-<p>We recieve the warning because the cell counts are too low (&lt; 5) for some racial groups such as Native American.</p>
+<p>We receive the warning because the cell counts are too low (&lt; 5) for some racial groups such as Native American.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yes_tab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Volunteer</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">Race</span><span class="p">))[,</span><span class="nf">c</span><span class="p">(</span><span class="s1">'Yes'</span><span class="p">,</span><span class="w"> </span><span class="s1">'No'</span><span class="p">)]</span><span class="w">
 </span><span class="n">prop.test</span><span class="p">(</span><span class="n">yes_tab</span><span class="p">)</span><span class="w">
@@ -615,6 +615,12 @@ The South definitely kills more and prefers lethal injection with the occasional
   <li>Why do whites volunteer for execution so often, relative to blacks? 
 Or rather, why is it that black death row inmates almost never volunteer to be killed by the state?</li>
 </ul>
+
+<p><em>Update</em>:</p>
+
+<p>After finding the paper <em>“Killing the Willing: ‘Volunteers,’ Suicide and Competency,</em>” 103 Michigan Law Review 939 (2005), by J. Blume, some of the differences in volunteerism may be due to the fact that whites commit suicide at nearly three times the rates of blacks (the ethnic group with the highest rate is Alaskan Native/American Indian). The paper also mentions that those who volunteer to be executed were much more likely to have had substance abuse issues or have attempted suicide in the past.</p>
+
+<p>Could the volunteerism just be an artifact of the this phenomenon?</p>
 
 <p>In the next blog post, we’ll create a machine learning model that will attempt to predict whether an inmate will volunteer to be executed.</p>
 

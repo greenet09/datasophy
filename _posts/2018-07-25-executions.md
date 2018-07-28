@@ -441,7 +441,7 @@ Why would this difference exist? My best guess is that some of the black inmates
 
 The prop.test() function is kind of funky in that it requires a table object in a certain format. We transpose it to make it 'long.' But the prop.test() does not tell us which groups are different, only that there is a difference among the groups.
 
-We recieve the warning because the cell counts are too low (&lt; 5) for some racial groups such as Native American.
+We receive the warning because the cell counts are too low (&lt; 5) for some racial groups such as Native American.
 
 ``` r
 yes_tab <- t(table(df$Volunteer, df$Race))[,c('Yes', 'No')]
@@ -604,5 +604,11 @@ For further research
 * Why are so many death row inmates executed at 40 years of age? What's special about this age?
 * Why do whites volunteer for execution so often, relative to blacks? 
 Or rather, why is it that black death row inmates almost never volunteer to be killed by the state?
+
+*Update*: 
+
+After finding the paper *"Killing the Willing: 'Volunteers,' Suicide and Competency,*" 103 Michigan Law Review 939 (2005), by J. Blume, some of the differences in volunteerism may be due to the fact that whites commit suicide at nearly three times the rates of blacks (the ethnic group with the highest rate is Alaskan Native/American Indian). The paper also mentions that those who volunteer to be executed were much more likely to have had substance abuse issues or have attempted suicide in the past.
+
+Could the volunteerism just be an artifact of the this phenomenon?
 
 In the next blog post, we'll create a machine learning model that will attempt to predict whether an inmate will volunteer to be executed.
