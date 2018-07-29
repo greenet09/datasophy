@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Tutorial: ggplot2 Heatmaps and Car Deaths | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Tutorial: ggplot2 Heatmaps and Car Deaths" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How Dangerous is Driving in Thailand, really?" />
+<meta property="og:description" content="How Dangerous is Driving in Thailand, really?" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/07/29/heatmaps.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/07/29/heatmaps.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-29T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/07/29/heatmaps.html"},"url":"http://localhost:4000/datasophy/2018/07/29/heatmaps.html","description":"How Dangerous is Driving in Thailand, really?","headline":"Tutorial: ggplot2 Heatmaps and Car Deaths","@type":"BlogPosting","dateModified":"2018-07-29T00:00:00+08:00","datePublished":"2018-07-29T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Tutorial: ggplot2 Heatmaps and Car Deaths</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-29T00:00:00+08:00" itemprop="datePublished">Jul 29, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="how-dangerous-is-driving-in-thailand-really">How Dangerous is Driving in Thailand, really?</h1>
+
+<p>So in this tutorial we’ll be making a heatmap of the most dangerous countries to drive in, as measured by the number of traffic deaths per 100,000 residents. We’ll use ggplot2 to visualize our results.</p>
+
+<p>It’s often said that driving in Thailand is dangerous. The lack of traffic law enforcement and the crazy driving by taxi and minivan drivers certainly is not helping to improve Thailand’s image as a country with dangerous roads. Let’s look at whether the data support this impression.</p>
+
+<p>To investigate, we’ll use data from Gapminder (https://www.gapminder.org/) that are a collection of WHO and Euromonitor data. As mentioned above, they tracked road deaths per 100,000 residents from 1985-2008, but for many countries, data in some years are missing. In order to keep Thailand, I had to sacrifice by adding many missing values.</p>
+
+<p>And by the way, I highly recommend the book “Factfulness” written by the people who created the Gapminder organization. Anywho.</p>
+
+<h1 id="clean-up-and-read-in-the-data">Clean up and read in the data</h1>
+
+<p>You can see below that a lot of data are missing.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readxl</span><span class="o">::</span><span class="n">read_xlsx</span><span class="p">(</span><span class="s1">'cars.xlsx'</span><span class="p">)</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">df</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'country'</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">glimpse</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Observations: 148
+## Variables: 25
+## $ country  &lt;chr&gt; "Albania", "Argentina", "Armenia", "Australia", "Aust...
+## $ `1985.0` &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
+   
+## # A tibble: 6 x 25
+##   country   `1985.0` `1986.0` `1987.0` `1988.0` `1989.0` `1990.0` `1991.0`
+##   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Albania         NA       NA       NA       NA       NA       NA       NA
+## 2 Argentina       NA       NA       NA       NA       NA       NA       NA
+## 3 Armenia         NA       NA       NA       NA       NA       NA       NA
+## 4 Australia       NA       NA       NA       NA       NA       NA       NA
+## 5 Austria         NA       NA       NA       NA       NA       NA       NA
+## 6 Azerbaij~       NA       NA       NA       NA       NA       NA       NA
+</code></pre></div></div>
+
+<p>To figure out which countries are missing the most data, we can use the following command to count NAs for each row. This will come in handy later when we use this column to filter our results for our heatmap. If we liked, we could have also used a percent missing threshold. We’ll keep it simple for now.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">na_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rowSums</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">.</span><span class="p">)))</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">na_count</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##      [,1]         [,2]
+## [1,] "Albania"    "23"
+## [2,] "Argentina"  "13"
+## [3,] "Armenia"    "23"
+## [4,] "Australia"  "14"
+## [5,] "Austria"    "14"
+## [6,] "Azerbaijan" "23"
+</code></pre></div></div>
+
+<h1 id="create-custom-color-palette">Create custom color palette</h1>
+
+<p>Let’s use the colorRampPalette function to make twenty-five levels of ‘orange/red’ for our heatmap gradient. Why twenty-five? We can see from the glimpse() function that the highest value of deaths is around 25 per 100,000. Notice that normally we could only use the ‘OrRd’ palette with 9 colors, but colorRampPalette() lets us extend that to any number. It’s a very useful function if you do a lot of visualization.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_pal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="s2">"OrRd"</span><span class="p">))(</span><span class="m">25</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Warning in brewer.pal(11, "OrRd"): n too large, allowed maximum for palette OrRd is 9
+## Returning the palette you asked for with that many colors
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_pal</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##  [1] "#FFF7EC" "#FEF2E0" "#FEEDD4" "#FEE8C8" "#FDE1BA" "#FDDAAC" "#FDD49E"
+##  [8] "#FDCB95" "#FDC38C" "#FDBB84" "#FCAB75" "#FC9C67" "#FC8D59" "#F77F53"
+## [15] "#F3724D" "#EF6548" "#E7533A" "#DF412C" "#D7301F" "#CB2014" "#BF100A"
+## [22] "#B30000" "#A10000" "#900000" "#7F0000"
+</code></pre></div></div>
+
+<h1 id="now-were-ready-to-plot-our-heatmap">Now we’re ready to plot our heatmap</h1>
+
+<p>One key feature is that we are basically subsetting countries that contain fewer than 18 NA values. Notice also that we set the scale_fill_gradientn’s color argument to our custom color gradient we created before. Also we set the na.value=’white’ so that the plot blends in with the white background.</p>
+
+<p>And if you haven’t made a heatmap before, remember it works best if you convert your dataframe to long format by using the gather() function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">na_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">18</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">13</span><span class="o">:</span><span class="m">25</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">gather</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="s1">'year'</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="o">=</span><span class="s1">'deaths'</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.factor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">year</span><span class="p">)))</span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">deaths</span><span class="p">),</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">deaths</span><span class="p">))</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_tile</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_gradientn</span><span class="p">(</span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_pal</span><span class="p">,</span><span class="w"> </span><span class="n">na.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'white'</span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blank"</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blank"</span><span class="p">),</span><span class="w"> </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blank"</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> 
+        </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">90</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">))</span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="o">=</span><span class="s1">'Most Dangerous Roads'</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s1">'Car Deaths per 100,000'</span><span class="p">,</span><span class="w">
+         </span><span class="n">fill</span><span class="o">=</span><span class="s1">'Deaths'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="roads_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" height="600px" width="800px" />.</p>
+
+<h1 id="results-the-bad">Results: The Bad</h1>
+
+<p>So it does appear that Thailand is relatively dangerous for driving. In 1996, they had the highest death rate of all 58 countries listed here. It looks like driving became safer in the 2000s, but there is a lot of missing data, so it’s hard to be sure.</p>
+
+<p>Interestingly, the Dominican Republic, Latvia, Estonia, Lithuania, Luxembourg, and Iceland (in certain years) do not fare well in terms of driver safety. The United States and New Zealand also don’t do very well. I’m guessing Iceland’s high death rates are due to bad weather in certain years. As far as Luxembourg is concerned, after some Googling I found out that it does indeed have one of the highest per capita traffic death rates in Europe. Are there lots of narrow, windy roads there? Bad drivers? Bad weather?</p>
+
+<h1 id="results-the-good">Results: The Good</h1>
+
+<p>On the positive side, Malta, Singapore, Moldova, Chile, Colombia, the UK, Sweden, and Ecuador seem particularly safe for drivers.</p>
+
+  </div>
+
+  
+
+  <a class="u-url" href="/datasophy/2018/07/29/heatmaps.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//https-greenet09-github-io-datasophy.disqus.com/count.js" async></script>
+  </body>
+
+</html>
