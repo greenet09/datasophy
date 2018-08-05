@@ -15,11 +15,13 @@ comments: true
 -   [Basepay to Total Compensation Ratio](#basepay-to-total-compensation-ratio)
 
 Looking at LA County employee salaries
-======================================
+-------------------------------------
 
-In this post, we will be examining which LA County emplooyes are getting paid the most and which departments and positions are taking home the most compensation. After looking through these charts, I have a feeling that some of you will be asking yourself, "Why don't I work for LA County?"
+In this post, we will be examining which LA County employees are getting paid the most and which departments and positions are taking home the most compensation. After looking through these charts, I have a feeling that some of you will be asking yourself, "Why don't I work for LA County?"
 
-In an effort to be transparent, LA has published this dataset that contains the salary information on 123,000 unique LA County employees over 5 years from 2013-2017. In total there are 524,113 rows and 20 variables. These variables include the name, department, position title, pension contributions, leave time payouts, total benefits, base pay, and total compensation (among several others) for each employee.
+The Data
+=======
+In an effort to be transparent, LA has published this dataset that contains the salary information on 123,000 unique LA County employees over 5 years from 2013-2017. In total there are 524,113 rows and 20 variables. These variables include the name, department, position title, pension contributions, leave time payouts, total benefits, base pay, and total compensation (among several others) for each employee. If you want to play around with the data yourself, you can find them <a href='https://data.lacounty.gov/Human-Resources/LA-County-Employee-Salaries/8rdv-6nb6'> here. </a>
 
  Quickly read in our data using fread():
 
@@ -38,7 +40,6 @@ The second thing is that you can see what appears to be two career levels for ma
 
 Leave Time Payouts
 ==================
-
 As has been noted in a few news articles, upon retirement some LA County employees can receive unused leave/vacation pay benefits of $100,000 or more. This has led some to suggest putting a cap on the number of unused sick, comp, holiday, and vacation days (e.g., 80 sick day maximum). Let's see roughly how many people are collecting huge leave time payouts.
 
 
@@ -50,7 +51,6 @@ If you look very carefully on the x-axis, you can just barely make out the coupl
 
 Comparing Overtime Pay for the Most Common Job Titles
 =====================================================
-
 Here we will look and distributions of over time pay among the 10 most common job titles. ![](la_salary_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 We can see that most of these common jobs don't have much overtime pay, but for sheriffs, sergeants, and firefighters there is substantial overtime pay. In fact, for the average fire fighter, it looks like she takes home about at least $25,000 in overtime per year.
@@ -138,7 +138,7 @@ All the high base-pay employees appear to be doctors and all the high extra pay 
 One interesting thing about this chart is that you can make out a kind of 'fork' in the scatter of high-earning employees: right at about $120,000 base pay, people either tend to go upwards and bank extra compensation in the form of time leave and overtime, or they tend to keep relatively low extra pay but get much higher base pay. It looks like sheriffs and firefighters tend to do the former, while medical doctors go the latter route.
 
 Conlusion
-=========
+--------
 
 I was surprised to learn that county employees could make this much money. I never realized that some police and firefighters were working so much overtime. I'd be curious to hear from some of these people: do they think their work is being fairly compensated? Just judging by the numbers here, I'd be willing to wager most do. According to the LA Times article referenced above, a lot of the big compensation packages are the result of the unions' bargaining power. 
 

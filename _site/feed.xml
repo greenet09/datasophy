@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-05T22:05:32+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: LA County Employee Salaries Visualized</title><link href="http://localhost:4000/datasophy/2018/08/05/la-employees.html" rel="alternate" type="text/html" title="Data Analysis: LA County Employee Salaries Visualized" /><published>2018-08-05T00:00:00+08:00</published><updated>2018-08-05T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/05/la-employees</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/05/la-employees.html">&lt;ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-05T22:14:32+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: LA County Employee Salaries Visualized</title><link href="http://localhost:4000/datasophy/2018/08/05/la-employees.html" rel="alternate" type="text/html" title="Data Analysis: LA County Employee Salaries Visualized" /><published>2018-08-05T00:00:00+08:00</published><updated>2018-08-05T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/05/la-employees</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/05/la-employees.html">&lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#looking-at-la-county-employee-salaries&quot;&gt;Looking at LA County employee salaries&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#leave-time-payouts&quot;&gt;Leave Time Payouts&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#comparing-overtime-pay-for-the-most-common-job-titles&quot;&gt;Comparing Overtime Pay for the Most Common Job Titles&lt;/a&gt;&lt;/li&gt;
@@ -10,11 +10,12 @@
   &lt;li&gt;&lt;a href=&quot;#basepay-to-total-compensation-ratio&quot;&gt;Basepay to Total Compensation Ratio&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;looking-at-la-county-employee-salaries&quot;&gt;Looking at LA County employee salaries&lt;/h1&gt;
+&lt;h2 id=&quot;looking-at-la-county-employee-salaries&quot;&gt;Looking at LA County employee salaries&lt;/h2&gt;
 
-&lt;p&gt;In this post, we will be examining which LA County emplooyes are getting paid the most and which departments and positions are taking home the most compensation. After looking through these charts, I have a feeling that some of you will be asking yourself, “Why don’t I work for LA County?”&lt;/p&gt;
+&lt;p&gt;In this post, we will be examining which LA County employees are getting paid the most and which departments and positions are taking home the most compensation. After looking through these charts, I have a feeling that some of you will be asking yourself, “Why don’t I work for LA County?”&lt;/p&gt;
 
-&lt;p&gt;In an effort to be transparent, LA has published this dataset that contains the salary information on 123,000 unique LA County employees over 5 years from 2013-2017. In total there are 524,113 rows and 20 variables. These variables include the name, department, position title, pension contributions, leave time payouts, total benefits, base pay, and total compensation (among several others) for each employee.&lt;/p&gt;
+&lt;h1 id=&quot;the-data&quot;&gt;The Data&lt;/h1&gt;
+&lt;p&gt;In an effort to be transparent, LA has published this dataset that contains the salary information on 123,000 unique LA County employees over 5 years from 2013-2017. In total there are 524,113 rows and 20 variables. These variables include the name, department, position title, pension contributions, leave time payouts, total benefits, base pay, and total compensation (among several others) for each employee. If you want to play around with the data yourself, you can find them &lt;a href=&quot;https://data.lacounty.gov/Human-Resources/LA-County-Employee-Salaries/8rdv-6nb6&quot;&gt; here. &lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Quickly read in our data using fread():&lt;/p&gt;
 
@@ -33,7 +34,6 @@ Read 524113 rows and 20 (of 20) columns from 0.088 GB file in 00:00:04
 &lt;p&gt;The second thing is that you can see what appears to be two career levels for many of the departments (i.e., a bimodal distribution of salaries). For example, there seem to be two tiers: an entry tier where people make around $70-80k and a more advanced career tier where many make $150k or more. This is particularly clear for sheriffs and children and family services workers.&lt;/p&gt;
 
 &lt;h1 id=&quot;leave-time-payouts&quot;&gt;Leave Time Payouts&lt;/h1&gt;
-
 &lt;p&gt;As has been noted in a few news articles, upon retirement some LA County employees can receive unused leave/vacation pay benefits of $100,000 or more. This has led some to suggest putting a cap on the number of unused sick, comp, holiday, and vacation days (e.g., 80 sick day maximum). Let’s see roughly how many people are collecting huge leave time payouts.&lt;/p&gt;
 
 &lt;p&gt;Yes, indeed there is a very small but noticeable segment of employees that are collecting between $50-300k upon retirement. Part of this is due to union contracts that allow employees to accrue all these unused days and get them paid out in a lump sum, according to this article: &lt;a href=&quot;http://articles.latimes.com/2012/jan/07/local/la-me-county-pay-20120108&quot;&gt;http://articles.latimes.com/2012/jan/07/local/la-me-county-pay-20120108&lt;/a&gt;&lt;/p&gt;
@@ -43,7 +43,6 @@ Read 524113 rows and 20 (of 20) columns from 0.088 GB file in 00:00:04
 &lt;p&gt;If you look very carefully on the x-axis, you can just barely make out the couple hundred individuals with leave time payouts over $50,000. It’s not indicated in the chart above, but most of these big payouts come from the Sheriff’s department or from firefighters.&lt;/p&gt;
 
 &lt;h1 id=&quot;comparing-overtime-pay-for-the-most-common-job-titles&quot;&gt;Comparing Overtime Pay for the Most Common Job Titles&lt;/h1&gt;
-
 &lt;p&gt;Here we will look and distributions of over time pay among the 10 most common job titles. &lt;img src=&quot;la_salary_files/figure-markdown_github/unnamed-chunk-4-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We can see that most of these common jobs don’t have much overtime pay, but for sheriffs, sergeants, and firefighters there is substantial overtime pay. In fact, for the average fire fighter, it looks like she takes home about at least $25,000 in overtime per year.&lt;/p&gt;
@@ -124,7 +123,7 @@ Let’s look at which pay the highest base salary.&lt;/p&gt;
 
 &lt;p&gt;One interesting thing about this chart is that you can make out a kind of ‘fork’ in the scatter of high-earning employees: right at about $120,000 base pay, people either tend to go upwards and bank extra compensation in the form of time leave and overtime, or they tend to keep relatively low extra pay but get much higher base pay. It looks like sheriffs and firefighters tend to do the former, while medical doctors go the latter route.&lt;/p&gt;
 
-&lt;h1 id=&quot;conlusion&quot;&gt;Conlusion&lt;/h1&gt;
+&lt;h2 id=&quot;conlusion&quot;&gt;Conlusion&lt;/h2&gt;
 
 &lt;p&gt;I was surprised to learn that county employees could make this much money. I never realized that some police and firefighters were working so much overtime. I’d be curious to hear from some of these people: do they think their work is being fairly compensated? Just judging by the numbers here, I’d be willing to wager most do. According to the LA Times article referenced above, a lot of the big compensation packages are the result of the unions’ bargaining power.&lt;/p&gt;
 
