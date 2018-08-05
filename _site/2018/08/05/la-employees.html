@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data Analysis: LA County Employee Salaries Visualized | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data Analysis: LA County Employee Salaries Visualized" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Looking at LA County employee salaries Leave Time Payouts Comparing Overtime Pay for the Most Common Job Titles Which Employees are Banking the Most Overtime Earnings? Closer Look at Overtime Pay for Departments Base Pay For Different Job Titles Total Budgets: What is the total compensation paid by each department? Which Departments Receive Greatest Share of Compensation? Basepay to Total Compensation Ratio" />
+<meta property="og:description" content="Looking at LA County employee salaries Leave Time Payouts Comparing Overtime Pay for the Most Common Job Titles Which Employees are Banking the Most Overtime Earnings? Closer Look at Overtime Pay for Departments Base Pay For Different Job Titles Total Budgets: What is the total compensation paid by each department? Which Departments Receive Greatest Share of Compensation? Basepay to Total Compensation Ratio" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/08/05/la-employees.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/08/05/la-employees.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-05T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/08/05/la-employees.html"},"url":"http://localhost:4000/datasophy/2018/08/05/la-employees.html","description":"Looking at LA County employee salaries Leave Time Payouts Comparing Overtime Pay for the Most Common Job Titles Which Employees are Banking the Most Overtime Earnings? Closer Look at Overtime Pay for Departments Base Pay For Different Job Titles Total Budgets: What is the total compensation paid by each department? Which Departments Receive Greatest Share of Compensation? Basepay to Total Compensation Ratio","headline":"Data Analysis: LA County Employee Salaries Visualized","@type":"BlogPosting","dateModified":"2018-08-05T00:00:00+08:00","datePublished":"2018-08-05T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Analysis: LA County Employee Salaries Visualized</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-05T00:00:00+08:00" itemprop="datePublished">Aug 5, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul>
+  <li><a href="#looking-at-la-county-employee-salaries">Looking at LA County employee salaries</a></li>
+  <li><a href="#leave-time-payouts">Leave Time Payouts</a></li>
+  <li><a href="#comparing-overtime-pay-for-the-most-common-job-titles">Comparing Overtime Pay for the Most Common Job Titles</a></li>
+  <li><a href="#which-employees-are-banking-the-most-overtime-earnings">Which Employees are Banking the Most Overtime Earnings?</a></li>
+  <li><a href="#closer-look-at-overtime-pay-for-departments">Closer Look at Overtime Pay for Departments</a></li>
+  <li><a href="#base-pay-for-different-job-titles">Base Pay For Different Job Titles</a></li>
+  <li><a href="#total-budgets-what-is-the-total-compensation-paid-by-each-department">Total Budgets: What is the total compensation paid by each department?</a></li>
+  <li><a href="#which-departments-receive-greatest-share-of-compensation">Which Departments Receive Greatest Share of Compensation?</a></li>
+  <li><a href="#basepay-to-total-compensation-ratio">Basepay to Total Compensation Ratio</a></li>
+</ul>
+
+<h1 id="looking-at-la-county-employee-salaries">Looking at LA County employee salaries</h1>
+
+<p>In this post, we will be examining which LA County emplooyes are getting paid the most and which departments and positions are taking home the most compensation. After looking through these charts, I have a feeling that some of you will be asking yourself, “Why don’t I work for LA County?”</p>
+
+<p>In an effort to be transparent, LA has published this dataset that contains the salary information on 123,000 unique LA County employees over 5 years from 2013-2017. In total there are 524,113 rows and 20 variables. These variables include the name, department, position title, pension contributions, leave time payouts, total benefits, base pay, and total compensation (among several others) for each employee.</p>
+
+<p>Quickly read in our data using fread():</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
+Read 43.9% of 524113 rows
+Read 87.8% of 524113 rows
+Read 524113 rows and 20 (of 20) columns from 0.088 GB file in 00:00:04
+</code></pre></div></div>
+
+<p>Let’s start by looking at median salaries for some of the most common positions in LA County.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
+
+<p>A couple things: sheriffs and firefighters have a extremely long-tailed distributions of total compensation. The firefighter distribution is the widest of any, suggesting a huge variation in firefighter pay. A sizeable portion of them (the top 50% or so) are pulling in $200K+ per year. But overall it looks like the highest paid person comes from the LAC/USC hospital network.</p>
+
+<p>The second thing is that you can see what appears to be two career levels for many of the departments (i.e., a bimodal distribution of salaries). For example, there seem to be two tiers: an entry tier where people make around $70-80k and a more advanced career tier where many make $150k or more. This is particularly clear for sheriffs and children and family services workers.</p>
+
+<h1 id="leave-time-payouts">Leave Time Payouts</h1>
+
+<p>As has been noted in a few news articles, upon retirement some LA County employees can receive unused leave/vacation pay benefits of $100,000 or more. This has led some to suggest putting a cap on the number of unused sick, comp, holiday, and vacation days (e.g., 80 sick day maximum). Let’s see roughly how many people are collecting huge leave time payouts.</p>
+
+<p>Yes, indeed there is a very small but noticeable segment of employees that are collecting between $50-300k upon retirement. Part of this is due to union contracts that allow employees to accrue all these unused days and get them paid out in a lump sum, according to this article: <a href="http://articles.latimes.com/2012/jan/07/local/la-me-county-pay-20120108">http://articles.latimes.com/2012/jan/07/local/la-me-county-pay-20120108</a></p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>If you look very carefully on the x-axis, you can just barely make out the couple hundred individuals with leave time payouts over $50,000. It’s not indicated in the chart above, but most of these big payouts come from the Sheriff’s department or from firefighters.</p>
+
+<h1 id="comparing-overtime-pay-for-the-most-common-job-titles">Comparing Overtime Pay for the Most Common Job Titles</h1>
+
+<p>Here we will look and distributions of over time pay among the 10 most common job titles. <img src="la_salary_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>We can see that most of these common jobs don’t have much overtime pay, but for sheriffs, sergeants, and firefighters there is substantial overtime pay. In fact, for the average fire fighter, it looks like she takes home about at least $25,000 in overtime per year.</p>
+
+<h1 id="which-employees-are-banking-the-most-overtime-earnings">Which Employees are Banking the Most Overtime Earnings?</h1>
+
+<p>From the charts above, we can see some people are making hundreds of thousands in extra income from their overtime pay. Which people are these?</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>Again you can see just how many people are earning overtime pay over $50,000 per year. And there are some people, such as Thomas Ray, who have made at least half a million dollars in overtime in just two years. Keep in mind this graphic aggregates all years between 2013-2017, so some people’s names appear more than once.</p>
+
+<p>Prior to 2016, only one person made more than $225,000 in overtime, but that number has increased quite a bit since then. This is likely due to the spate of wildfires in California over the past years.</p>
+
+<p>To learn more about the specific people, you can check out this article:
+<a href="http://www.culvercityobserver.com/story/2018/06/14/opinion/los-angeles-firefighter-earns-half-a-million-via-overtime/7595.html">http://www.culvercityobserver.com/story/2018/06/14/opinion/los-angeles-firefighter-earns-half-a-million-via-overtime/7595.html</a></p>
+
+<h1 id="closer-look-at-overtime-pay-for-departments">Closer Look at Overtime Pay for Departments</h1>
+
+<p>As we’ve seen, some departments have vast amounts of overtime pay, while others have next to none. Let’s take a closer look by first filtering out anyone who makes less than $10,000 in overtime, and then counting the most common job titles among those not removed.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>This ECDF chart highlights the huge disparity in overtime earnings from the different departments. For example, 99% of Custody Assistants make less than $50k in overtime, but only 25% of Fire Captains make less than $50k in overtime!</p>
+
+<p>Fire Captains in the 95th percentile are making about $150k in overtime, compared to registered nurses in the same percentile bracket who would be making $50,000.</p>
+
+<h1 id="base-pay-for-different-job-titles">Base Pay For Different Job Titles</h1>
+
+<p>There is a huge amount of variation in base pay for different job titles. 
+Let’s look at which pay the highest base salary.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<p>We can see that pretty much every top-paying job is related to medicine. Neurosurgeons’ base pay is just slightly higher than anesthesiologists’ and onocologists’. These people are the cream of the crop. Notice that there are only a few hundred people with these jobs out of over 120,000 LA County employees.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>Looks like the legal and information departments pull down the biggest salaries. But there are relatively few people working in those departments. For example, there are only 52 employees in the Chief Information Office, but nearly 93,000 LA County Sheriffs.</p>
+
+<h1 id="total-budgets-what-is-the-total-compensation-paid-by-each-department">Total Budgets: What is the total compensation paid by each department?</h1>
+
+<p>Here we will try to estimate the total LA County compensation budget by adding up all the total compensation for</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+
+<p>We can see that Sheriffs makes up a big share of the total compensation, simply because there are so many employees. Each year the Sheriff’s department is spending about $2 billion dollars in employee compensation. Also note that the total Sheriffs budget for 2015 was about $4 Billion. This means about half of that budget goes towards employee compensation.</p>
+
+<p>Also we can see that the number of Sheriffs has gone down since 2013. There is currently a shortage of Sheriffs in LA County, and one effect of this shortage is that current Sheriffs will need to work more overtime. This is one reason why Sheriffs showed up on our chart of the jobs with the biggest amount of overtime pay.</p>
+
+<h1 id="which-departments-receive-greatest-share-of-compensation">Which Departments Receive Greatest Share of Compensation?</h1>
+
+<p>We’ll re-do the above chart and focus on the percentage of all LA County employee compensation by department. We already know the Sheriffs pay the most in compensation, but what % of all compensation is Sheriffs compensation?</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>We can think of this chart as showing how much of LA’s ‘compensation pie’ is going to each department. Of course we need police, but should LA really be spending over 20% of its compensation budget on Sheriffs? I’m not an expert, but that seems quite high to me.</p>
+
+<h1 id="basepay-to-total-compensation-ratio">Basepay to Total Compensation Ratio</h1>
+
+<p>Total compensation includes base pay, plus any pension contributions, medical benefits, overtime, leave time, bonuses and anything over and above base salary.</p>
+
+<p>In this chart, we will look at the jobs where employees tend to earn relatively low base pay but high amounts of total compensation pay. We do this by creating a ratio of the average extra compensation (total compensation - base earnings) and dividing by the average base salary.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
+
+<p>We can see an interesting u-shaped relationship between the total compensation ratio and the base pay. On the left side, we have jobs with relatively low base pay, but anything above the reference line at 1.0 indicates that on average, employees earn as much or more than their base pay in extra compensation(paid leave, bonuses, etc.). So a Section Manager earns about $50k base, but almost never earns overtime.</p>
+
+<p>In contrast, an Assistant Cook earns about $45k base, but earns on average another $45k or more in extra compensation (but keep in mind there are only about 9 Assistant Cooks). So Assistant cooks have a high overtime/base ratio. At the very top of this ratio are Senior Pilots in Fire Services, who earn quite a bit base salary ($150k) and then average over 1.5X that amount in extra compensation.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" /></p>
+
+<p>This slightly different version of the previous chart shows the departments and the relationship between base pay and extra pay (Total compensation - base pay). We see a pretty linear relationship here, with a few outliers. Notice that the standard deviation of extra pay is mapped to the size of the point. So for example, non-departmental, Sheriffs, and Fire Department employees have a big variation in extra compensation. In general, this chart reveals that the more your base pay is, the more compensation benefits you tend to receive. And if you’re a fire fighter, you tend to receive a lot more extra compensation than most other departments.</p>
+
+<p><img src="la_salary_files/figure-markdown_github/unnamed-chunk-13-1.png" alt="" /></p>
+
+<p>All the high base-pay employees appear to be doctors and all the high extra pay employees seem to be sheriffs. Ronald Brown was LA County’s top public defender, who recently retired.</p>
+
+<p>One interesting thing about this chart is that you can make out a kind of ‘fork’ in the scatter of high-earning employees: right at about $120,000 base pay, people either tend to go upwards and bank extra compensation in the form of time leave and overtime, or they tend to keep relatively low extra pay but get much higher base pay. It looks like sheriffs and firefighters tend to do the former, while medical doctors go the latter route.</p>
+
+<h1 id="conlusion">Conlusion</h1>
+
+<p>I was surprised to learn that county employees could make this much money. I never realized that some police and firefighters were working so much overtime. I’d be curious to hear from some of these people: do they think their work is being fairly compensated? Just judging by the numbers here, I’d be willing to wager most do. According to the LA Times article referenced above, a lot of the big compensation packages are the result of the unions’ bargaining power.</p>
+
+<p>Nevertheless, I wonder if it’s fair for there to be such a disparity in income for certain kinds of workers, particularly sheriffs and firefighters. It doesn’t seem reasonable to me that one firefighter could make $100,000 one year while another makes $600,000 in the same county. I’m all for paying people a fair wage, but what about other professions similarly needed in society that don’t receive anywhere near these kinds of payouts? Public school teachers, for example. If anyone has any LA county teachers’ salary data, let me know!</p>
+
+<p>Anyhow, for young people deciding on a career, I would definitely suggest looking at these kinds of city/county jobs, especially since there is a shortage of sheriffs and wildfires seem to be happening more than ever in California.</p>
+
+  </div>
+
+  
+
+  <a class="u-url" href="/datasophy/2018/08/05/la-employees.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//https-greenet09-github-io-datasophy.disqus.com/count.js" async></script>
+  </body>
+
+</html>
