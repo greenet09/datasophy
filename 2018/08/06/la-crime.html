@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data Analysis: Crime in LA | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data Analysis: Crime in LA" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Crime in LA Since 2010 Crimes Throughout the Day Streamgraph of Crime Counts from 2010-2018 Closer look at Seasonality of Crimes On Which Streets Do Crimes Occur? And Which Kinds of crimes? Mapping Crime in LA Where are marijuana related arrests? Mapping Prostitution Drunk Driving Illegal Asian Massage Parlors Conclusion" />
+<meta property="og:description" content="Crime in LA Since 2010 Crimes Throughout the Day Streamgraph of Crime Counts from 2010-2018 Closer look at Seasonality of Crimes On Which Streets Do Crimes Occur? And Which Kinds of crimes? Mapping Crime in LA Where are marijuana related arrests? Mapping Prostitution Drunk Driving Illegal Asian Massage Parlors Conclusion" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/08/06/la-crime.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/08/06/la-crime.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-06T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/08/06/la-crime.html"},"url":"http://localhost:4000/datasophy/2018/08/06/la-crime.html","description":"Crime in LA Since 2010 Crimes Throughout the Day Streamgraph of Crime Counts from 2010-2018 Closer look at Seasonality of Crimes On Which Streets Do Crimes Occur? And Which Kinds of crimes? Mapping Crime in LA Where are marijuana related arrests? Mapping Prostitution Drunk Driving Illegal Asian Massage Parlors Conclusion","headline":"Data Analysis: Crime in LA","@type":"BlogPosting","dateModified":"2018-08-06T00:00:00+08:00","datePublished":"2018-08-06T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Analysis: Crime in LA</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-06T00:00:00+08:00" itemprop="datePublished">Aug 6, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul>
+  <li><a href="#crime-in-la-since-2010">Crime in LA Since 2010</a></li>
+  <li><a href="#crimes-throughout-the-day">Crimes Throughout the Day</a></li>
+  <li><a href="#streamgraph-of-crime-counts-from-2010-2018">Streamgraph of Crime Counts from 2010-2018</a></li>
+  <li><a href="#closer-look-at-seasonality-of-crimes">Closer look at Seasonality of Crimes</a></li>
+  <li><a href="#on-which-streets-do-crimes-occur-and-which-kinds-of-crimes">On Which Streets Do Crimes Occur? And Which Kinds of crimes?</a></li>
+  <li><a href="#mapping-crime-in-la">Mapping Crime in LA</a></li>
+  <li><a href="#where-are-marijuana-related-arrests">Where are marijuana related arrests?</a></li>
+  <li><a href="#mapping-prostitution">Mapping Prostitution</a></li>
+  <li><a href="#drunk-driving">Drunk Driving</a></li>
+  <li><a href="#illegal-asian-massage-parlors">Illegal Asian Massage Parlors</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h1 id="crime-in-la-since-2010">Crime in LA Since 2010</h1>
+
+<p>The City of Los Angeles has provided the public with a large dataset consisting of over 1.1 million crime reports (rows) and 17 variables from 2010-2018. In this blog post, we’re going to take a look to see if we can better understand any patterns or trends in crimes in Los Angeles.</p>
+
+<p>You can obtain the dataset <a href="https://www.opendatanetwork.com/dataset/data.lacity.org/y8tr-7khq"> here</a></p>
+
+<p>Here is what the table looks like. We will need to do some light cleaning to take advantage of the geo-locations, dates, and times.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
+Read 98.8% of 1184331 rows
+Read 1184331 rows and 17 (of 17) columns from 0.186 GB file in 00:00:03
+
+## Observations: 1,184,331
+## Variables: 17
+## $ report.id                &lt;int&gt; 111421932, 121801235, 150604240, 1507...
+## $ arrest.date              &lt;chr&gt; "07/02/2016", "12/18/2016", "01/03/20...
+## $ time                     &lt;int&gt; 1845, 940, 1315, 2230, 1309, 1650, 21...
+## $ area.id                  &lt;int&gt; 14, 18, 6, 7, 14, 14, 15, 15, 19, 21,...
+## $ area.name                &lt;chr&gt; "Pacific", "Southeast", "Hollywood", ...
+## $ reporting.district       &lt;int&gt; 1411, 1822, 669, 721, 1427, 1443, 153...
+## $ age                      &lt;int&gt; 50, 38, 43, 20, 60, 40, 50, 17, 17, 4...
+## $ sex.code                 &lt;chr&gt; "M", "F", "M", "F", "M", "F", "F", "F...
+## $ descent.code             &lt;chr&gt; "H", "B", "O", "B", "W", "H", "A", "H...
+## $ charge.group.code        &lt;int&gt; 24, 24, 24, 6, 17, 24, NA, 4, NA, 24,...
+## $ charge.group.description &lt;chr&gt; "Miscellaneous Other Violations", "Mi...
+## $ arrest.type.code         &lt;chr&gt; "M", "M", "M", "M", "M", "M", "M", "M...
+## $ charge                   &lt;chr&gt; "LAMC", "LAMC", "71.02LAMC", "484(A)P...
+## $ charge.description       &lt;chr&gt; "LOS ANGELES MUNICIPAL CODE", "LOS AN...
+## $ address                  &lt;chr&gt; "BROOKS", "300 W  CENTURY            ...
+## $ cross.street             &lt;chr&gt; "OCEAN FRONT", "", "SANTA MONICA", ""...
+## $ location                 &lt;chr&gt; "(33.9918, -118.4791)", "(33.9456, -1...
+</code></pre></div></div>
+
+<p>#Top Crimes by Ethnicity</p>
+
+<p>Now that we’ve cleaned up some of the columns, let’s start by looking at counts of crimes. We will only consider the top 10 most common crimes and look at the counts by ethnicity. ‘b’ means ‘black,’ ‘w’ means ‘white,’ and ‘h’ means ‘hispanic.’</p>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>We can see some interesting differences in counts. For example, prostitution crime reports involve white suspects at about half the frequency as black suspects. Corporal injury on spouse seems to occur much more frequently for hispanic suspects. Drunk driving seems to be a major problem for hispanics, relative to whites or blacks; ditto for drinking in public. I’m going to go out on a limb here and speculate that the higher number alcohol-related crimes of hispanics is partly why the spousal injury counts are so high.</p>
+
+<p>Sitting/sleeping on the sidewalk is how the LAPD classifies homelessness: we can see that the frequency of homelessness for blacks is much higher than for hispanics.</p>
+
+<h1 id="crimes-throughout-the-day">Crimes Throughout the Day</h1>
+
+<p>It might be interesting to see which crimes are most common at each hour of the day. For example, what kind of crimes are more likely to be committed at 8 a.m. versus 8 p.m? We will confine ourself to the top four crimes in each one-hour bin of the day.</p>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>From this we can see that drunk driving makes up a large portion of late night crime, and that spousal abuse and drug-related crimes are common. Also, juveniles at this late hour would be flouting their curfews. Prostitution picks up around 4-5 a.m.</p>
+
+<p>As we get into the early morning, from 6-10 a.m., we see more homelessness-related crimes. Also at this point crimes are not being reported/committed very often relative to the peak crime time of about 2 a.m. Once school starts around 8 a.m., we can see truancy as a major crime (students skipping school).</p>
+
+<p>At midday, drinking in public becomes more frequent, and so does spousal abuse (again, there is likely a strong connection there).</p>
+
+<p>In the late afternoon, drinking in public increases and so does narcotics possession.</p>
+
+<p>In the evening around 6-7 p.m. drunk driving appears again and so does narcotics possession. Around 8, prostitution picks up again.</p>
+
+<p>In the late evening we can again see drunk driving and curfew related reports both increasing.</p>
+
+<h1 id="streamgraph-of-crime-counts-from-2010-2018">Streamgraph of Crime Counts from 2010-2018</h1>
+
+<p>If you haven’t seen a streamgraph before, they can be a little tricky to interpret. Basically you can imagine each type of crime as a “river” that expands or contracts over time in proportion to the number of that type of crime. This gives you a way of comparing, for each type of crime, how it has increased or decreased over time. One that decreases over time will get thinner, while one that increases will get wider.</p>
+
+<p>You can also look at the top left corner to get a pop-up of the exact count of the type of crime at that specific time.</p>
+
+<center>
+<b>Data-Driven Security Podcast guest+host names by year</b>
+<iframe style="max-width=100%" 
+        src="streamcrime.html" 
+        sandbox="allow-same-origin 
+        allow-scripts" width="100%" 
+        height="400" 
+        scrolling="no" 
+        seamless="seamless" 
+        frameBorder="0"></iframe>
+</center>
+
+<strong>Count of LA Crimes by type</strong> <br/>
+
+<center>
+<label style='padding-right:5px' for='htmlwidget-71dfb9976183e6a35b3f-select'></label><select id='htmlwidget-71dfb9976183e6a35b3f-select' style='visibility:hidden;'></select>
+</center>
+
+<script type="application/json" data-for="htmlwidget-71dfb9976183e6a35b3f">{"x":{"data":{"key":["","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other","","adw, not firearm, w/gbi","batt ex-spouse/fiancee/persn w/dating rel","battery on person","burglary","corporal injury on spouse/cohabitant/etc","curfew - juv only","drinking in public","drunk driving alcohol/drugs","fta after written promise","grand theft (over $400)","los angeles municipal code","open alcoholic bev in public park/place","possession controlled substance","possession narcotic controlled substance","prostitution","robbery","sit/lie/sleep sidewalk or street","take vehicle w/o owner's consent","violation of parole:felony","Other"],"value":[1516,595,512,425,657,1207,954,3973,3016,1147,922,752,198,827,1606,854,724,134,317,780,0,1558,610,457,414,634,1261,1086,4637,3076,1146,879,1173,592,898,1445,833,673,285,282,813,0,1442,565,487,442,711,1186,903,5215,3171,1133,831,2389,853,989,1606,936,669,190,299,836,0,1399,520,420,380,627,1060,607,3781,3049,1014,983,1609,369,886,1392,859,587,138,286,786,0,1322,500,435,400,651,1104,858,3882,2910,1014,1079,2050,470,938,1514,792,641,155,240,939,0,1413,540,441,404,777,1227,802,4828,3125,1233,1106,2531,557,932,1499,782,649,189,250,943,0,1454,597,478,435,725,1246,950,5317,3361,1214,1005,2717,591,1100,1769,839,698,281,282,973,0,1248,467,442,414,630,1088,490,3654,3040,1174,1240,1722,662,1045,1466,770,611,406,292,843,0,1914,559,430,392,789,1080,617,4366,3247,1406,1151,1148,669,1333,1730,997,597,685,297,995,0,1997,512,465,448,756,1192,552,5449,3003,1201,1138,776,792,1254,1557,853,560,750,311,838,0,2895,502,473,420,718,1197,385,5957,3218,1209,1130,705,955,1426,1559,858,631,968,297,847,0,2522,464,417,372,603,1021,320,4247,3008,961,1130,495,786,1404,1392,677,454,1162,302,713,0,1920,466,446,405,691,1016,322,4180,3176,944,984,642,941,1593,1461,852,464,1189,314,625,0,2409,509,457,426,643,1127,615,5401,3048,866,1032,675,1208,1730,1423,779,517,1211,297,518,0,2024,494,435,408,631,1152,323,3387,3469,842,949,478,1214,1875,1351,764,539,1057,347,369,0,2088,462,429,383,701,1025,240,2248,3208,769,1024,317,780,1895,1186,706,507,1313,333,321,0,2285,383,368,415,614,1064,298,2299,2857,812,989,342,1051,1912,1269,716,450,1176,297,326,0,2407,504,373,415,639,1153,378,1622,2755,695,935,223,1403,1933,1146,648,421,1046,298,276,0,3665,598,412,490,658,1330,246,2106,3343,921,980,234,1302,2311,1376,666,552,935,332,229,0,2586,473,416,459,544,1181,186,1466,2505,679,844,238,966,1374,657,522,477,658,345,216,0,3228,507,440,464,519,1194,166,1575,2418,845,212,321,1002,1094,187,698,516,806,363,220,0,2826,532,439,479,493,1184,106,1292,2421,708,180,249,794,983,143,600,523,708,367,221,0,2519,617,477,506,514,1288,100,1148,2416,787,161,218,732,897,100,666,521,637,468,203,0,2131,549,428,403,457,1201,71,801,2082,765,145,223,597,863,43,724,490,1092,454,179,0,2653,567,455,497,512,1194,74,827,2056,977,191,161,551,904,46,673,497,1493,450,200,0,2456,651,504,517,514,1311,67,1123,1743,802,189,164,766,905,31,608,509,1224,486,207,0,2528,593,458,503,543,1242,93,1127,2067,640,171,156,528,952,32,766,597,583,528,174,0,1764,575,443,515,452,1143,80,531,1679,500,139,112,326,758,28,684,521,443,542,150,0,1866,549,401,506,429,1082,52,568,1618,600,139,132,442,772,20,648,510,590,542,129,0,2068,603,417,505,482,1259,28,898,1536,565,144,157,438,772,22,510,532,1048,528,140,0,2479,657,511,585,425,1261,53,1057,1528,598,172,182,463,924,17,476,609,927,560,152,0,2107,607,474,521,405,1224,27,642,1465,542,148,132,315,758,13,399,558,579,534,132,0,2339,553,459,485,463,1090,31,778,1539,654,167,160,362,904,14,480,531,571,530,142,0],"date":["2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-01-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-04-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-07-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2010-10-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-01-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-04-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-07-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2011-10-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-01-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-04-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-07-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2012-10-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-01-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-04-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-07-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2013-10-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-01-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-04-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-07-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2014-10-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-01-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-04-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-07-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2015-10-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-01-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-04-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-07-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2016-10-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-01-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-04-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-07-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2017-10-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01","2018-01-01"]},"markers":null,"annotations":null,"offset":"wiggle","interactive":true,"interpolate":"cardinal","palette":"Spectral","text":"black","tooltip":"black","x_tick_interval":3,"x_tick_units":"month","x_tick_format":"%b%y","y_tick_count":5,"y_tick_format":",g","top":20,"right":40,"bottom":30,"left":50,"legend":false,"legend_label":"","fill":"brewer","label_col":"black","x_scale":"date"},"evals":[],"jsHooks":[]}</script>
+
+
+<p>Streamgraphs are nice for finding seasonal patterns in the frequency of events. We can see that crime is seasonal: the entire stream gets wider around July each year. We can see that part of that expansion is due primarily to drinking in public (in blue) that is expanding each July.</p>
+
+<p>Overall we see a decreasing trend in total crimes. Specifically after about October 2014, total crime counts decrease. Nevertheless, some crimes have increased: for example sitting/sleeping on the street was relatively rare before 2014, but then became more common. LA municipal code violations peaked in July 2011, but are relatively rare now.</p>
+
+<p>To see the decrease in total reported crimes, we can use a more traditional line graph.</p>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>Contrary to what Trump would have you believe, it appears as though crimes (at least those reported) are <em>decreasing</em> in the past decade. And this is in US city with one of the highest percentages of immigrants (roughly 35% of the population in LA County is an immigrant, or 3.5 million people). If anything, as more immigrants have arrived in the past decade, LA has been getting safer.</p>
+
+<h1 id="closer-look-at-seasonality-of-crimes">Closer look at Seasonality of Crimes</h1>
+
+<p>Are there patterns in the types of crimes committed in different months of the year? <img src="lacrime_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<p>Drunk driving peaks in January. Not surprisingly drinking in public peaks in the summer months and narcotic controlled substances as well. Peas and carrots, I suppose. I’m going to speculate that the FTA (Failure to Appear [in court]) appearing in the off-summer months is partly those people who were caught drinking/possessing drugs during the summer! But that’s just a wild guess.</p>
+
+<p>Also, now that weed is legalized, I’m sure a lot of those narcotics cases will disappear. Those are huge financial strain on the legal system.</p>
+
+<h1 id="on-which-streets-do-crimes-occur-and-which-kinds-of-crimes">On Which Streets Do Crimes Occur? And Which Kinds of crimes?</h1>
+
+<p>Here is a list of the most common charge codes to help interpret the graph below:</p>
+
+<ul>
+  <li>41.18 (d) LAMC- Sitting on public sidewalk</li>
+  <li>Most people who get arrested for DUI in California ultimately get charged with two separate misdemeanor offenses: driving under the influence of alcohol, under California Vehicle Code 23152(a) VC, and. driving with a blood alcohol content of 0.08% or greater, pursuant to California Vehicle Code 23152(b) VC</li>
+  <li>LAMC 41.27(c) Drinking in public -273.5(a) PC makes it illegal to injure a spouse, cohabitant or fellow parent in an act of domestic violence - 11350(a) HS makes it illegal to possess a controlled substance without a valid prescription.</li>
+  <li>PC 853.7, any person who willfully violates his or her written promise to appear in court is guilty of “failure to appear as misdemeanor” -11377 HS makes it a crime to possess methamphetamines for personal use without a valid prescription.</li>
+  <li>647(b) PC, it is unlawful to engage in or solicit prostitution</li>
+  <li>25620(a)BP, Open Container -20002(a)vc, Misdemeanor hit and run</li>
+  <li>484(a)pc, petty theft/shoplifting</li>
+</ul>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>Ocean Front is the area near Venice beach, popular with tourists. It makes sense a lot of minor, alcohol-related crimes appear there (open container: 25620bp). Lot sof DUIs are happening on Cahuenga and the 405 Freeway (I believe FY should be FW). Prostitution is primarily happening on Sepulveda and Western.</p>
+
+<p>Almost all the downtown streets (5th, 6th, 7th) are hotspots for homelessness (41.18dlamc: sitting/lying on public sidewalk). There are entire blocks in downtown LA that are essentially de facto homeless camps.</p>
+
+<p>Interesting that 14400 Erwin St is a hotspot for misdemeanor hit and runs (20002(a)vc). These are hit and runs that only involve property damage. A quick Google search of this address reveals that this is near the Erwin Street Mall and the Van Nuys Courthouse. This might possibly be due to bad traffic infrastructure. It would be worth looking into, along with the high rates of shoplifting at 9300 Tampa Ave (near the Northridge Fashion Center).</p>
+
+<h1 id="where-are-marijuana-related-arrests">Where are marijuana related arrests?</h1>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>Marijuana-related reports are fairly clearly separated by race. Whites tend to get busted near Santa Monica and in the hills in the north, while blacks are densely in the center and hispanics seem to get busted near Long Beach, downtown, and in the hills.</p>
+
+<h1 id="mapping-prostitution">Mapping Prostitution</h1>
+
+<p>For this one, there isn’t enough information to tell whether the race info is from the person soliciting or the person offering prostitution, so take this with a grain of salt.</p>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-11-1.png" alt="" /></p>
+
+<p>There seem to be three main streets where blacks in particular are getting caught for prostitution.</p>
+
+<h1 id="drunk-driving">Drunk Driving</h1>
+
+<p><img src="lacrime_files/figure-markdown_github/unnamed-chunk-12-1.png" alt="" /></p>
+
+<p>When it comes to drunk driving, we can see hispanics disproportionately represented. This suggests to me that more could be done to reduce this problem in areas with a high proportion of hispanic residents. For example, offering better public transportation that is open later in the evening (or during the hours shown above when most DUIs occur).</p>
+
+<h1 id="illegal-asian-massage-parlors">Illegal Asian Massage Parlors</h1>
+
+<p>Just for fun, let’s see if we can infer where there are likely to be illegal Asian massage parlors. We will filter for the charge ‘massage technician w/o permit’ and for all ethnicities that are not white, black, or hispanic. 
+<img src="lacrime_files/figure-markdown_github/unnamed-chunk-13-1.png" alt="" /></p>
+
+<p>The descent codes used by the LAPD are the following:</p>
+
+<p>A - Other Asian C - Chinese F - Filipino G - O - Other</p>
+
+<p>It appears most of these are happening in the Universal City/North Hollywood, Westwood/UCLA, and Koreatown areas.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Despite what you might hear from some policitians, crime in the USA’s 2nd largest city seems to be decreasing since 2010. The sheer number of crimes will also likely continue to decrease as marijuana-related crimes disappear as the result of legalization. The number of violent crimes also seems to be decreasing. And this has all happened during the past decade, a time of relatively high immigration rates in California.</p>
+
+<p>It also appears as though a lot of time, money, and resources are being spent on catching people drinking and driving. More systemic solutions should be considered to alleviate this problem (besides simply more policing), particularly in hispanic communities, where the rates of drunk driving are particularly high. Public transportation, for example, could make a huge impact in reducing this issue.</p>
+
+<p>Finally, the illegality of public drinking seems worthy of reevaluation, especially when one considers that in other countries with higher per capita alcohol consumption (Germany, for example) it is perfectly OK to drink in public. How much taxpayer money is being wasted on paying police to sit around Venice Beach and hand out open container tickets? It’s always seemed like this and most traffic violations exist as a way for cities to generate extra revenue in the form of fines and tickets. The poor are particularly affected by this because these parking violation tickets make up a disproportionately high amount of their income.</p>
+
+<p>In my opinion, the fines for most of these non-violent infractions (speeding, open containers, illegal parking) represent a kind of regressive taxation and ought to be based on one’s income, as is done in Finland, for example. There, once a policeman has pulled you over, he checks your identity in a national taxpayer database and an algorithm determines the appropriate fine. In one case, a Finnish business man caught speeding was forced to pay a 54,000 EU fine. You can read more about the Finnish system in <a href="https://www.theatlantic.com/business/archive/2015/03/finland-home-of-the-103000-speeding-ticket/387484/"> The Atlantic </a>.</p>
+
+<p>For now, here’s a snippet:</p>
+
+<blockquote>
+  <p>Finland’s system for calculating fines is relatively simple: It starts with an estimate of the amount of spending money a Finn has for one day, and then divides that by two—the resulting number is considered a reasonable amount of spending money to deprive the offender of. Then, based on the severity of the crime, the system has rules for how many days the offender must go without that money. Going about 15 mph over the speed limit gets you a multiplier of 12 days, and going 25 mph over carries a 22-day multiplier.</p>
+</blockquote>
+
+<blockquote>
+  <p>Most reckless drivers pay between €30 and €50 per day, for a total of about €400 or €500. Finland’s maximum multiplier is 120 days, but there’s no ceiling on the fines themselves—the fine is taken as a constant proportion of income whether you make €80,000 a year or €800,000.</p>
+</blockquote>
+
+  </div>
+
+  
+
+  <a class="u-url" href="/datasophy/2018/08/06/la-crime.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//https-greenet09-github-io-datasophy.disqus.com/count.js" async></script>
+  </body>
+
+</html>
