@@ -60,11 +60,14 @@
 
 <h1 id="understanding-evictions-in-sf">Understanding Evictions in SF</h1>
 
-<p>Evictions are a hot topic in SF, especially due to the fairly recent influx of young engineers from all over the country who are making six-figure salaries and choosing to live in the city. Even though Facebook, Google, and Apple all have headquarters nearby, most younger employees choose to live in the city and commute to the offices in the South Bay. All this gentrification means inevitably that older, poorer SF residents are being forced to move in order to meet the demand for apartments.</p>
+<p>Evictions are a hot topic in SF, especially due to the fairly recent influx of young engineers from all over the country making six-figure salaries and choosing to live in the city (even with a one-hour commute to the South Bay). All this gentrification means inevitably that older, poorer SF residents are being forced to move in order to meet the demand for apartments in “hip” neighborhoods. Having thousands of young, wealthy new tech arrivals is great if you’re a restaurant, bar, or landlord in SF. It’s less clear how the elderly and poor of benefit from all this. In fact, tech employees have received a great deal of criticism in local media outlets, and I distinctly remember hearing about cases of vandals defacing the Google/FB shuttlebuses that would come and pick up employees in the morning around SF and drive them down to Silicon Valley. I thought it might be interesting to see whether data could help to shed new light on this controversial issue.</p>
 
+<h1 id="the-ellis-act">The Ellis Act</h1>
 <p>One way landlords can force tenants to move is through something called the Ellis Act. Essentially, the Ellis Act allows landlords to remove their properties from the rental market and requires them to pay, at minimum, about $5000 to the affected tenants. Typically the tenants will have a couple months’ notice before they must pack their things and vacate the apartment building.</p>
 
-<p>I’m particularly interested in looking at how the Ellis Act has been used in different parts of the city to essentially get rid of rent-controlled apartment units and make way for fancy lofts and studios for the incoming tech-elite twenty-somethings. Another reason why I’m interested in the Ellis Act is because it was used to evict me and my friends from our apartment shortly after I was laid off from my job. I saw first hand how the Ellis Act was used to evict our neighbor, a 90-something Holocaust survivor, from his Tenderloin apartment of 20+ years. I’m not sure he was given much more than $5,000 and I have no idea if the property management company provided the necessary funds to help him move into a relative’s house, or to put him into an appropriate care facility.</p>
+<p>I’m particularly interested in looking at how the Ellis Act has been used in different parts of the city to essentially get rid of rent-controlled apartment units and make way for fancy lofts and studios for the incoming batch of tech-elite.</p>
+
+<p>Another reason why I’m interested in the Ellis Act is because it was used to evict me and my two friends from our apartment shortly after I was laid off from my job. I saw first hand how the Ellis Act was used to evict our neighbor, a 90-something Holocaust survivor, from his Tenderloin apartment of 20+ years. I’m not sure he was given much more than $5,000, and I have no idea if the property management company provided the necessary funds to help him move into a relative’s house, or to put him into an appropriate care facility. The whole thing was pretty sad, really.</p>
 
 <p>With that said, let’s dive in to the dataset provided by SF’s Open Data website. We have 39,383 cases of eviction and they’ve measured them on 30 variables. Here are the variables they’ve recorded.</p>
 
@@ -147,7 +150,7 @@
 
 <p>Let’s focus on those big bars. In Sunset we see a lot of owner move in evictions, while in the Tenderloin we see a lot of Nuisance evictions and breach of contract.</p>
 
-<p>Since I’m interested in the Ellis Act, we can see that it seems more common in three areas: Castro, SOMA, and the Mission. In Lakeshore (the area near the fancy golf club), we can see that ‘Capital Improvements’ evictions are by far the most common. Notice that these are usually houses, not apartments/condos as in most other parts of the city.</p>
+<p>Since I’m interested in the Ellis Act, we can see that it seems more common in three areas: Castro, SOMA, and the Mission. In Lakeshore (the area near the fancy golf club), we can see that ‘Breach’ evictions are by far the most common, followed by ‘Capital Improvements.’ Notice that these are usually houses, not apartments/condos as in most other parts of the city. This area could also be housing students near SFSU.</p>
 
 <h1 id="heatmap-of-the-same-thing">Heatmap of the Same Thing</h1>
 
@@ -169,7 +172,7 @@
 
 <p>Based on this analysis, it does seem fair to say that the tech boom and its concomitant influx of young, newly minted engineeers, is a very likely cause for the eviction of older, poorer San Francisco residents. Especially those in rent-controlled apartments in the Mission, Upper Market, and the Tenderloin (to a lesser extent). The correlation between the number of evictions and the general state of the US economy is particularly telling: as the economy is humming, Ellis Act evictions increase; and when the economy tanks–as it did in 2008–all of a sudden no one wants to use the Ellis Act to evict anyone anymore. And the huge jump in “development” evictions at the time Twitter moved into SOMA is another indicator for this explanation.</p>
 
-<p>One thing I can’t figure out, however, is what is causing all these Lakeshore evictions due to “capital investments.”</p>
+<p>One thing I can’t figure out, however, is what is causing all these Lakeshore evictions due to “Breaches” and “Capital Investments.”</p>
 
 
   </div>
