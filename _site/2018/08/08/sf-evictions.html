@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data Analysis: Evictions in San Francisco | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data Analysis: Evictions in San Francisco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Understanding Evictions in SF Where do Most Evictions Happen? Evictions over Time Causes of Eviction over Time Ellis Act Evictions Areas with most Ellis Act Evictions Using GGhighlight to Look at Specific areas over time Deeper Dive into Evictions by Neighborhood Heatmap of the Same Thing Mapping Evictions" />
+<meta property="og:description" content="Understanding Evictions in SF Where do Most Evictions Happen? Evictions over Time Causes of Eviction over Time Ellis Act Evictions Areas with most Ellis Act Evictions Using GGhighlight to Look at Specific areas over time Deeper Dive into Evictions by Neighborhood Heatmap of the Same Thing Mapping Evictions" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-08T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/08/08/sf-evictions.html"},"url":"http://localhost:4000/datasophy/2018/08/08/sf-evictions.html","description":"Understanding Evictions in SF Where do Most Evictions Happen? Evictions over Time Causes of Eviction over Time Ellis Act Evictions Areas with most Ellis Act Evictions Using GGhighlight to Look at Specific areas over time Deeper Dive into Evictions by Neighborhood Heatmap of the Same Thing Mapping Evictions","headline":"Data Analysis: Evictions in San Francisco","@type":"BlogPosting","dateModified":"2018-08-08T00:00:00+08:00","datePublished":"2018-08-08T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Analysis: Evictions in San Francisco</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-08T00:00:00+08:00" itemprop="datePublished">Aug 8, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul>
+  <li><a href="#understanding-evictions-in-sf">Understanding Evictions in SF</a></li>
+  <li><a href="#where-do-most-evictions-happen">Where do Most Evictions Happen?</a></li>
+  <li><a href="#evictions-over-time">Evictions over Time</a></li>
+  <li><a href="#causes-of-eviction-over-time">Causes of Eviction over Time</a></li>
+  <li><a href="#ellis-act-evictions">Ellis Act Evictions</a></li>
+  <li><a href="#areas-with-most-ellis-act-evictions">Areas with most Ellis Act Evictions</a></li>
+  <li><a href="#using-gghighlight-to-look-at-specific-areas-over-time">Using GGhighlight to Look at Specific areas over time</a></li>
+  <li><a href="#deeper-dive-into-evictions-by-neighborhood">Deeper Dive into Evictions by Neighborhood</a></li>
+  <li><a href="#heatmap-of-the-same-thing">Heatmap of the Same Thing</a></li>
+  <li><a href="#mapping-evictions">Mapping Evictions</a></li>
+</ul>
+
+<h1 id="understanding-evictions-in-sf">Understanding Evictions in SF</h1>
+
+<p>Evictions are a hot topic in SF, especially due to the fairly recent influx of young engineers from all over the country who are making six-figure salaries and choosing to live in the city. Even though Facebook, Google, and Apple all have headquarters nearby, most younger employees choose to live in the city and commute to the offices in the South Bay. All this gentrification means inevitably that older, poorer SF residents are being forced to move in order to meet the demand for apartments.</p>
+
+<p>One way landlords can force tenants to move is through something called the Ellis Act. Essentially, the Ellis Act allows landlords to remove their properties from the rental market and requires them to pay, at minimum, about $5000 to the affected tenants. Typically the tenants will have a couple months’ notice before they must pack their things and vacate the apartment building.</p>
+
+<p>I’m particularly interested in looking at how the Ellis Act has been used in different parts of the city to essentially get rid of rent-controlled apartment units and make way for fancy lofts and studios for the incoming tech-elite twenty-somethings. Another reason why I’m interested in the Ellis Act is because it was used to evict me and my friends from our apartment shortly after I was laid off from my job. I saw first hand how the Ellis Act was used to evict our neighbor, a 90-something Holocaust survivor, from his Tenderloin apartment of 20+ years. I’m not sure he was given much more than $5,000 and I have no idea if the property management company provided the necessary funds to help him move into a relative’s house, or to put him into an appropriate care facility.</p>
+
+<p>With that said, let’s dive in to the dataset provided by SF’s Open Data website. We have 39,383 cases of eviction and they’ve measured them on 30 variables. Here are the variables they’ve recorded.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##  [6] "File.Date"                          
+##  [7] "Non.Payment"                        
+##  [8] "Breach"                             
+##  [9] "Nuisance"                           
+## [10] "Illegal.Use"                        
+## [11] "Failure.to.Sign.Renewal"            
+## [12] "Access.Denial"                      
+## [13] "Unapproved.Subtenant"               
+## [14] "Owner.Move.In"                      
+## [15] "Demolition"                         
+## [16] "Capital.Improvement"                
+## [17] "Substantial.Rehab"                  
+## [18] "Ellis.Act.WithDrawal"               
+</code></pre></div></div>
+
+<p>Even though I’ve erased some columns to shorten the output, you can see that they provide some useful information as to the type of eviction and also the dates and geolocations of the evictions. We’ll mostly be using that to make our visualizations.</p>
+
+<h1 id="where-do-most-evictions-happen">Where do Most Evictions Happen?</h1>
+
+<p>Let’s start by seeing which areas are most affected by evictions. <img src="sfevictions_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
+
+<p>Clearly the Mission is in the lead, with over 4000 evictions. It’s also probably not surprising that this neighborhood has been rapidly gentrifying over the past decade.</p>
+
+<h1 id="evictions-over-time">Evictions over Time</h1>
+
+<p>We will look at the time series of evictions to see if there are any temporal patterns. To make the plot more informative, we will aggregate evictions into one-month intervals by using floor_date().</p>
+
+<p><img src="sfevictions_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>Most of the neighborhoods are indistinguishable from each other in terms of eviction patterns. That said, there are about three areas that have interesting patterns.</p>
+
+<p>Later on we will be looking more closely at these big spikes in SOMA and Lakeshore. But for now, just take note of them. Also, notice how the rise in evictions seems to mirror the strength of the economy.</p>
+
+<h1 id="causes-of-eviction-over-time">Causes of Eviction over Time</h1>
+
+<p>GGhighlight is great for contrasting facets for different factor levels.</p>
+
+<p><img src="sfevictions_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>We see originally around 1996, owner move in was common, then Ellis Acts started around 1998, with a few peaks every few years. Then… boom! Huge development around 2011 (again, this is around when Twitter moved downtown) and another huge spike in development improvements around 2015. It’s curious that ‘Breaches’ occurred at the same time development spiked. I wouldn’t be surprised if landlords were using that as a pretext for evicting in order to cash in on the tech boom.</p>
+
+<h1 id="ellis-act-evictions">Ellis Act Evictions</h1>
+
+<p>Here’s the overall counts of Ellis Act evictions.</p>
+
+<p><img src="sfevictions_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>Is the the bump around 2000 related to the dot com bubble? I’d venture that it probably was. Young tech workers were looking for renovated apartments in SF and landlords likely relied on the Ellis Act to kick out the older, poorer tenants. This is just speculation on my part, though. But notice that during the recession’s peak–around 2010–there are almost 0 Ellis Act Evictions in the city. I’d be willing to be that Ellis Act Evictions and the strength of the SF economy are highly linked.</p>
+
+<p>Let’s look more closely at when these Ellis Act evictions took place. <img src="sfevictions_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>Again, we see the dot-com boom era with a lot of Ellis Act evictions. It also appears there may be some within-year seasonality. This would be worth analyzing further. It might be the case that certain times of the year experience more Ellis Act evictions.</p>
+
+<p>Just as the recession hits in 2008, there’s a super sharp drop in Ellis Act evictions. Coincidence…?</p>
+
+<h1 id="areas-with-most-ellis-act-evictions">Areas with most Ellis Act Evictions</h1>
+
+<p>We were evicted from our apartment in the Tenderloin. Is that common? <img src="sfevictions_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+
+<p>Ellis Act evictions are actually not that common overall, but in North Beach it seems they are used in nearly 25% of all evictions. They seem to account for about 15% of evictions in the Mission and Castro/Upper Market, as well. I’m not so sure about North Beach, but the Mission and Upper Market are “hot” neighborhoods.</p>
+
+<p>In fact, if you look at a lot of the neighborhoods you’ll see that there seems to be some correlation between the “coolness” of the neighborhood and the percentage of evictions that are Ellis Act-based. For example, Hunter’s Point, the Tenderloin, and Oceanview/Merced are not typically considered “cool” areas to live, and we see very few Ellis Act evictions.</p>
+
+<h1 id="using-gghighlight-to-look-at-specific-areas-over-time">Using GGhighlight to Look at Specific areas over time</h1>
+
+<p>We’ll use a new and useful library I recently learned about called GGhighlight. It makes it easier to subset parts of your data.</p>
+
+<p><img src="sfevictions_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>I’ve highlighted here when Twitter moved its office to SOMA. If I had to guess, there is definitely a connection between the rise in evictions and the SOMA ‘tech boom.’ I’m not really sure what’s driving the Lakeshore eviction bonanza, though.</p>
+
+<h1 id="deeper-dive-into-evictions-by-neighborhood">Deeper Dive into Evictions by Neighborhood</h1>
+
+<p>Here we’ll look at the proportion of evictions by type of eviction by neighborhood. <img src="sfevictions_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+
+<p>This plot is very instructive. We can see a basic pattern that most evictions are due to a few main reasons: owner move in, Nuisance, and Breach (of contract?). In the Tenderloin, Nuisance the most common reason for eviction.</p>
+
+<p>Let’s focus on those big bars. In Sunset we see a lot of owner move in evictions, while in the Tenderloin we see a lot of Nuisance evictions and breach of contract.</p>
+
+<p>Since I’m interested in the Ellis Act, we can see that it seems more common in three areas: Castro, SOMA, and the Mission. In Lakeshore (the area near the fancy golf club), we can see that ‘Capital Improvements’ evictions are by far the most common. Notice that these are usually houses, not apartments/condos as in most other parts of the city.</p>
+
+<h1 id="heatmap-of-the-same-thing">Heatmap of the Same Thing</h1>
+
+<p>Here’s another way of visualizing the same kind of information. This way might be more intelligible for some people. <img src="sfevictions_files/figure-markdown_github/unnamed-chunk-10-1.png" alt="" /></p>
+
+<p>The heatmap may be better here because we can fit in all 40+ neighborhoods. Again, we see that among the reasons for eviction, Owner Move in, Nuisance, Ellis Act Withdrawals, and Breach of contract are the most common.</p>
+
+<p>And among the areas of the city, the Tenderloin, the Mission, Lakshore, and probably the Outer Richmond have been the most common sites of evictions.</p>
+
+<h1 id="mapping-evictions">Mapping Evictions</h1>
+
+<p>Finally, let’s visualize where all these evictions are happening using the geocoded locations provided in the dataset.</p>
+
+<p><img src="sfevictions_files/figure-markdown_github/unnamed-chunk-11-2.png" alt="" /></p>
+
+<p>So there we have it. We see near SOMA that a combination of Nuisance/Ellis Act/Breach is used to evict. Lakeshore is almost all breaches. Treasure Island is also all Breach/Nuisance. For the rest of the city, however, you’re most likely to be evicted due to Owner Move In.</p>
+
+<h1 id="final-thoughts">Final Thoughts</h1>
+
+<p>Based on this analysis, it does seem fair to say that the tech boom and its concomitant influx of young, newly minted engineeers, is a very likely cause for the eviction of older, poorer San Francisco residents. Especially those in rent-controlled apartments in the Mission, Upper Market, and the Tenderloin (to a lesser extent). The correlation between the number of evictions and the general state of the US economy is particularly telling: as the economy is humming, Ellis Act evictions increase; and when the economy tanks–as it did in 2008–all of a sudden no one wants to use the Ellis Act to evict anyone anymore. And the huge jump in “development” evictions at the time Twitter moved into SOMA is another indicator for this explanation.</p>
+
+<p>One thing I can’t figure out, however, is what is causing all these Lakeshore evictions due to “capital investments.”</p>
+
+
+  </div>
+
+  
+
+  <a class="u-url" href="/datasophy/2018/08/08/sf-evictions.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//https-greenet09-github-io-datasophy.disqus.com/count.js" async></script>
+  </body>
+
+</html>
