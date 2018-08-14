@@ -53,7 +53,7 @@ There were actually two types of 'flags' used by the SS: the first type was for 
 
 ![](naziblog_files/figure-markdown_github/unnamed-chunk-2-1.png)
 
-We see most of the books were published in the 1930s, though it looks like the second type of ban (aimed at youth) targeted books published slightly earlier. The books published in pre-1900 were likely related to communism. His *Manifesto of the Communist Party* was published in 1848, which you can see in the histogram.
+We see most of the books were published in the 1930s, though it looks like the second type of ban (aimed at youth) targeted books published slightly earlier. The books published in pre-1900 were likely related to communism. Karl Marx's *Manifesto of the Communist Party* was published in 1848 and is the earliest published book shown in the histogram.
 
 Wordcloud of Banned Book Titles
 ===============================
