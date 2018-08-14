@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Data Analysis: Books Banned by the Nazis | A Philosopher’s Guide to Data Science</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Data Analysis: Books Banned by the Nazis" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums) The Data Which Year Were Books Banned? Wordcloud of Banned Book Titles Geomapping Banned Book Geomapping Banned Ideas Authors with Most Banned Books Topics of the 200 Most Banned Authors Conclusion" />
+<meta property="og:description" content="Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums) The Data Which Year Were Books Banned? Wordcloud of Banned Book Titles Geomapping Banned Book Geomapping Banned Ideas Authors with Most Banned Books Topics of the 200 Most Banned Authors Conclusion" />
+<link rel="canonical" href="http://localhost:4000/datasophy/2018/08/14/nazibooks.html" />
+<meta property="og:url" content="http://localhost:4000/datasophy/2018/08/14/nazibooks.html" />
+<meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-14T00:00:00+08:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2018/08/14/nazibooks.html"},"url":"http://localhost:4000/datasophy/2018/08/14/nazibooks.html","description":"Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums) The Data Which Year Were Books Banned? Wordcloud of Banned Book Titles Geomapping Banned Book Geomapping Banned Ideas Authors with Most Banned Books Topics of the 200 Most Banned Authors Conclusion","headline":"Data Analysis: Books Banned by the Nazis","@type":"BlogPosting","dateModified":"2018-08-14T00:00:00+08:00","datePublished":"2018-08-14T00:00:00+08:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/datasophy/">A Philosopher&#39;s Guide to Data Science</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/datasophy/about/">About</a><a class="page-link" href="/datasophy/cv/">CV</a><a class="page-link" href="/datasophy/projects/">Projects</a><a class="page-link" href="/datasophy/random/">Random</a><a class="page-link" href="/datasophy/tutorials/">Tutorials</a><a class="page-link" href="/datasophy/writing/">Writing</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Analysis: Books Banned by the Nazis</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-14T00:00:00+08:00" itemprop="datePublished">Aug 14, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul>
+  <li><a href="#books-banned-by-the-nazis-liste-der-schadlichen-und-unerwunschten-schrifttums">Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums)</a></li>
+  <li><a href="#the-data">The Data</a></li>
+  <li><a href="#which-year-were-books-banned">Which Year Were Books Banned?</a></li>
+  <li><a href="#wordcloud-of-banned-book-titles">Wordcloud of Banned Book Titles</a></li>
+  <li><a href="#geomapping-banned-book">Geomapping Banned Book</a></li>
+  <li><a href="#geomapping-banned-ideas">Geomapping Banned Ideas</a></li>
+  <li><a href="#authors-with-most-banned-books">Authors with Most Banned Books</a></li>
+  <li><a href="#topics-of-the-200-most-banned-authors">Topics of the 200 Most Banned Authors</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h1 id="books-banned-by-the-nazis-liste-der-schädlichen-und-unerwünschten-schrifttums">Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums)</h1>
+
+<p>In this data analysis, we will explore the authors, titles, and locations of books that were banned by the Nazis in 1935 using a data set provided by Berlin.de. You can access the data set here: <a href="https://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher-0">https://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher-0</a>. It contains 4762 observations on 13 variables, including the authors’ names, titles, location of publisher, and year of publication.</p>
+
+<p>According to the website, this list was drawn up by the Reich Chamber of Culture (Reichskulturkammer), which was the brainchild of Joseph Goebbels, and was passed on to all libraries and bookstores. According to Wikipedia,</p>
+
+<blockquote>
+  <p>[The Reich Chamber of Culture] was meant to gain control over the entire cultural life in Germany creating and promoting Aryan art consistent with Nazi ideals. Every artist had to apply for membership on presentation of an Aryan certificate. A rejected inscription de facto resulted in an occupational ban.”</p>
+</blockquote>
+
+<p>I think it’s worth looking at parallels between this and the Trump-era “war” on the media.</p>
+
+<h1 id="the-data">The Data</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Observations: 4,762
+## Variables: 13
+## $ id                            &lt;int&gt; 70526, 70527, 70528, 70529, 7053...
+## $ ssflag                        &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,...
+## $ pagenumberinocrdocument       &lt;int&gt; 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,...
+## $ name                          &lt;chr&gt; "Adler Alfred", "Bruno Adler", "...
+## $ title                         &lt;chr&gt; "Praxis und Theorie der Individu...
+## $ firsteditionpublisher         &lt;chr&gt; "Bergmann", "", "Dümmler", "", "...
+## $ firsteditionpublicationplace  &lt;chr&gt; "München", "", "Berlin", "", "",...
+## $ firsteditionpublicationyear   &lt;int&gt; 1930, NA, 1894, NA, NA, NA, NA, ...
+## $ secondeditionpublisher        &lt;chr&gt; "", "", "", "", "", "", "", "", ...
+## $ secondeditionpublicationplace &lt;chr&gt; "", "", "", "", "", "", "", "", ...
+## $ secondeditionpublicationyear  &lt;chr&gt; "", "", "", "", "", "", "", "", ...
+## $ additionalinfos               &lt;chr&gt; "", "", "", "", "", "", "", "", ...
+## $ ocrresult                     &lt;chr&gt; "Adler, Alfred: Praxis und Theor...
+</code></pre></div></div>
+
+<p>We can see there are a lot of missing values. And it’s also worth noting that the conversion to text was done via OCR and so there are some mistakes. We have for example, ‘Adler Alfred’ instead of “Alfred Adler,” the dude who came up with the idea of the infamous “Napoleon Complex,” and whose psychological theories were popular in the early 1900s.</p>
+
+<h1 id="which-year-were-books-banned">Which Year Were Books Banned?</h1>
+
+<p>There were actually two types of ‘flags’ used by the SS: the first type was for books that ‘threatened the Nazi culture’ and the second type was for books that were ‘unsuitable to fall into the hands of youth (children under the age of 18).’ These books also could not be shown in storefront windows or placed in bookstores ‘where the general public could find them.’</p>
+
+<p><img src="naziblog_files/figure-markdown_github/unnamed-chunk-2-1.png" alt="" /></p>
+
+<p>We see most of the books were published in the 1930s, though it looks like the second type of ban (aimed at youth) targeted books published slightly earlier. The books published in pre-1900 were likely related to communism. His <em>Manifesto of the Communist Party</em> was published in 1848, which you can see in the histogram.</p>
+
+<h1 id="wordcloud-of-banned-book-titles">Wordcloud of Banned Book Titles</h1>
+
+<p>We will use the tidytext package and a custom German stopword dataframe to filter out most of the grammar words. Then we will use the Wordcloud package to visualize the top 150 words from the banned titles. We will first look at single words, then at bigrams (which give more context). <img src="naziblog_files/figure-markdown_github/unnamed-chunk-3-1.png" alt="" /></p>
+
+<p>And now bigrams to gain a bit more insight into the context of the words.</p>
+
+<p><img src="naziblog_files/figure-markdown_github/unnamed-chunk-4-1.png" alt="" /></p>
+
+<p>In the bigrams cloud, we notice a lot of attention paid to German poetry. It’s likely the Nazis were trying to appropriate the German cultural icons and use them to support their ideology. We also find lots of references to Communism in Russia and China (the Far East). Finally we see the obsession with controlling family values and youth (young generation).</p>
+
+<p>From single words, we can see that many of the banned books focused on topics like <em>Love</em>, <em>War</em>, <em>History</em>, <em>Germany</em>, <em>Marriage</em>, <em>Youth</em>, <em>Jews</em>, <em>Soviet Union</em>, <em>Hitler</em>, <em>Women</em>, <em>Revolution</em>, <em>Psychoanlysis</em>, <em>Socialism</em>,and <em>Church</em>, among many more. I found the focus on sexual topics particularly interesting (<em>erotik</em>, <em>prostitution</em>, <em>sexuelle</em>).</p>
+
+<p>Based on this, we could infer that the Nazis were trying to control how Germans viewed their own history and the events of the Russian Revolution. At the same time, the Nazis were worried about the role of the family and the institution of marriage–particularly the sexual mores of women at the time. And finally, they were attempting to suppress the free expression of ideas related to Christianity and the church.</p>
+
+<p>All of this supports the familiar historical narrative that the Nazis used censorship of the press to support the party ideology of racial superiority. Any books containing ideas that might make people question the party lines were banned from publication.</p>
+
+<h1 id="geomapping-banned-books">Geomapping Banned Books</h1>
+
+<p>In this graphic, we will look at where banned books were published. In order to do this we will need to geo-code the cities and join them with counts of publications. <img src="naziblog_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+
+<p>We see that Berlin of course published many of the banned books (over 1000), but also many of the books came from Moscow. These are, again, likely related to Communism and the Russian Revolution, which occurred just a decade or so earlier.</p>
+
+<p>We also can see relatively more books coming from major cities such as London, Paris, and Vienna. Interesting, Switzerland seems to have published many books as well.</p>
+
+<h1 id="geomapping-banned-ideas">Geomapping Banned Ideas</h1>
+
+<p>Here we will look at the top words banned from each location to hopefully get a feel for the kinds of ideas in books published in the various cities.</p>
+
+<p><img src="naziblog_files/figure-markdown_github/unnamed-chunk-6-1.png" alt="" /></p>
+
+<p>This graphic gives us a feel for which ideas the Nazis wanted to control and where the ideas were originating from. The size of the word is proportional to the number of titles containing the word.</p>
+
+<p>Love and Revolution were coming mainly from Berlin, which was known at the time for having a burgeoning Communist party that the Nazis obviously were not a fan of. It appears the Nazis were also fighting off counter-propaganda from the Soviet Union.</p>
+
+<p>In the south of Germany you can see references to the Catholic church, and in Vienna you can see suppression of ‘Sittengeschichten,’ which translates to ‘history of morality.’</p>
+
+<p>Again, these examples show the extent to which the Nazis waged a culture war on media in order to control and limit the free expression of ideas that went against the party’s social, historical, and religious narrative. This is exactly why Trump’s war on the media sets such a dangerous precedent: by controlling how the populace understands its reality, those in power gain the ability to emotionally manipulate and agitate them in predictable ways.</p>
+
+<h1 id="authors-with-most-banned-books">Authors with Most Banned Books</h1>
+
+<p>To get a better idea of which authors the Nazis found most repugnant, we will count the authors with the most banned books and then give an example title to understand the type of books written by that author.</p>
+
+<p><img src="naziblog_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+
+<p>It is interesting for me to see that Rudolf Steiner is one of the most banned authors. There are now many ‘Rudolf Steiner Schools’ all over Germany and the US. Also Ludendorff was one of the German military leaders in WWI, and later was part of the Putsch that attempted to assassinate Hitler unsuccessfully in Munich. It’s not surprising his books were banned.</p>
+
+<p>The relatively benign titles listed here show just how worried the Nazis were about any books related to history, mythology, morality and sexuality (Caeseren, Aphrodite, The Xex life of Women, the Big Sin).</p>
+
+<p>One particularly strange title is “Die Hochfrequenz als Verjuegungsmittel”, or, roughly translated ‘Using High Frequency Waves in Order to Look Younger.” I’m guessing this book went against the Nazi party stance on scientific research.</p>
+
+<h1 id="topics-of-the-200-most-banned-authors">Topics of the 200 Most Banned Authors</h1>
+
+<p>To conclude, we’ll use a treemap to see the most frequent words used in titles from the most frequently banned authors. We should be able to get a rough view of the type of titles each author wrote.</p>
+
+<p><img src="naziblog_files/figure-markdown_github/unnamed-chunk-9-1.png" alt="" /></p>
+
+<p>The size of the rectangle is proportional to the number of banned books from the author. We can see Theodor Hendrik Van der Velde (a Dutch Gynecologist and partial discoverer of the curve of human body temperature) wrote books about marriage (<em>Ehe</em>), while Siegfried Lichtenstaedten wrote often about topics related to Judaism. He published works dealt with topics related to political questions of a Jewish history, law, and customs. Sadly, he was murdered in a Ghetto in Theresienstadt in 1942, according to Wikipedia. I encourage you to Google some of these people to learn more about their writings and ideas.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p><strong><em>Beware of any politician that tries to limit the free expression of ideas in society.</em></strong></p>
+
+<p>This list of books highlights the fact that topics which are seemingly unrelated to politics, such as morality tales and mythology, can be appropriated and used by those in power to control popular discourse and keep opposing ideas away from young people, who might be willing to revolt against the system. If the party narrative is pushed hard enough and long enough, people will start to believe it.</p>
+
+<p>Regardless of your view of certain media publishers, such as the New York Times or CNN, the next time Trump says they are the ‘enemy of the people,’ you should remind yourself that the Nazis used the very same tactic to carry out one of the most heinous crimes against humanity and lead the world into one of the most destructive wars ever fought.</p>
+
+  </div>
+
+  
+
+  <a class="u-url" href="/datasophy/2018/08/14/nazibooks.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/datasophy/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">A Philosopher&#39;s Guide to Data Science</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">A Philosopher&#39;s Guide to Data Science</li><li><a class="u-email" href="mailto:greenet09@gmail.com">greenet09@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/greenet09"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#github"></use></svg> <span class="username">greenet09</span></a></li><li><a href="https://www.linkedin.com/in/travis-greene"><svg class="svg-icon"><use xlink:href="/datasophy/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">travis-greene</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//https-greenet09-github-io-datasophy.disqus.com/count.js" async></script>
+  </body>
+
+</html>

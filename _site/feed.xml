@@ -1,4 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-08T18:18:41+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: Evictions in San Francisco</title><link href="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html" rel="alternate" type="text/html" title="Data Analysis: Evictions in San Francisco" /><published>2018-08-08T00:00:00+08:00</published><updated>2018-08-08T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/08/sf-evictions</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html">&lt;ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-14T17:17:42+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Data Analysis: Books Banned by the Nazis</title><link href="http://localhost:4000/datasophy/2018/08/14/nazibooks.html" rel="alternate" type="text/html" title="Data Analysis: Books Banned by the Nazis" /><published>2018-08-14T00:00:00+08:00</published><updated>2018-08-14T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/14/nazibooks</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/14/nazibooks.html">&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#books-banned-by-the-nazis-liste-der-schadlichen-und-unerwunschten-schrifttums&quot;&gt;Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#the-data&quot;&gt;The Data&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#which-year-were-books-banned&quot;&gt;Which Year Were Books Banned?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#wordcloud-of-banned-book-titles&quot;&gt;Wordcloud of Banned Book Titles&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#geomapping-banned-book&quot;&gt;Geomapping Banned Book&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#geomapping-banned-ideas&quot;&gt;Geomapping Banned Ideas&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#authors-with-most-banned-books&quot;&gt;Authors with Most Banned Books&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#topics-of-the-200-most-banned-authors&quot;&gt;Topics of the 200 Most Banned Authors&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#conclusion&quot;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;books-banned-by-the-nazis-liste-der-schädlichen-und-unerwünschten-schrifttums&quot;&gt;Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums)&lt;/h1&gt;
+
+&lt;p&gt;In this data analysis, we will explore the authors, titles, and locations of books that were banned by the Nazis in 1935 using a data set provided by Berlin.de. You can access the data set here: &lt;a href=&quot;https://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher-0&quot;&gt;https://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher-0&lt;/a&gt;. It contains 4762 observations on 13 variables, including the authors’ names, titles, location of publisher, and year of publication.&lt;/p&gt;
+
+&lt;p&gt;According to the website, this list was drawn up by the Reich Chamber of Culture (Reichskulturkammer), which was the brainchild of Joseph Goebbels, and was passed on to all libraries and bookstores. According to Wikipedia,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;[The Reich Chamber of Culture] was meant to gain control over the entire cultural life in Germany creating and promoting Aryan art consistent with Nazi ideals. Every artist had to apply for membership on presentation of an Aryan certificate. A rejected inscription de facto resulted in an occupational ban.”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I think it’s worth looking at parallels between this and the Trump-era “war” on the media.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-data&quot;&gt;The Data&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## Observations: 4,762
+## Variables: 13
+## $ id                            &amp;lt;int&amp;gt; 70526, 70527, 70528, 70529, 7053...
+## $ ssflag                        &amp;lt;int&amp;gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,...
+## $ pagenumberinocrdocument       &amp;lt;int&amp;gt; 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,...
+## $ name                          &amp;lt;chr&amp;gt; &quot;Adler Alfred&quot;, &quot;Bruno Adler&quot;, &quot;...
+## $ title                         &amp;lt;chr&amp;gt; &quot;Praxis und Theorie der Individu...
+## $ firsteditionpublisher         &amp;lt;chr&amp;gt; &quot;Bergmann&quot;, &quot;&quot;, &quot;Dümmler&quot;, &quot;&quot;, &quot;...
+## $ firsteditionpublicationplace  &amp;lt;chr&amp;gt; &quot;München&quot;, &quot;&quot;, &quot;Berlin&quot;, &quot;&quot;, &quot;&quot;,...
+## $ firsteditionpublicationyear   &amp;lt;int&amp;gt; 1930, NA, 1894, NA, NA, NA, NA, ...
+## $ secondeditionpublisher        &amp;lt;chr&amp;gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, ...
+## $ secondeditionpublicationplace &amp;lt;chr&amp;gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, ...
+## $ secondeditionpublicationyear  &amp;lt;chr&amp;gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, ...
+## $ additionalinfos               &amp;lt;chr&amp;gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, ...
+## $ ocrresult                     &amp;lt;chr&amp;gt; &quot;Adler, Alfred: Praxis und Theor...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can see there are a lot of missing values. And it’s also worth noting that the conversion to text was done via OCR and so there are some mistakes. We have for example, ‘Adler Alfred’ instead of “Alfred Adler,” the dude who came up with the idea of the infamous “Napoleon Complex,” and whose psychological theories were popular in the early 1900s.&lt;/p&gt;
+
+&lt;h1 id=&quot;which-year-were-books-banned&quot;&gt;Which Year Were Books Banned?&lt;/h1&gt;
+
+&lt;p&gt;There were actually two types of ‘flags’ used by the SS: the first type was for books that ‘threatened the Nazi culture’ and the second type was for books that were ‘unsuitable to fall into the hands of youth (children under the age of 18).’ These books also could not be shown in storefront windows or placed in bookstores ‘where the general public could find them.’&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-2-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We see most of the books were published in the 1930s, though it looks like the second type of ban (aimed at youth) targeted books published slightly earlier. The books published in pre-1900 were likely related to communism. His &lt;em&gt;Manifesto of the Communist Party&lt;/em&gt; was published in 1848, which you can see in the histogram.&lt;/p&gt;
+
+&lt;h1 id=&quot;wordcloud-of-banned-book-titles&quot;&gt;Wordcloud of Banned Book Titles&lt;/h1&gt;
+
+&lt;p&gt;We will use the tidytext package and a custom German stopword dataframe to filter out most of the grammar words. Then we will use the Wordcloud package to visualize the top 150 words from the banned titles. We will first look at single words, then at bigrams (which give more context). &lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-3-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And now bigrams to gain a bit more insight into the context of the words.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-4-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the bigrams cloud, we notice a lot of attention paid to German poetry. It’s likely the Nazis were trying to appropriate the German cultural icons and use them to support their ideology. We also find lots of references to Communism in Russia and China (the Far East). Finally we see the obsession with controlling family values and youth (young generation).&lt;/p&gt;
+
+&lt;p&gt;From single words, we can see that many of the banned books focused on topics like &lt;em&gt;Love&lt;/em&gt;, &lt;em&gt;War&lt;/em&gt;, &lt;em&gt;History&lt;/em&gt;, &lt;em&gt;Germany&lt;/em&gt;, &lt;em&gt;Marriage&lt;/em&gt;, &lt;em&gt;Youth&lt;/em&gt;, &lt;em&gt;Jews&lt;/em&gt;, &lt;em&gt;Soviet Union&lt;/em&gt;, &lt;em&gt;Hitler&lt;/em&gt;, &lt;em&gt;Women&lt;/em&gt;, &lt;em&gt;Revolution&lt;/em&gt;, &lt;em&gt;Psychoanlysis&lt;/em&gt;, &lt;em&gt;Socialism&lt;/em&gt;,and &lt;em&gt;Church&lt;/em&gt;, among many more. I found the focus on sexual topics particularly interesting (&lt;em&gt;erotik&lt;/em&gt;, &lt;em&gt;prostitution&lt;/em&gt;, &lt;em&gt;sexuelle&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;Based on this, we could infer that the Nazis were trying to control how Germans viewed their own history and the events of the Russian Revolution. At the same time, the Nazis were worried about the role of the family and the institution of marriage–particularly the sexual mores of women at the time. And finally, they were attempting to suppress the free expression of ideas related to Christianity and the church.&lt;/p&gt;
+
+&lt;p&gt;All of this supports the familiar historical narrative that the Nazis used censorship of the press to support the party ideology of racial superiority. Any books containing ideas that might make people question the party lines were banned from publication.&lt;/p&gt;
+
+&lt;h1 id=&quot;geomapping-banned-books&quot;&gt;Geomapping Banned Books&lt;/h1&gt;
+
+&lt;p&gt;In this graphic, we will look at where banned books were published. In order to do this we will need to geo-code the cities and join them with counts of publications. &lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-5-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We see that Berlin of course published many of the banned books (over 1000), but also many of the books came from Moscow. These are, again, likely related to Communism and the Russian Revolution, which occurred just a decade or so earlier.&lt;/p&gt;
+
+&lt;p&gt;We also can see relatively more books coming from major cities such as London, Paris, and Vienna. Interesting, Switzerland seems to have published many books as well.&lt;/p&gt;
+
+&lt;h1 id=&quot;geomapping-banned-ideas&quot;&gt;Geomapping Banned Ideas&lt;/h1&gt;
+
+&lt;p&gt;Here we will look at the top words banned from each location to hopefully get a feel for the kinds of ideas in books published in the various cities.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-6-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This graphic gives us a feel for which ideas the Nazis wanted to control and where the ideas were originating from. The size of the word is proportional to the number of titles containing the word.&lt;/p&gt;
+
+&lt;p&gt;Love and Revolution were coming mainly from Berlin, which was known at the time for having a burgeoning Communist party that the Nazis obviously were not a fan of. It appears the Nazis were also fighting off counter-propaganda from the Soviet Union.&lt;/p&gt;
+
+&lt;p&gt;In the south of Germany you can see references to the Catholic church, and in Vienna you can see suppression of ‘Sittengeschichten,’ which translates to ‘history of morality.’&lt;/p&gt;
+
+&lt;p&gt;Again, these examples show the extent to which the Nazis waged a culture war on media in order to control and limit the free expression of ideas that went against the party’s social, historical, and religious narrative. This is exactly why Trump’s war on the media sets such a dangerous precedent: by controlling how the populace understands its reality, those in power gain the ability to emotionally manipulate and agitate them in predictable ways.&lt;/p&gt;
+
+&lt;h1 id=&quot;authors-with-most-banned-books&quot;&gt;Authors with Most Banned Books&lt;/h1&gt;
+
+&lt;p&gt;To get a better idea of which authors the Nazis found most repugnant, we will count the authors with the most banned books and then give an example title to understand the type of books written by that author.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-8-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It is interesting for me to see that Rudolf Steiner is one of the most banned authors. There are now many ‘Rudolf Steiner Schools’ all over Germany and the US. Also Ludendorff was one of the German military leaders in WWI, and later was part of the Putsch that attempted to assassinate Hitler unsuccessfully in Munich. It’s not surprising his books were banned.&lt;/p&gt;
+
+&lt;p&gt;The relatively benign titles listed here show just how worried the Nazis were about any books related to history, mythology, morality and sexuality (Caeseren, Aphrodite, The Xex life of Women, the Big Sin).&lt;/p&gt;
+
+&lt;p&gt;One particularly strange title is “Die Hochfrequenz als Verjuegungsmittel”, or, roughly translated ‘Using High Frequency Waves in Order to Look Younger.” I’m guessing this book went against the Nazi party stance on scientific research.&lt;/p&gt;
+
+&lt;h1 id=&quot;topics-of-the-200-most-banned-authors&quot;&gt;Topics of the 200 Most Banned Authors&lt;/h1&gt;
+
+&lt;p&gt;To conclude, we’ll use a treemap to see the most frequent words used in titles from the most frequently banned authors. We should be able to get a rough view of the type of titles each author wrote.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;naziblog_files/figure-markdown_github/unnamed-chunk-9-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The size of the rectangle is proportional to the number of banned books from the author. We can see Theodor Hendrik Van der Velde (a Dutch Gynecologist and partial discoverer of the curve of human body temperature) wrote books about marriage (&lt;em&gt;Ehe&lt;/em&gt;), while Siegfried Lichtenstaedten wrote often about topics related to Judaism. He published works dealt with topics related to political questions of a Jewish history, law, and customs. Sadly, he was murdered in a Ghetto in Theresienstadt in 1942, according to Wikipedia. I encourage you to Google some of these people to learn more about their writings and ideas.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Beware of any politician that tries to limit the free expression of ideas in society.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This list of books highlights the fact that topics which are seemingly unrelated to politics, such as morality tales and mythology, can be appropriated and used by those in power to control popular discourse and keep opposing ideas away from young people, who might be willing to revolt against the system. If the party narrative is pushed hard enough and long enough, people will start to believe it.&lt;/p&gt;
+
+&lt;p&gt;Regardless of your view of certain media publishers, such as the New York Times or CNN, the next time Trump says they are the ‘enemy of the people,’ you should remind yourself that the Nazis used the very same tactic to carry out one of the most heinous crimes against humanity and lead the world into one of the most destructive wars ever fought.&lt;/p&gt;</content><author><name></name></author><summary type="html">Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums) The Data Which Year Were Books Banned? Wordcloud of Banned Book Titles Geomapping Banned Book Geomapping Banned Ideas Authors with Most Banned Books Topics of the 200 Most Banned Authors Conclusion</summary></entry><entry><title type="html">Data Analysis: Evictions in San Francisco</title><link href="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html" rel="alternate" type="text/html" title="Data Analysis: Evictions in San Francisco" /><published>2018-08-08T00:00:00+08:00</published><updated>2018-08-08T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/08/sf-evictions</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/08/sf-evictions.html">&lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#understanding-evictions-in-sf&quot;&gt;Understanding Evictions in SF&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#where-do-most-evictions-happen&quot;&gt;Where do Most Evictions Happen?&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#evictions-over-time&quot;&gt;Evictions over Time&lt;/a&gt;&lt;/li&gt;
@@ -3445,24 +3562,4 @@ Upon suggestion of my dear cousin Evan, I’ve added an 11th dimension: % of pop
 
 &lt;p&gt;Most of the European countries would have come out clearly on top had their alcohol and tobacco consumption levels been lower. And to the Germans, I say blame your good-but-not-great showing on all that damned Hefeweizen and the hipsters in Berlin who roll their cigs on the U-Bahn. Einverstanden?&lt;/p&gt;
 
-&lt;p&gt;In the future I’ll perform more analyses on world countries. I’m looking at comparing Education or Civil Society/Culture as my next blog post. Stay tuned.&lt;/p&gt;</content><author><name></name></author><summary type="html">The Mother of all Social Science Datasets: Quality of Government</summary></entry><entry><title type="html">Four Statistics Memes that Bafflingly Did Not Go Viral</title><link href="http://localhost:4000/datasophy/2018/07/01/stats-memes.html" rel="alternate" type="text/html" title="Four Statistics Memes that Bafflingly Did Not Go Viral" /><published>2018-07-01T00:00:00+08:00</published><updated>2018-07-01T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/07/01/stats-memes</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/07/01/stats-memes.html">&lt;p&gt;This is what happens when you read too many statistics textbooks.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;./memes/gosling.jpg&quot; alt=&quot;image-title-here&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;For the skeptics:&lt;/p&gt;
-&lt;div class=&quot;language-r highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pnorm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;4.75342&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1.000021e-06&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;To all the single ladies.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;./memes/destiny.jpg&quot; alt=&quot;single ladies&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Factoid: Did you know Ryan Gosling is dyslexic?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;./memes/ftest.jpg&quot; alt=&quot;F test&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;For the Bayesians in the audience. Taking it back to your 8th grade dance.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;./memes/thong.jpg&quot; alt=&quot;sisqo never dies&quot; class=&quot;img-responsive&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">This is what happens when you read too many statistics textbooks.</summary></entry></feed>
+&lt;p&gt;In the future I’ll perform more analyses on world countries. I’m looking at comparing Education or Civil Society/Culture as my next blog post. Stay tuned.&lt;/p&gt;</content><author><name></name></author><summary type="html">The Mother of all Social Science Datasets: Quality of Government</summary></entry></feed>
