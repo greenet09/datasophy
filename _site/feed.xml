@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-15T19:38:41+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Mapping Math Performance in CA High Schools</title><link href="http://localhost:4000/datasophy/2018/08/15/calschools.html" rel="alternate" type="text/html" title="Mapping Math Performance in CA High Schools" /><published>2018-08-15T00:00:00+08:00</published><updated>2018-08-15T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/15/calschools</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/15/calschools.html">&lt;h1 id=&quot;california-schools-math-performance&quot;&gt;California Schools’ Math Performance&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/datasophy/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/datasophy/" rel="alternate" type="text/html" /><updated>2018-08-15T19:44:54+08:00</updated><id>http://localhost:4000/datasophy/</id><title type="html">A Philosopher’s Guide to Data Science</title><subtitle>Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial</subtitle><entry><title type="html">Mapping Math Performance in CA High Schools</title><link href="http://localhost:4000/datasophy/2018/08/15/calschools.html" rel="alternate" type="text/html" title="Mapping Math Performance in CA High Schools" /><published>2018-08-15T00:00:00+08:00</published><updated>2018-08-15T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/15/calschools</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/15/calschools.html">&lt;h1 id=&quot;california-schools-math-performance&quot;&gt;California Schools’ Math Performance&lt;/h1&gt;
 
-&lt;p&gt;We will visualize which high schools have students performing at or above the benchmark set by the state.&lt;/p&gt;
+&lt;p&gt;We will visualize which high schools have students performing at or above the benchmark set by the state. Keep in mind that some of these high schools are very small (fewer than 50 students taking the test), so take the results with a grain of salt.&lt;/p&gt;
+
+&lt;p&gt;The data was from https://www.cde.ca.gov/ds/sd/sd/&lt;/p&gt;
 
 &lt;p&gt;You can click in the top right corner to toggle between charter and non-charter schools.&lt;/p&gt;
 
-&lt;p&gt;Here’s the Map. Enjoy.&lt;/p&gt;
+&lt;p&gt;With the magnifying glass icon, you should be able to search for your school as well.&lt;/p&gt;
+
+&lt;p&gt;In the future, I’ll map out California demographic data.&lt;/p&gt;
 
 &lt;div id=&quot;map&quot; style=&quot;width: 600px; height: 400px&quot;&gt;
 &lt;html&gt;
@@ -41,7 +45,9 @@
 &lt;script type=&quot;application/htmlwidget-sizing&quot; data-for=&quot;htmlwidget-da0976ccdbb599502c1c&quot;&gt;{&quot;viewer&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:400,&quot;padding&quot;:0,&quot;fill&quot;:true},&quot;browser&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:400,&quot;padding&quot;:0,&quot;fill&quot;:false}}&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">California Schools’ Math Performance</summary></entry><entry><title type="html">Data Analysis: Books Banned by the Nazis</title><link href="http://localhost:4000/datasophy/2018/08/14/nazibooks.html" rel="alternate" type="text/html" title="Data Analysis: Books Banned by the Nazis" /><published>2018-08-14T00:00:00+08:00</published><updated>2018-08-14T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/14/nazibooks</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/14/nazibooks.html">&lt;ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Overall, we see coastal cities with the strongest math results. My old high school, Chaparral, does pretty average with only about 50% of the students meeting the state benchmark.&lt;/p&gt;</content><author><name></name></author><summary type="html">California Schools’ Math Performance</summary></entry><entry><title type="html">Data Analysis: Books Banned by the Nazis</title><link href="http://localhost:4000/datasophy/2018/08/14/nazibooks.html" rel="alternate" type="text/html" title="Data Analysis: Books Banned by the Nazis" /><published>2018-08-14T00:00:00+08:00</published><updated>2018-08-14T00:00:00+08:00</updated><id>http://localhost:4000/datasophy/2018/08/14/nazibooks</id><content type="html" xml:base="http://localhost:4000/datasophy/2018/08/14/nazibooks.html">&lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#books-banned-by-the-nazis-liste-der-schadlichen-und-unerwunschten-schrifttums&quot;&gt;Books Banned by the Nazis (Liste der schädlichen und unerwünschten Schrifttums)&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#the-data&quot;&gt;The Data&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#which-year-were-books-banned&quot;&gt;Which Year Were Books Banned?&lt;/a&gt;&lt;/li&gt;
