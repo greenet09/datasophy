@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: A Philosopher's Guide to Data Science
 email: greenet09@gmail.com
-description: Discussions around data science, GDPR, law, philosophy, data ethics, big data, and the occasional little data tutorial 
+description: Discussions around data & society 
 baseurl: "/datasophy" # the subpath of your site, e.g. /blog
 url: "http://greenet09.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 linkedin_username: travis-greene
