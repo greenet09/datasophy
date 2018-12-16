@@ -16,9 +16,10 @@ She's even got the perfect hipster moustache.
 
 ![smore1](./assets/smore2.JPG){:class="img-responsive", :height="300px" width="400px"}
 
-These guys love to snuggle together in the sink.
+Some recent table tennis action.
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=zHUJxAMhQzQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-![othercats](./assets/cats.JPG){:class="img-responsive", :height="300px" width="400px"}
+
 
 Dr. Greger's book convinced me to go vegan after nearly 17 years as a vegetarian. Here's a talk that explains his overall approach to nutrition and medicine.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lXXXygDRyBU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
