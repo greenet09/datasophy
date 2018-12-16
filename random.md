@@ -17,7 +17,7 @@ She's even got the perfect hipster moustache.
 ![smore1](./assets/smore2.JPG){:class="img-responsive", :height="300px" width="400px"}
 
 Some recent table tennis action.
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=zHUJxAMhQzQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zHUJxAMhQzQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
