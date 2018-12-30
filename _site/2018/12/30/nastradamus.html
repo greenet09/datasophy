@@ -68,13 +68,20 @@
 
 <h1 id="geocoding-nostradamus-prophecies">Geocoding Nostradamus’ Prophecies</h1>
 
-<p>In this post, I’ll take a first shot at trying to go from unstructured to structured text data that’s suitable for plotting or for doing further scraping.</p>
+<p>In this post, I’ll take a first shot at trying to go from unstructured to structured text data that’s suitable for plotting or further scraping.</p>
 
-<p>I took the liberty of scraping all of Nostradamus’s English texts (10 Centuries plus the two Almanacs) and I’ve already cleaned them up and placed them in a csv file that I’ll simply import as a data frame.</p>
+<p>I took the liberty of scraping all of Nostradamus’s English texts (his ‘10 Centuries’ plus the two ‘Almanacs’) and I’ve already cleaned them up and placed them in a csv file that I’ll simply import as a data frame.
+If you’re interested in reading the text files, you can view them <a href="http://www.sacred-texts.com/nos/index.htm">here</a>.</p>
+
+<p>If you’ve never heard of Nostradamus, here’s a quick summary from <a href="https://en.wikipedia.org/wiki/Nostradamus">Wikipedia</a>:</p>
+
+<blockquote>
+  <p>Michel de Nostredame (depending on the source, 14 or 21 December 1503 – 2 July 1566), usually Latinised as Nostradamus, was a French physician and reputed seer, who is best known for his book Les Propheties, a collection of 942 poetic quatrains allegedly predicting future events. The book was first published in 1555 and has rarely been out of print since his death.</p>
+</blockquote>
 
 <p>Keep in mind that apparently Nostradamus was writing in Old French, and as such, the translations into English aren’t always so reliable. So when we finally geocode the extracted locations, there’s going to be a bit of noise.</p>
 
-<p>Our goal here will be to put all the locations on a world map and then use the text related to the location to infer keywords related to that location. This way, instead of just showing tons of lines of text that mentioned the location, we can just show some keywords that most summarize Nastradamus’ prophecies surrounding that location. After all, the goal of data mining should be to make complicated things simple so that quick insights can be found.</p>
+<p>Our goal here will be to put all the locations on a world map and then use the text related to the location to infer keywords related to that location. This way, instead of just showing tons of lines of text that mentioned the location, we can just show some keywords that most summarize Nostradamus’ prophecies surrounding that location. After all, the goal of data mining should be to make complicated things simple so that quick insights can be found.</p>
 
 <p>Here’s what the CSV file looks like that will be the basis for the analysis.</p>
 
@@ -275,7 +282,9 @@
 </html>
 
 <h1 id="conclusion">Conclusion</h1>
-<p>So that’s it. I’m not sure how enlightening the final result is, but I think this approach could be extended for a lot of other, more interesting analyses. For example, using the extracted locations to then scrape wikipedia and then filter the wikipedia text and display that on a map. You could input song lyrics and then you would get a map with all people mentioned in the song and a quick keyword summary of the person (based on say, the top tf-idf scores of words).</p>
+<p>So that’s it. Don’t mind some of the crazy geocoding–that’s mostly the fault of the dsk geocoder. Google maps did a better job of recognizing the locations.</p>
+
+<p>I’m not sure how enlightening the final result is, but I think this approach could be extended for a lot of other, more interesting analyses. For example, using the extracted locations to then scrape wikipedia and then filter the wikipedia text and display that on a map. You could input song lyrics and then you would get a map with all people mentioned in the song and a quick keyword summary of the person (based on say, the top tf-idf scores of words).</p>
 
 
   </div>
