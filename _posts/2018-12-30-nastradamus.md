@@ -21,7 +21,12 @@ If you've never heard of Nostradamus, here's a quick summary from [Wikipedia](ht
 
 Keep in mind that apparently Nostradamus was writing in Old French, and as such, the translations into English aren't always so reliable. So when we finally geocode the extracted locations, there's going to be a bit of noise.
 
+Goal
+==================
 Our goal here will be to put all the locations on a world map and then use the text related to the location to infer keywords related to that location. This way, instead of just showing tons of lines of text that mentioned the location, we can just show some keywords that most summarize Nostradamus' prophecies surrounding that location. After all, the goal of data mining should be to make complicated things simple so that quick insights can be found.
+
+Our end result should look something like this, but interactive:
+![final result](./map/nas.jpg){:class="img-responsive"}
 
 Here's what the CSV file looks like that will be the basis for the analysis.
 
