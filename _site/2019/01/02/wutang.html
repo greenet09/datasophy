@@ -192,7 +192,9 @@
 
 <p>I love tf-idf. Here we use it to visualize the ‘most unique’ words by song. Want to quickly get an idea of the key topics in a song? Use tf-idf.</p>
 
-<p>I didn’t include all songs because the facets would get too small. Here’s just a taste.</p>
+<p>I didn’t include all songs because the facets would get too small. Here’s just a taste. I’ve limited it to the top three most unique words in each song.</p>
+
+<p>Notice that words in red have high tf-idf score because they do not appear in any other songs. For example, Flava Flav’s cameo in “Soul Power Black Jungle” or the the word “codefendant” on the eponymous song.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">unnest_tokens</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">lyrics</span><span class="p">)</span><span class="o">%&gt;%</span><span class="w">
@@ -212,14 +214,17 @@
   </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="wuanalysis_files/figure-markdown_github/unnamed-chunk-5-1.png" alt="" /></p>
+<p><img src="wuanalysis_files/figure-markdown_github/wusong.jpeg" alt="" /></p>
 
 <h1 id="visualize-correlated-networks-of-lyrics-by-using-the-phi-coefficient">Visualize correlated networks of lyrics by using the phi coefficient</h1>
 
 <p>This one was inspired by the great book “Text Mining with R.” What we are doing is looking, per song, at pairs of words. We are doing something similar to Pearson’s correlation coefficient but looking at counts of times word pairs appear versus times when they do not appear together. Word pairs that often occur together within the same song will be given a high phi correlation (close to 1), while words that never appear together will get negative scores (close to -1).</p>
 
-<p>We can use this correlation to see how certain words and phrases are used within songs and over the corpus of lyrics as a whole. We will tend to send small groups of words commonly found together in certain songs, but then we also can find phrases that are more common to all Wu-tang songs. These, I would posit, are key components of the general Wu-tang lexicon.</p>
+<p>We can use this correlation (higher correlations have bright blue links) to see how certain words and phrases are used within songs and over the corpus of lyrics as a whole. We will tend to send small groups of words commonly found together in certain songs, but then we also can find phrases that are more common to all Wu-tang songs. These, I would posit, are key components of the general Wu-tang lexicon.</p>
 
+<p>Notice how “method man,” “raewkon,” and “ghostface killah” act as phrases that link together a lot of the commonly used lyrics. This makes sense because the rappers will often refer to themselves in the 3rd person in many different songs. ODB represents the other important node that links key Wu-tang lyrics across different songs. Key phrases associated with him are “sword,” “killa bee” and “mutherfucking ruckus.” Quite fitting.</p>
+
+<p>Finally, we can see how this method groups lyrics that appear only in certain unique songs, as these phrases do not appear elsewhere in the Wu-tang corpus. A phrase like “dolla bill” can be thought of as the glue that links multiple songs’ lyrics together.</p>
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">lyrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">removeWords</span><span class="p">(</span><span class="n">lyrics</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'i'</span><span class="p">,</span><span class="s1">'my'</span><span class="p">,</span><span class="n">stop_words</span><span class="o">$</span><span class="n">word</span><span class="p">)))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">lyrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lemmatize_strings</span><span class="p">(</span><span class="n">lyrics</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
@@ -239,7 +244,7 @@
   </span><span class="n">theme_void</span><span class="p">()</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="wuanalysis_files/figure-markdown_github/unnamed-chunk-7-1.png" alt="" /></p>
+<p><img src="wuanalysis_files/figure-markdown_github/wunet.jpeg" alt="" /></p>
 
 <h1 id="analyzing-the-sentiment-of-wu-tang-songs">Analyzing the sentiment of wu-tang songs</h1>
 
@@ -247,6 +252,7 @@
 
 <p>Unfortunately, I couldn’t include all 60+ songs here because the width of the webpage is not big enough to fit the graphic (even though it displays fine on my laptop).</p>
 
+<p>I like how “Triumph” clearly shows how the different members contribute to the change in sentiment through the song. Beware, however, that due to the way I computed overall sentiment (just the sum of sentiments) that songs with more lyrics will inherently have higher scores. That’s why we see 7th chamber as the most negative, even though there are positive points in the song.</p>
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">lyrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">removeWords</span><span class="p">(</span><span class="n">lyrics</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'i'</span><span class="p">,</span><span class="s1">'my'</span><span class="p">,</span><span class="n">stop_words</span><span class="o">$</span><span class="n">word</span><span class="p">)))</span><span class="o">%&gt;%</span><span class="w">
   </span><span class="n">mutate</span><span class="p">(</span><span class="n">lyrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lemmatize_strings</span><span class="p">(</span><span class="n">lyrics</span><span class="p">))</span><span class="o">%&gt;%</span><span class="w">
@@ -268,7 +274,7 @@
   </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">song</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'free'</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p><img src="wuanalysis_files/figure-markdown_github/unnamed-chunk-8-1.png" alt="" /></p>
+<p><img src="wuanalysis_files/figure-markdown_github/wusent.jpeg" alt="" /></p>
 
 <h1 id="named-entity-extraction-locations-and-people-referenced-in-wu-tangs-songs">Named entity extraction: locations and people referenced in Wu-tang’s songs</h1>
 
