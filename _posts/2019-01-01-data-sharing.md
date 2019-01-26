@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A Short Guide to GDPR Data Sharing/Processing Contracts"
-date: "2019-01-26"
+date: "2019-01-01"
 author: "Travis Greene"
 comments: true
 ---
