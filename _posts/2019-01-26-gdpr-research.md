@@ -6,7 +6,7 @@ author: "Travis Greene"
 comments: true
 ---
 
-# Know Whether You're Exempt
+## Know Whether You're Exempt
 Though many of the GDPR’s Articles and Recitals apply to industry-focused personal data processing, there are several exemptions for certain kinds of research. Principal investigators should therefore first determine whether their research project falls under *statistical/scientific/historical/archiving in public interest* purposes, which obviates the research from honoring certain data subject rights. [^1] It should be noted that what counts as scientific research under GDPR is quite broad and includes “*technological development and demonstration, fundamental research, applied research and privately funded research*” (Recital 159). 
 
 ## Key Points to Consider 
