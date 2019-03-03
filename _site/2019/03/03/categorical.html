@@ -3,19 +3,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Comparing methods for dealing with high-cardinality categorical predictors | A Philosopher’s Guide to Data Science</title>
+<title>Comparing Methods for Dealing with High-cardinality Categorical Predictors | A Philosopher’s Guide to Data Science</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="Comparing methods for dealing with high-cardinality categorical predictors" />
+<meta property="og:title" content="Comparing Methods for Dealing with High-cardinality Categorical Predictors" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Start text preprocessing with text2vec Set up cross validation scheme Start training models: elastic net and xgboost Examine model performance metrics Examine the predictions visually Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
-<meta property="og:description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Start text preprocessing with text2vec Set up cross validation scheme Start training models: elastic net and xgboost Examine model performance metrics Examine the predictions visually Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
+<meta name="description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
+<meta property="og:description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
 <link rel="canonical" href="http://localhost:4000/datasophy/2019/03/03/categorical.html" />
 <meta property="og:url" content="http://localhost:4000/datasophy/2019/03/03/categorical.html" />
 <meta property="og:site_name" content="A Philosopher’s Guide to Data Science" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-03-03T00:00:00+08:00" />
 <script type="application/ld+json">
-{"url":"http://localhost:4000/datasophy/2019/03/03/categorical.html","description":"Why do we need special strategies? Methods explored Preliminaries Base performance Start text preprocessing with text2vec Set up cross validation scheme Start training models: elastic net and xgboost Examine model performance metrics Examine the predictions visually Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion","headline":"Comparing methods for dealing with high-cardinality categorical predictors","dateModified":"2019-03-03T00:00:00+08:00","datePublished":"2019-03-03T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2019/03/03/categorical.html"},"@context":"http://schema.org"}</script>
+{"url":"http://localhost:4000/datasophy/2019/03/03/categorical.html","description":"Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion","headline":"Comparing Methods for Dealing with High-cardinality Categorical Predictors","dateModified":"2019-03-03T00:00:00+08:00","datePublished":"2019-03-03T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2019/03/03/categorical.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" />
 <script src="https://github.com/rstudio/leaflet/blob/gh-pages/libs/jquery/jquery.min.js"></script>
@@ -55,7 +55,7 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Comparing methods for dealing with high-cardinality categorical predictors</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Comparing Methods for Dealing with High-cardinality Categorical Predictors</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2019-03-03T00:00:00+08:00" itemprop="datePublished">Mar 3, 2019
       </time></p>
@@ -67,11 +67,7 @@
   <li><a href="#methods-explored">Methods explored</a></li>
   <li><a href="#preliminaries-a-sample-of-50000-obs-same-seed-in-all-experiments">Preliminaries</a></li>
   <li><a href="#naive-approach-no-special-processing.-base-performance">Base performance</a></li>
-  <li><a href="#start-text-preprocessing-with-text2vec">Start text preprocessing with text2vec</a></li>
-  <li><a href="#set-up-our-cross-validation-scheme">Set up cross validation scheme</a></li>
-  <li><a href="#start-training-models-elastic-net-and-xgboost">Start training models: elastic net and xgboost</a></li>
-  <li><a href="#examine-model-performance">Examine model performance metrics</a></li>
-  <li><a href="#examine-the-predictions">Examine the predictions visually</a></li>
+  <li><a href="#start-text-preprocessing-with-text2vec">Text preprocessing with text2vec</a></li>
   <li><a href="#strategy-1-naive-approach-top-50-most-common">Strategy 1: Naive Approach (Top 50 most common)</a></li>
   <li><a href="#strategy-2-impact-coding-using-the-r-package-vtreat">Strategy 2: Impact Coding using the R package vtreat</a>
     <ul>
@@ -130,10 +126,13 @@ Kickstarter might want to use this information in order to advise new projects o
 
 <p>Strategy 4: <strong>Feature hashing</strong></p>
 
-<h1 id="preliminaries-a-sample-of-50000-obs-same-seed-in-all-experiments">Preliminaries: a sample of 50,000 obs (same seed in all experiments)</h1>
+<h1 id="preliminaries">Preliminaries</h1>
+
+<p>Here is how we will try to keep all conditions as similar as possible when comparing the different approaches.</p>
 
 <ul>
   <li>Use max 500 text features (kept same for all strategies), except for feature hashing</li>
+  <li>Same seed numbers</li>
   <li>Use tf-idf weights for text features</li>
   <li>80/20 train-test split</li>
   <li>5 fold cross validation used whenever possible to tune hyperparameters; otherwise set to default</li>
@@ -174,9 +173,7 @@ Kickstarter might want to use this information in order to advise new projects o
 ## $ extreme       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
 </code></pre></div></div>
 
-<h1 id="examine-unique-values-of-categorical-predictors">Examine unique values of categorical predictors</h1>
-
-<p>This dataset is not atypical from one you might see on Kaggle or obtain from webscraping.</p>
+<p>This dataset is typical for one you might see on Kaggle or obtain from webscraping. There are tons of categories. What should we do?</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">xray</span><span class="o">::</span><span class="n">anomalies</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w">
 </span><span class="n">x</span><span class="o">$</span><span class="n">variables</span><span class="o">%&gt;%</span><span class="w">
