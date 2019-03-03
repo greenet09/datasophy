@@ -68,14 +68,14 @@ Finally, by combining the estimated number of backers with an average pledge amo
 
 <h1 id="preliminaries">Preliminaries</h1>
 
-<p>Here is how we will try to keep all base conditions as similar as possible when comparing the different approaches. 
-The final dimensions of the training set will differ, however, depending on the technique used. 
-For example, in our feature hashed version, we will have over 500,000 predictors.</p>
+<p>In order to make our comparison of strategies as fair as possible, we will need to set up some base conditions when comparing the different approaches. 
+The final dimensions of the training sets used during model estimation will differ, however, depending on the technique used. 
+For example, in our feature hashed version, we will have over 500,000 predictors. All trained models will have the following in common:</p>
 
 <ul>
-  <li>Use max 500 text features (kept same for all strategies)</li>
+  <li>Use 500 text features (based on the 500 most frequent words in the training set)</li>
   <li>Same seed numbers</li>
-  <li>Use tf-idf weights for text features</li>
+  <li>Tf-idf weights for the text features based on the training set</li>
   <li>80/20 train-test split</li>
   <li>5 fold cross validation used whenever possible to tune hyperparameters; otherwise set to default</li>
   <li>Glmnet and xgboost models will be trained</li>
@@ -356,7 +356,7 @@ Without any transformations of the outcome variable, we can already imagine that
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [1] 40001   500
 </code></pre></div></div>
 
-<p>So we coerce back to a dataframe for later manipulation and visualization. Plus if youre an average R user, you probably are used to thinking in terms of dataframes (and not sparse matrices).</p>
+<p>So we coerce back to a dataframe for later manipulation and visualization. Plus if you’re an average R user, you probably are used to thinking in terms of dataframes (and not sparse matrices).</p>
 
 <p>We do some final cleaning up and add back the other predictors.</p>
 
@@ -812,7 +812,7 @@ So one takeaway is that by collapsing categories we can likely get (very slight)
 
 <h1 id="strategy-2-impact-coding-using-the-r-package-vtreat">Strategy 2: Impact Coding using the R package vtreat</h1>
 
-<p>This approach to dealing with high-cardinality categorical predictors is based on the work of Zumel &amp; Mount (2018)<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> and the main functionality is included in the R libraryvtreat. The purpose of the package is to use a data frame to collect statistics that can then be used to replace the original categorical data (this process also incidentally solves the problem of missing values).</p>
+<p>This approach to dealing with high-cardinality categorical predictors is based on the work of Mount &amp; Zumel (2018)<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> and the main functionality is included in the R package <em>vtreat</em>. The purpose of the package is to use a data frame to collect statistics that can then be used to replace the original categorical data (this process also incidentally solves the problem of missing values).</p>
 
 <p>Essentially, the “impact” of a particular level is the difference in the expected value of the outcome given the level and the expected value of the unconditional outcome. 
 <img src="./pics/formula.png" alt="determing impact score" class="img-responsive" /></p>
