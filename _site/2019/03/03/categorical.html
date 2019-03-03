@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Comparing Methods for Dealing with High-cardinality Categorical Predictors | A Philosopher’s Guide to Data Science</title>
+<title>Dealing with High-cardinality Categorical Predictors | A Philosopher’s Guide to Data Science</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="Comparing Methods for Dealing with High-cardinality Categorical Predictors" />
+<meta property="og:title" content="Dealing with High-cardinality Categorical Predictors" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
 <meta property="og:description" content="Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-03-03T00:00:00+08:00" />
 <script type="application/ld+json">
-{"url":"http://localhost:4000/datasophy/2019/03/03/categorical.html","description":"Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion","headline":"Comparing Methods for Dealing with High-cardinality Categorical Predictors","dateModified":"2019-03-03T00:00:00+08:00","datePublished":"2019-03-03T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2019/03/03/categorical.html"},"@context":"http://schema.org"}</script>
+{"url":"http://localhost:4000/datasophy/2019/03/03/categorical.html","description":"Why do we need special strategies? Methods explored Preliminaries Base performance Text preprocessing with text2vec Strategy 1: Naive Approach (Top 50 most common) Strategy 2: Impact Coding using the R package vtreat Benefits of Impact Coding Avoiding Nested model Bias Strategy 3: Feature Hashing Strategy 4: String distance based grouping Summary and Conclusion","headline":"Dealing with High-cardinality Categorical Predictors","dateModified":"2019-03-03T00:00:00+08:00","datePublished":"2019-03-03T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/datasophy/2019/03/03/categorical.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/datasophy/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/datasophy/feed.xml" title="A Philosopher's Guide to Data Science" />
 <script src="https://github.com/rstudio/leaflet/blob/gh-pages/libs/jquery/jquery.min.js"></script>
@@ -55,7 +55,7 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Comparing Methods for Dealing with High-cardinality Categorical Predictors</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Dealing with High-cardinality Categorical Predictors</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2019-03-03T00:00:00+08:00" itemprop="datePublished">Mar 3, 2019
       </time></p>
@@ -1824,8 +1824,6 @@ Overall feature hashing gives a very modest performance boost only to the xgboos
 
 <h3 id="string-distance-clustering-results">String distance clustering results</h3>
 <p>Here we see again limitations in the elastic net. Most predictions are right at the training set mean, with very little variance. However the xgboost predictions do a pretty good job of catching campaigns that have very few backers. This is reflected in the best overall RMSE of 1376.957. Remember that our original xgboost test set RMSE (no special processing) was around 1413, so this represents about a 2.6% reduction in RMSE by using the string clusters.</p>
-
-<h1 id="summary-and-conclusion">Summary and Conclusion</h1>
 
 <p><img src="./pics/res.png" alt="results" class="img-responsive" /></p>
 
