@@ -17,7 +17,7 @@
   <li><a href="#summary-and-conclusion">Summary and Conclusion</a></li>
 </ul>
 
-<h1 id="why-do-we-need-special-strategies-for-categorical-predictors">Why do we need special strategies for categorical predictors?</h1>
+<h1 id="why-do-we-need-special-strategies-for-high-cardinality-categorical-predictors">Why do we need special strategies for high-cardinality categorical predictors?</h1>
 
 <p>A common issue with real-word datasets is handling of categorical predictors with many unique factor levels.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> This problem is especially acute in the e-commerce, retail, and banking sectors, where predictors such as item type, zip code, or user city may wield hundreds or even thousands of unique levels. In fact, most datasets containing textual features will exhibit these issues and therefore data analysts should be well-equipped with strategies for making the most of these categorical predictors. The following list represents some of the most frequently-encountered issues when preparing such datasets for predictive modeling (taken from Mount and Zumel (2018)<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>):</p>
 <blockquote>
@@ -40,7 +40,7 @@
   <p>Creation of large numbers of dummy variables unnecessarily adds dimensions to the model input, slows down model training, and reduces model interpretability</p>
 </blockquote>
 
-<p>This post is an attempt to empirically evaluate several different pre-processing strategies specifically tailored to datasets containing categorical predictors with a substantial number of unique levels. Each strategy should be seen holistically as bringing with it several benefits but also several drawbacks; therefore, the question of which technique is best suited for a particular dataset is left open to experimentation and will depend on the details surrounding the predictive modeling task. For example, some stakeholders may value model interpretability more than the speed at which the model can be deployed or trained. These factors will need to be taken into consideration when deciding which methods to use to pre-process any categorical predictors.</p>
+<p>This post is an attempt to empirically evaluate several different pre-processing strategies specifically tailored to datasets containing categorical predictors with a substantial number of unique levels. Each strategy brings with it several benefits but also several drawbacks; therefore, the question of which technique is best suited for a particular dataset is left open to experimentation and will depend on the details surrounding the predictive modeling task. For example, some stakeholders may value model interpretability more than the speed at which the model can be deployed or trained. These factors will need to be taken into consideration when deciding which methods to use.</p>
 
 <h1 id="business-impact-of-predictive-model">Business Impact of predictive model</h1>
 <p>Our goal is to compare the predictive performance of four methods of dealing with datasets that include high-cardinality categorical variables. 
@@ -807,7 +807,9 @@ So one takeaway is that by collapsing categories we can likely get (very slight)
 
 <p>This approach to dealing with high-cardinality categorical predictors is based on the work of Zumel &amp; Mount (2016)<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> and the main functionality is included in the R libraryvtreat. The purpose of the package is to use a data frame to collect statistics that can then be used to replace the original categorical data (this process also incidentally solves the problem of missing values).</p>
 
-<p>Essentially, the “impact” of a particular level is the difference in the expected value of the outcome given the level and the expected value of the unconditional outcome. The result is a numeric value that will give the analyst a rough idea of how important a particular level is. For example, a level with a very large impact score may be worth examining since this level’s average outcome is much higher than the overall average.</p>
+<p>Essentially, the “impact” of a particular level is the difference in the expected value of the outcome given the level and the expected value of the unconditional outcome. 
+<img src="./pics/formula.png" alt="determing impact score" class="img-responsive" />
+The result is a numeric value that will give the analyst a rough idea of how important a particular level is. For example, a level with a very large impact score may be worth examining since this level’s average outcome is much higher than the overall average.</p>
 
 <h1 id="benefits-of-impact-coding">Benefits of Impact Coding</h1>
 
@@ -823,7 +825,10 @@ So one takeaway is that by collapsing categories we can likely get (very slight)
 
 <p>The first solution when computing the impact code is to divide the data into a normal training and testing set. However, then one divides the training set into further “folds” or pieces: for all but one of these folds we will determine the difference in expected values and then “apply” the computation to the “out of sample” fold not used in calculating the difference in expected values. We repeat this until we have applied the calculation to every fold and then average the results among all folds. The final result is an ‘impact score’ that is less biased when later on a model is trained and tested on out of sample data. The mapping (converting the factor levels into numeric values) of these impact scores is then reproduced on the test set data. The test set impact scores will have been transformed only using information available in the training set, which simulates what would happen were we to deploy this model in the real world on new data that were previously unseen by our model.</p>
 
-<p>The other solution is to divide our data into three sets: training, testing, and evaluation. In the evaluation set, we compute the statistics needed for the impact score. Then, we apply the appropriate “treatment” (based on the expected differences in our evaluation set) to the training and testing sets. This again avoids the problem of having our impact scores unfairly reflect characteristics of the test set, which would lead us to believe the model’s performance is really better than it is on unseen data. The downside of this approach is that you lose some portion of your data to the evaluation set, which is typically 10-20% of all data. So in cases where you have less data, the cross-validation approach may be better.</p>
+<p>The other solution is to divide our data into three sets: training, testing, and evaluation. This image below shows the workflow (from Mount &amp; Zumel 2018 <sup id="fnref:2:2"><a href="#fn:2" class="footnote">2</a></sup>)
+<img src="./pics/workflow.png" alt="vtreat workflow" class="img-responsive" />
+In the evaluation set, we compute the statistics needed for the impact score. Then, we apply the appropriate “treatment” (based on the expected differences in our evaluation set) to the training and testing sets. This again avoids the problem of having our impact scores unfairly reflect characteristics of the test set, which would lead us to believe the model’s performance is really better than it is on unseen data. The downside of this approach is that you lose some portion of your data to the evaluation set, which is typically 10-20% of all data. So in cases where you have less data, the cross-validation approach may be better.
+In order to avoid setting up three data partitions, we will go the cross-validation route.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vtreat</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span><span class="w">
@@ -1781,7 +1786,7 @@ Though we must trade off model interpretability, I think the gains in terms of m
       <p>Micci-Barreca, Daniele. “A preprocessing scheme for high-cardinality categorical attributes in classification and prediction problems.” ACM SIGKDD Explorations Newsletter 3.1 (2001): 27-32. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>Mount, John, and Nina Zumel. “The vtreat R package: a statistically sound data processor for predictive modeling.” <a href="#fnref:2" class="reversefootnote">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+      <p>Mount, John, and Nina Zumel. “The vtreat R package: a statistically sound data processor for predictive modeling.” <a href="#fnref:2" class="reversefootnote">&#8617;</a> <a href="#fnref:2:1" class="reversefootnote">&#8617;<sup>2</sup></a> <a href="#fnref:2:2" class="reversefootnote">&#8617;<sup>3</sup></a></p>
     </li>
   </ol>
 </div>
