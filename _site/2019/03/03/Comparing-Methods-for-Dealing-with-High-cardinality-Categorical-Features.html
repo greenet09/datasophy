@@ -805,11 +805,12 @@ So one takeaway is that by collapsing categories we can likely get (very slight)
 
 <h1 id="strategy-2-impact-coding-using-the-r-package-vtreat">Strategy 2: Impact Coding using the R package vtreat</h1>
 
-<p>This approach to dealing with high-cardinality categorical predictors is based on the work of Zumel &amp; Mount (2016)<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> and the main functionality is included in the R libraryvtreat. The purpose of the package is to use a data frame to collect statistics that can then be used to replace the original categorical data (this process also incidentally solves the problem of missing values).</p>
+<p>This approach to dealing with high-cardinality categorical predictors is based on the work of Zumel &amp; Mount (2018)<sup id="fnref:2:1"><a href="#fn:2" class="footnote">2</a></sup> and the main functionality is included in the R libraryvtreat. The purpose of the package is to use a data frame to collect statistics that can then be used to replace the original categorical data (this process also incidentally solves the problem of missing values).</p>
 
 <p>Essentially, the “impact” of a particular level is the difference in the expected value of the outcome given the level and the expected value of the unconditional outcome. 
-<img src="./pics/formula.png" alt="determing impact score" class="img-responsive" />
-The result is a numeric value that will give the analyst a rough idea of how important a particular level is. For example, a level with a very large impact score may be worth examining since this level’s average outcome is much higher than the overall average.</p>
+<img src="./pics/formula.png" alt="determing impact score" class="img-responsive" /></p>
+
+<p>The result is a numeric value that will give the analyst a rough idea of how important a particular level is. For example, a level with a very large impact score may be worth examining since this level’s average outcome is much higher than the overall average.</p>
 
 <h1 id="benefits-of-impact-coding">Benefits of Impact Coding</h1>
 
@@ -826,14 +827,15 @@ The result is a numeric value that will give the analyst a rough idea of how imp
 <p>The first solution when computing the impact code is to divide the data into a normal training and testing set. However, then one divides the training set into further “folds” or pieces: for all but one of these folds we will determine the difference in expected values and then “apply” the computation to the “out of sample” fold not used in calculating the difference in expected values. We repeat this until we have applied the calculation to every fold and then average the results among all folds. The final result is an ‘impact score’ that is less biased when later on a model is trained and tested on out of sample data. The mapping (converting the factor levels into numeric values) of these impact scores is then reproduced on the test set data. The test set impact scores will have been transformed only using information available in the training set, which simulates what would happen were we to deploy this model in the real world on new data that were previously unseen by our model.</p>
 
 <p>The other solution is to divide our data into three sets: training, testing, and evaluation. This image below shows the workflow (from Mount &amp; Zumel 2018 <sup id="fnref:2:2"><a href="#fn:2" class="footnote">2</a></sup>)
-<img src="./pics/workflow.png" alt="vtreat workflow" class="img-responsive" />
+<img src="./pics/flow.png" alt="vtreat workflow" class="img-responsive" />
 In the evaluation set, we compute the statistics needed for the impact score. Then, we apply the appropriate “treatment” (based on the expected differences in our evaluation set) to the training and testing sets. This again avoids the problem of having our impact scores unfairly reflect characteristics of the test set, which would lead us to believe the model’s performance is really better than it is on unseen data. The downside of this approach is that you lose some portion of your data to the evaluation set, which is typically 10-20% of all data. So in cases where you have less data, the cross-validation approach may be better.
 In order to avoid setting up three data partitions, we will go the cross-validation route.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">vtreat</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'kick_sample.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">)</span><span class="w">
- </span><span class="c1">#BREAKUP INTO TRAINING AND TESTING</span><span class="w">
+
+</span><span class="c1">#BREAK UP INTO TRAINING AND TESTING</span><span class="w">
 </span><span class="n">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w">
 </span><span class="n">sp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">createDataPartition</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">backers</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
 </span><span class="n">train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">sp</span><span class="p">,]</span><span class="w">
@@ -909,8 +911,6 @@ In order to avoid setting up three data partitions, we will go the cross-validat
 </span></code></pre></div></div>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [1] 40001   500
 </code></pre></div></div>
-
-<h1 id="now-fit-tfidf-on-both-train-and-test-using-train-tf-idf-values">now fit tfidf on both train and test using train tf-idf values</h1>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#create tf idf instance. apply to train then transform test based on it</span><span class="w">
 </span><span class="n">model_tfidf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TfIdf</span><span class="o">$</span><span class="n">new</span><span class="p">()</span><span class="w">
