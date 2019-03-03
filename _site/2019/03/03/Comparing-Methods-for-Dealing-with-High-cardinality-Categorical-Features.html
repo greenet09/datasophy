@@ -573,6 +573,8 @@ This is one argument why we want to keep a completely independent test set to mi
 <h3 id="no-special-pre-processing-results">No special pre-processing results</h3>
 <p>We can see that without any special pre-processing both models do not perform that well. In fact, both are very close to the performance of simply predicting the training set mean for the test set. Xgboost does a slightly better job of capturing variation in outcome, but even still, it cannot capture the extemely wide and flat outcome distribution.</p>
 
+<p>In more practical terms, these results tell us that predicting the number of Kickstarter campaign backers is a tough task. Our test set RMSE implies that, on average, we should expect our predictions to be ‘off’ by about 1400 backers.</p>
+
 <h1 id="strategy-1-naive-approach-top-50-most-common">Strategy 1: Naive Approach (Top 50 most common)</h1>
 
 <p>Let’s see now if we can do better. 
