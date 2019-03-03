@@ -47,8 +47,10 @@
 We don’t care so much about the absolute performance of our predictive model; rather we care about the relative improvement gained by using these various techniques.</p>
 
 <p>To explore these strategies we’ll look at how each method performs on a sample Kickstarter dataset from Kaggle.
-Can we use the textual features of the campaign title to predict the final number of campaign backers? Although not our main goal, we’re also interested in answering this question.<br />
-Kickstarter might want to use this information in order to advise new projects on which kinds of words tend to attract the most backers, or they could use such predictions to position some projects in visible areas on the main page in order to attract even more viewers (relying on a kind of ‘network effect’). Finally, by combining the estimated number of backers with an average pledge amount, Kickstarter could also predict the chances a campaign will reach its funding goal.</p>
+Can we use the textual features of the campaign title to predict the final number of campaign backers? Although this is not our main goal, we’re also interested in answering whether the text features contain any predictive signal we can use.</p>
+
+<h3 id="why-would-we-want-to-predict-this">Why would we want to predict this?</h3>
+<p>Kickstarter might want to use this information in order to advise new projects on which kinds of words tend to attract the most backers, or they could use such predictions to position some projects in visible areas on the main page in order to attract even more viewers (relying on a kind of ‘network effect’). Finally, by combining the estimated number of backers with an average pledge amount, Kickstarter could also predict the chances a campaign will reach its funding goal.</p>
 
 <p>Here’s an example of Kickstarter’s website to illustrate what we are trying to predict and where the text features come from. 
 <img src="./pics/kicks.png" alt="Predictive goal" class="img-responsive" /></p>
@@ -573,7 +575,7 @@ This is one argument why we want to keep a completely independent test set to mi
 <h3 id="no-special-pre-processing-results">No special pre-processing results</h3>
 <p>We can see that without any special pre-processing both models do not perform that well. In fact, both are very close to the performance of simply predicting the training set mean for the test set. Xgboost does a slightly better job of capturing variation in outcome, but even still, it cannot capture the extemely wide and flat outcome distribution.</p>
 
-<p>In more practical terms, these results tell us that predicting the number of Kickstarter campaign backers is a tough task. Our test set RMSE implies that, on average, we should expect our predictions to be ‘off’ by about 1400 backers.</p>
+<p>In more practical terms, these results tell us that predicting the number of Kickstarter campaign backers is a tough task. Our test set RMSE implies that, on average, we should expect our predictions to be ‘off’ by about 1400 backers. Nevertheless, though our RMSE seems quite high, it tells us nothing about the practical value of such a prediction. The practical value is determined by the particular business context in which the model is deployed. It could be the case, for example, that this is good enough for making predictions about which campaigns to feature prominently on the platform’s website.</p>
 
 <h1 id="strategy-1-naive-approach-top-50-most-common">Strategy 1: Naive Approach (Top 50 most common)</h1>
 
