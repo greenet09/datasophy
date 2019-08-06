@@ -194,7 +194,7 @@ previous year. For example, if week 4 had 500 casualties in 2016, then
 our best guess is that week 4 in 2017 will also have 500 casualties. If
 we find a method that performs better than the seasonal naive, we’ll
 then train the full data using that method and predict through the end
-of 2018.</p>
+of 2018, up until the present day.</p>
 
 <p>Here is what our seasonal naive predictions look like.</p>
 
@@ -284,7 +284,7 @@ set RMSE?</p>
 </code></pre></div></div>
 
 <p>At 103.81 we do indeed see an improvement over the seasonal naive. But
-by averaging the previous two values, this is basically generating a
+by averaging the previous two values, this is essentially generating a slightly modified
 naive forecast. What if we used a longer trailing window?</p>
 
 <p>Here’s a little loop that displays the trailing window that gives
@@ -346,8 +346,8 @@ RMSEs less than 100. Which was the one that led to the minimum RMSE?</p>
 </code></pre></div></div>
 
 <p>So we learned that an average of the previous 60 weeks leads to the best
-performance on the test set. Here’s what the predictions would look like
-from such a model.</p>
+performance on the test set. This shouldn’t surprise us because 60 weeks is just about one year. Essentially, we are using a seasonal naive prediction.
+In any case, here’s what the predictions would look like from such a model.</p>
 
 <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">best_mov_ag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sma</span><span class="p">(</span><span class="n">week_train</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">=</span><span class="m">52</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="n">silent</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">intervals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'p'</span><span class="p">,</span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.80</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
@@ -356,7 +356,7 @@ from such a model.</p>
 
 <p>Maybe we’ve overfit by including 60 past observations, but the
 predictions look fairly realistic and seem to capture the mid-year peaks
-and the linear trend.</p>
+and the roughly linear trend present in the data.</p>
 
 <p><a name="ets"></a></p>
 
@@ -365,7 +365,7 @@ and the linear trend.</p>
 smoothing, which is very similar to the weighted average method above,
 except that the weights decay exponentially such that past observations
 can be weighted very little, while recent ones can be weighted more
-heavily.</p>
+heavily. For example, we might expect last week’s casualties to be more closely related to this week’s than to the number of casualties nine weeks before.</p>
 
 <p>Actually, after some warning messages popped up, we’ll let the stlf()
 function automatically select the appropriate type of errors, trend, and
@@ -395,8 +395,7 @@ seasonality. We chose this because ets() can’t handle weekly data well
 </code></pre></div></div>
 
 <p>As expected, the test set RMSE is much worse the training RMSE. It’s
-also quite a bit worse than the SMA(60) forecasts, but only slightly
-worse than the seasonal naive RMSE of 118.</p>
+a bit worse than the SMA(60) forecasts, but better than the seasonal naive RMSE of 118.</p>
 
 <p>The forecasts are essentially taking the last value and using it to as
 the forecast for every week in the test set. Note, however, that the
@@ -435,7 +434,7 @@ forecasts.</p>
 </code></pre></div></div>
 
 <p>ARIMA seems to be overpredicting quite a bit in the test period. As a
-result the RMSE is much worse than the seasonal naive.</p>
+result the RMSE is much, much worse than the seasonal naive. It’s worth noting that ARIMA does not perform well here. Lots of online tutorials use ARIMA because it’s so easy to use, even though conceptually it is quite complex. Definitely experiment with simpler methods first!</p>
 
 <p><a name="lm"></a></p>
 
@@ -467,7 +466,7 @@ automatically create trend and seasonal input variables for us.</p>
 </code></pre></div></div>
 
 <p>We see the same problem: the linear model has tended to overforecast the
-later months leading to a fairly dismal RMSE of 145. It looks like we
+later months leading to a fairly dismal RMSE of 145. It assumes the upward trend will continue indefinitely (we hope not…). It looks like we
 might instead want some kind of damped trend to capture the fact that
 last months of 2018 had lower casualties than previous years.</p>
 
