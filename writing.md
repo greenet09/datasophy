@@ -3,7 +3,9 @@ layout: page
 title: Writing
 permalink: /writing/
 ---
-<img src="./assets/hume.png" alt="phil" width="600px" height="150px"/>
+Here you can download my MBA thesis which explains the history and law behind the GDPR and gives practical recommendations for corporate managers and academics on using personal data under the GDPR. <img src="./assets/GDPR_mba.pdf" alt="phil" width="600px" height="150px"/>
+<img src="./assets/realFinalWorkflow.png" alt="phil" width="800px" height="600px"/>
+<img src="./assets/InfoQ.png" alt="phil" width="800px" height="6000px"/>
 
 
 Professor [Galit Shmueli](http://www.galitshmueli.com/) and I have recently finished our working paper on the [GDPR](https://www.ncbi.nlm.nih.gov/pubmed/31033336)
