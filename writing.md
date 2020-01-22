@@ -31,6 +31,7 @@ And [here](https://www.ncbi.nlm.nih.gov/pubmed/31033336) is our (coauthored with
 
 ### Information, Experience, and the Knowledge Argument
  <img src="./assets/qualia.jpg" alt="Inverted Qualia" width="300px" height="200px"/>
+ 
 This was my [Master's thesis](./assets/TravisPhil.pdf) in philosophy of mind and cognitive science at San Francisco State University. Basically, I analyze Frank Jackson's famous "Knowledge Argument" from his paper *Epiphenomenal Qualia*.
 I argued that human experience consists in three types of information: the phenomenal (the *what it is like* to experience something as an experiencer), the propositional (third-person scientific description of events), and indexical (a kind of orienting "meta-data" locating an experiencer in broader, public space and time). 
 Using ideas borrowed from Kant's Critique of Pure Reason, I claim that indexical information is necessary for experience to be considered experience as such, as it provides a coherent narrative structure.
