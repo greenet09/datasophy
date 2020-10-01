@@ -8,6 +8,9 @@ permalink: /random/
 
 <p> <b>Warning</b>: I may post cat photos. </p>
 
+Here's a recent presentation I gave about our work on the GDPR and a new, humanistic approach to personalized recommendation we call "humanistic personalization."
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KoOhoR2vZkE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 The newest one: S'more. We found her on the side of the road, near a park in Taipei.
 
 ![smore](./assets/smore1.JPG){:class="img-responsive", :height="300px" width="400px"}
